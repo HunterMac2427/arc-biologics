@@ -485,16 +485,16 @@ h4 { font-size: 18px; font-weight: 600; }
   margin-bottom: 48px;
 }
 
-/* --- Stats Row --- */
+/* --- Stats Row (3PLGuys style) --- */
 .ab-stats {
   display: flex;
-  gap: 32px;
-  padding: 20px 0;
+  gap: 56px;
+  padding: 32px 0;
   border-top: 1px solid var(--ab-ghost);
 }
 
 .ab-stat {
-  text-align: center;
+  text-align: left;
 }
 
 .ab-stat-value {
@@ -510,7 +510,7 @@ h4 { font-size: 18px; font-weight: 600; }
   text-transform: uppercase;
   letter-spacing: 0.08em;
   opacity: 0.35;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 /* --- Gradient Text Shimmer --- */

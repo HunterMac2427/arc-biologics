@@ -21,7 +21,7 @@
           </div>
           <div class="ab-stats ab-reveal ab-stagger">
             <div class="ab-stat">
-              <div class="ab-stat-value ab-shimmer">29+</div>
+              <div class="ab-stat-value ab-shimmer">20+</div>
               <div class="ab-stat-label">Compounds</div>
             </div>
             <div class="ab-stat">
@@ -96,7 +96,7 @@
         </div>
       </div>
       <div class="ab-products-cta ab-reveal-simple">
-        <a href="/shop" class="ab-btn ab-btn-outline">View All 29+ Compounds</a>
+        <a href="/shop" class="ab-btn ab-btn-outline">View All 20+ Compounds</a>
       </div>
     </div>
   </section>
@@ -138,7 +138,7 @@
       </div>
       <div class="ab-trust-grid ab-stagger">
         <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value">29+</div>
+          <div class="ab-trust-value">20+</div>
           <div class="ab-trust-label">Peptide Compounds Available</div>
         </div>
         <div class="ab-trust-item ab-reveal">
