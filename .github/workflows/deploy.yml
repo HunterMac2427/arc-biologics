@@ -1,0 +1,26 @@
+name: Deploy to Cloudways
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Cloudways token
+        id: auth
+        run: |
+          RESPONSE=$(curl -s -X POST "https://api.cloudways.com/api/v1/oauth/access_token" \
+            -d "email=${{ secrets.CW_EMAIL }}" \
+            -d "api_key=${{ secrets.CW_API_KEY }}")
+          TOKEN=$(echo $RESPONSE | jq -r '.access_token')
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Pull latest code
+        run: |
+          curl -s -X POST "https://api.cloudways.com/api/v1/git/pull" \
+            -H "Authorization: Bearer ${{ steps.auth.outputs.token }}" \
+            -d "server_id=${{ secrets.CW_SERVER_ID }}" \
+            -d "app_id=${{ secrets.CW_APP_ID }}" \
+            -d "git_url=git@github.com:HunterMac2427/arc-biologics.git" \
+            -d "branch_name=main" \
+            -d "deploy_path=wp-content/themes/arc-biologics"
