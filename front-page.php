@@ -98,6 +98,79 @@
     </div>
   </section>
 
+  <!-- ======== BROWSE BY APPLICATION ======== -->
+  <section class="ab-section ab-section-dark">
+    <div class="ab-container">
+      <div class="ab-section-header ab-reveal">
+        <p class="ab-label">Browse by Application</p>
+        <h2>Research Topics</h2>
+        <p class="ab-subtitle">Navigate our catalog by therapeutic or biological focus area.</p>
+      </div>
+
+      <div class="ab-categories-grid ab-stagger">
+
+        <button class="ab-category-card ab-reveal" data-category="recovery">
+          <div class="ab-category-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <h4>Recovery & Healing</h4>
+          <p>Tissue repair, wound healing, and inflammation support peptides.</p>
+        </button>
+
+        <button class="ab-category-card ab-reveal" data-category="cognitive">
+          <div class="ab-category-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h4>Cognitive & Neuro</h4>
+          <p>Neuroprotective and cognitive enhancement research compounds.</p>
+        </button>
+
+        <button class="ab-category-card ab-reveal" data-category="antiaging">
+          <div class="ab-category-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h4>Anti-Aging & Longevity</h4>
+          <p>Cellular repair, telomere support, and longevity-focused peptides.</p>
+        </button>
+
+        <button class="ab-category-card ab-reveal" data-category="bodycomp">
+          <div class="ab-category-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M8 6h10v10"/></svg>
+          </div>
+          <h4>Body Composition</h4>
+          <p>Metabolic optimization, fat loss, and body recomposition peptides.</p>
+        </button>
+
+        <button class="ab-category-card ab-reveal" data-category="blends">
+          <div class="ab-category-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="6"/><circle cx="16" cy="12" r="6"/></svg>
+          </div>
+          <h4>Blends & Stacks</h4>
+          <p>Multi-compound formulations for synergistic research applications.</p>
+        </button>
+
+        <button class="ab-category-card ab-reveal" data-category="performance">
+          <div class="ab-category-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h4>Performance</h4>
+          <p>Endurance, muscle growth, and physical performance peptides.</p>
+        </button>
+
+      </div>
+
+      <!-- Expandable product carousel panel -->
+      <div class="ab-category-panel" id="ab-category-panel">
+        <div class="ab-category-panel-inner">
+          <div class="ab-category-carousel" id="ab-category-carousel">
+            <!-- Products injected by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ======== HOW IT WORKS ======== -->
   <section id="how-it-works" class="ab-section ab-section-dark">
     <div class="ab-container">
