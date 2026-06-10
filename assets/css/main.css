@@ -488,6 +488,7 @@ h4 { font-size: 18px; font-weight: 600; }
 /* --- Stats Row (3PLGuys style) --- */
 .ab-stats {
   display: flex;
+  align-items: center;
   gap: 56px;
   padding: 32px 0;
   border-top: 1px solid var(--ab-ghost);
@@ -495,6 +496,14 @@ h4 { font-size: 18px; font-weight: 600; }
 
 .ab-stat {
   text-align: left;
+}
+
+.ab-stat-text {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.02em;
 }
 
 .ab-stat-value {

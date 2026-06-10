@@ -28,10 +28,7 @@
               <div class="ab-stat-value">&lt;24h</div>
               <div class="ab-stat-label">Ship Time</div>
             </div>
-            <div class="ab-stat">
-              <div class="ab-stat-value">U.S.</div>
-              <div class="ab-stat-label">Sourced</div>
-            </div>
+            <div class="ab-stat-text">Sourced in the U.S.</div>
           </div>
         </div>
         <div class="ab-hero-vial ab-reveal">
