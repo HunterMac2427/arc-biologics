@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# WordPress uploads (managed via WP, not git)
+uploads/
+
+# Logo source files (keep only web-optimized in assets/)
+*.psd
+*.ai
+*.sketch
+
+# Root-level logo variants (not part of theme)
+Logov1.png
+LogoV2.png
+LogoV2-transparent.png
+LogoV3.png
+LogoV3-transparent.png
+Cut.png
