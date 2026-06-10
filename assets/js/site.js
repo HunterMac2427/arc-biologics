@@ -61,20 +61,79 @@ const categoryProducts = {
   const cards = document.querySelectorAll('.ab-category-card');
   const panel = document.getElementById('ab-category-panel');
   const carousel = document.getElementById('ab-category-carousel');
+  const prevBtn = document.getElementById('ab-carousel-prev');
+  const nextBtn = document.getElementById('ab-carousel-next');
   if (!cards.length || !panel || !carousel || !grid) return;
 
   let activeCategory = null;
 
-  // Find the last card in the same visual row as the clicked card
+  /* --- Arrow buttons --- */
+  const scrollAmount = 280;
+
+  function updateArrows() {
+    if (!prevBtn || !nextBtn) return;
+    prevBtn.disabled = carousel.scrollLeft <= 0;
+    nextBtn.disabled = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 2;
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+  }
+
+  carousel.addEventListener('scroll', updateArrows);
+
+  /* --- Click-and-drag --- */
+  let isDragging = false;
+  let startX = 0;
+  let scrollStart = 0;
+  let hasDragged = false;
+
+  carousel.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    hasDragged = false;
+    startX = e.pageX - carousel.offsetLeft;
+    scrollStart = carousel.scrollLeft;
+    carousel.classList.add('dragging');
+  });
+
+  carousel.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - carousel.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    if (Math.abs(walk) > 5) hasDragged = true;
+    carousel.scrollLeft = scrollStart - walk;
+  });
+
+  carousel.addEventListener('mouseup', () => {
+    isDragging = false;
+    carousel.classList.remove('dragging');
+  });
+
+  carousel.addEventListener('mouseleave', () => {
+    isDragging = false;
+    carousel.classList.remove('dragging');
+  });
+
+  // Prevent click on product cards after dragging
+  carousel.addEventListener('click', (e) => {
+    if (hasDragged) e.preventDefault();
+  }, true);
+
+  /* --- Row detection & accordion --- */
   function getLastCardInRow(clickedCard) {
     const clickedTop = clickedCard.getBoundingClientRect().top;
     let lastInRow = clickedCard;
     cards.forEach(card => {
-      if (card === panel) return;
       const cardTop = card.getBoundingClientRect().top;
-      // Same row = same top offset (within 5px tolerance)
       if (Math.abs(cardTop - clickedTop) < 5) {
-        // Pick the one that comes later in DOM order
         if (card.compareDocumentPosition(lastInRow) & Node.DOCUMENT_POSITION_PRECEDING) {
           lastInRow = card;
         }
@@ -87,7 +146,6 @@ const categoryProducts = {
     card.addEventListener('click', () => {
       const cat = card.dataset.category;
 
-      // Toggle off if clicking the same category
       if (activeCategory === cat) {
         panel.classList.remove('open');
         card.classList.remove('active');
@@ -95,19 +153,13 @@ const categoryProducts = {
         return;
       }
 
-      // Deactivate previous
       cards.forEach(c => c.classList.remove('active'));
-
-      // Close panel first if switching rows
       panel.classList.remove('open');
 
-      // Small delay to let close animation start, then reposition and reopen
       const doOpen = () => {
-        // Insert panel after the last card in this row
         const lastInRow = getLastCardInRow(card);
         lastInRow.after(panel);
 
-        // Build product cards
         const products = categoryProducts[cat] || [];
         carousel.innerHTML = products.map(p => `
           <div class="ab-carousel-product">
@@ -117,22 +169,19 @@ const categoryProducts = {
           </div>
         `).join('');
 
-        // Activate card and open panel
         card.classList.add('active');
         activeCategory = cat;
         carousel.scrollLeft = 0;
 
-        // Force reflow before opening for smooth animation
         panel.offsetHeight;
         panel.classList.add('open');
+        updateArrows();
 
-        // Scroll into view
         setTimeout(() => {
           panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 150);
       };
 
-      // If panel was already open (switching categories), wait for close
       if (activeCategory !== null) {
         setTimeout(doOpen, 80);
       } else {

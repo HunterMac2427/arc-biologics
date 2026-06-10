@@ -161,7 +161,13 @@
         <!-- Expandable product carousel panel (JS moves this inside grid) -->
         <div class="ab-category-panel" id="ab-category-panel">
           <div class="ab-category-panel-inner">
+            <button class="ab-carousel-arrow ab-carousel-prev" id="ab-carousel-prev" aria-label="Previous">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
             <div class="ab-category-carousel" id="ab-category-carousel"></div>
+            <button class="ab-carousel-arrow ab-carousel-next" id="ab-carousel-next" aria-label="Next">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
         </div>
 
