@@ -190,3 +190,29 @@ const categoryProducts = {
     });
   });
 })();
+
+/* ======== Shop Page — Category Filter ======== */
+(function() {
+  const tabs = document.querySelectorAll('.ab-filter-tab');
+  const grid = document.getElementById('ab-shop-grid');
+  if (!tabs.length || !grid) return;
+
+  const cards = grid.querySelectorAll('.ab-product-card');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const filter = tab.dataset.filter;
+
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.cat === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+})();

@@ -1090,6 +1090,76 @@ h4 { font-size: 18px; font-weight: 600; }
   opacity: 0.3;
 }
 
+/* --- Shop Page --- */
+.ab-shop-hero {
+  padding: 140px 0 60px;
+  background: var(--ab-dark);
+  position: relative;
+}
+
+.ab-shop-hero .ab-hero-heading {
+  margin-bottom: 16px;
+}
+
+.ab-shop-hero .ab-hero-sub {
+  max-width: 500px;
+}
+
+.ab-shop-section {
+  padding-top: 0;
+}
+
+.ab-filter-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 40px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 4px;
+}
+
+.ab-filter-bar::-webkit-scrollbar { display: none; }
+
+.ab-filter-tab {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 100px;
+  border: 1px solid var(--ab-ghost);
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.ab-filter-tab:hover {
+  color: #fff;
+  border-color: rgba(255,255,255,0.15);
+}
+
+.ab-filter-tab.active {
+  background: var(--ab-teal);
+  border-color: var(--ab-teal);
+  color: #fff;
+}
+
+.ab-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.ab-shop-grid .ab-product-card {
+  transition: all 0.4s var(--ab-ease), opacity 0.3s, transform 0.3s;
+}
+
+.ab-shop-grid .ab-product-card.hidden {
+  display: none;
+}
+
 /* --- Responsive --- */
 @media (max-width: 1024px) {
   h1.ab-hero-heading { font-size: 64px; }
@@ -1101,6 +1171,7 @@ h4 { font-size: 18px; font-weight: 600; }
   .ab-footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
   .ab-nav-links { display: none; }
   .ab-categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .ab-shop-grid { grid-template-columns: repeat(2, 1fr); }
   .ab-section { padding: 80px 0; }
 }
 
@@ -1116,6 +1187,8 @@ h4 { font-size: 18px; font-weight: 600; }
   .ab-blog-grid { grid-template-columns: 1fr; }
   .ab-categories-grid { grid-template-columns: 1fr; }
   .ab-carousel-product { flex: 0 0 220px; }
+  .ab-shop-grid { grid-template-columns: 1fr; }
+  .ab-shop-hero { padding: 120px 0 40px; }
   .ab-cta-bar { flex-direction: column; text-align: center; gap: 24px; padding: 36px 28px; }
   .ab-footer-grid { grid-template-columns: 1fr; gap: 32px; }
   .ab-footer-bottom { flex-direction: column; gap: 8px; }
