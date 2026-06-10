@@ -56,40 +56,48 @@
       </div>
       <div class="ab-products-grid ab-stagger">
         <div class="ab-product-card ab-reveal">
-          <div class="ab-product-card-top">
-            <div class="ab-product-icon">B</div>
+          <div class="ab-product-img">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/ghkcu.png" alt="GHK-cu">
+            <span class="ab-product-badge">Best Seller</span>
+          </div>
+          <div class="ab-product-glass">
+            <div class="ab-product-name">GHK-cu</div>
+            <div class="ab-product-desc">100mg - 3ml vial</div>
+            <div class="ab-product-price">$200</div>
+          </div>
+        </div>
+        <div class="ab-product-card ab-reveal">
+          <div class="ab-product-img">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157">
             <span class="ab-product-badge">Popular</span>
           </div>
-          <div class="ab-product-name">BPC-157</div>
-          <div class="ab-product-desc">Body Protection Compound. 5mg lyophilized powder.</div>
-          <div class="ab-product-price">$49</div>
+          <div class="ab-product-glass">
+            <div class="ab-product-name">BPC-157</div>
+            <div class="ab-product-desc">15mg - 3ml vial</div>
+            <div class="ab-product-price">$250</div>
+          </div>
         </div>
         <div class="ab-product-card ab-reveal">
-          <div class="ab-product-card-top">
-            <div class="ab-product-icon">T</div>
-            <span class="ab-product-badge">In Stock</span>
+          <div class="ab-product-img">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/glow.png" alt="GLOW">
+            <span class="ab-product-badge">Blend</span>
           </div>
-          <div class="ab-product-name">TB-500</div>
-          <div class="ab-product-desc">Thymosin Beta-4 fragment. 5mg lyophilized powder.</div>
-          <div class="ab-product-price">$42</div>
+          <div class="ab-product-glass">
+            <div class="ab-product-name">GLOW</div>
+            <div class="ab-product-desc">BPC-157/GHK-cu/TB-500 — 10/70/10mg - 5ml</div>
+            <div class="ab-product-price">$390</div>
+          </div>
         </div>
         <div class="ab-product-card ab-reveal">
-          <div class="ab-product-card-top">
-            <div class="ab-product-icon ab-product-icon-violet">D</div>
-            <span class="ab-product-badge">New</span>
+          <div class="ab-product-img">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/duoblend.png" alt="Duo Blend">
+            <span class="ab-product-badge">Popular</span>
           </div>
-          <div class="ab-product-name">Dihexa</div>
-          <div class="ab-product-desc">Cognitive research peptide. 10mg lyophilized powder.</div>
-          <div class="ab-product-price">$65</div>
-        </div>
-        <div class="ab-product-card ab-reveal">
-          <div class="ab-product-card-top">
-            <div class="ab-product-icon">S</div>
-            <span class="ab-product-badge">In Stock</span>
+          <div class="ab-product-glass">
+            <div class="ab-product-name">Duo Blend</div>
+            <div class="ab-product-desc">Tesa/Ipa - 3ml vial</div>
+            <div class="ab-product-price">$240</div>
           </div>
-          <div class="ab-product-name">Semaglutide</div>
-          <div class="ab-product-desc">GLP-1 receptor agonist. 3mg lyophilized powder.</div>
-          <div class="ab-product-price">$89</div>
         </div>
       </div>
       <div class="ab-products-cta ab-reveal-simple">
