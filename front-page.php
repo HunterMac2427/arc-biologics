@@ -35,10 +35,13 @@
           </div>
         </div>
         <div class="ab-hero-vial ab-reveal">
-          <div class="ab-vial-panel">
-            <div class="ab-topo-bg"></div>
-            <div class="ab-vial-rotate">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="Peptide Vial" class="ab-vial-img">
+          <div class="ab-vial-stage">
+            <div class="ab-vial-glow"></div>
+            <div class="ab-vial-float">
+              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157 Peptide Vial" class="ab-vial-img">
+            </div>
+            <div class="ab-vial-reflection">
+              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="" class="ab-vial-img-reflect">
             </div>
           </div>
         </div>
