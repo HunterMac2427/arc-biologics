@@ -13,7 +13,7 @@
             <span class="ab-heading-bold ab-gradient-text">Peptides.</span>
           </h1>
           <p class="ab-hero-sub ab-reveal">
-            Third-party tested. COA verified. Every compound meets 99%+ purity standards with full HPLC documentation. Shipped same-day.
+            Premium peptide compounds sourced from trusted U.S. suppliers. Quality you can count on, shipped same-day.
           </p>
           <div class="ab-hero-actions ab-reveal">
             <a href="/shop" class="ab-btn ab-btn-primary">Browse Compounds</a>
@@ -21,11 +21,7 @@
           </div>
           <div class="ab-stats ab-reveal ab-stagger">
             <div class="ab-stat">
-              <div class="ab-stat-value ab-shimmer">99.2%</div>
-              <div class="ab-stat-label">Avg Purity</div>
-            </div>
-            <div class="ab-stat">
-              <div class="ab-stat-value">29+</div>
+              <div class="ab-stat-value ab-shimmer">29+</div>
               <div class="ab-stat-label">Compounds</div>
             </div>
             <div class="ab-stat">
@@ -33,19 +29,16 @@
               <div class="ab-stat-label">Ship Time</div>
             </div>
             <div class="ab-stat">
-              <div class="ab-stat-value">HPLC</div>
-              <div class="ab-stat-label">Verified</div>
+              <div class="ab-stat-value">U.S.</div>
+              <div class="ab-stat-label">Sourced</div>
             </div>
           </div>
         </div>
         <div class="ab-hero-vial ab-reveal">
-          <div class="ab-vial-stage">
-            <div class="ab-vial-glow"></div>
-            <div class="ab-vial-float">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157 Peptide Vial" class="ab-vial-img">
-            </div>
-            <div class="ab-vial-reflection">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="" class="ab-vial-img-reflect">
+          <div class="ab-vial-panel">
+            <div class="ab-topo-bg"></div>
+            <div class="ab-vial-rotate">
+              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="Peptide Vial" class="ab-vial-img">
             </div>
           </div>
         </div>
@@ -59,7 +52,7 @@
       <div class="ab-section-header ab-reveal">
         <p class="ab-label">Our Catalog</p>
         <h2>Research Compounds</h2>
-        <p class="ab-subtitle">Every peptide ships with a Certificate of Analysis. Third-party HPLC verified for purity and identity.</p>
+        <p class="ab-subtitle">Browse our full catalog of research-grade peptide compounds. Sourced from trusted U.S. suppliers.</p>
       </div>
       <div class="ab-products-grid ab-stagger">
         <div class="ab-product-card ab-reveal">
@@ -74,7 +67,7 @@
         <div class="ab-product-card ab-reveal">
           <div class="ab-product-card-top">
             <div class="ab-product-icon">T</div>
-            <span class="ab-product-badge">COA</span>
+            <span class="ab-product-badge">In Stock</span>
           </div>
           <div class="ab-product-name">TB-500</div>
           <div class="ab-product-desc">Thymosin Beta-4 fragment. 5mg lyophilized powder.</div>
@@ -92,7 +85,7 @@
         <div class="ab-product-card ab-reveal">
           <div class="ab-product-card-top">
             <div class="ab-product-icon">S</div>
-            <span class="ab-product-badge">COA</span>
+            <span class="ab-product-badge">In Stock</span>
           </div>
           <div class="ab-product-name">Semaglutide</div>
           <div class="ab-product-desc">GLP-1 receptor agonist. 3mg lyophilized powder.</div>
@@ -142,20 +135,20 @@
       </div>
       <div class="ab-trust-grid ab-stagger">
         <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value">99.2%</div>
-          <div class="ab-trust-label">Average Purity Across All Compounds</div>
+          <div class="ab-trust-value">29+</div>
+          <div class="ab-trust-label">Peptide Compounds Available</div>
         </div>
         <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value ab-trust-value-violet">HPLC</div>
-          <div class="ab-trust-label">Third-Party Lab Verification</div>
-        </div>
-        <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value">COA</div>
-          <div class="ab-trust-label">Certificate of Analysis with Every Order</div>
+          <div class="ab-trust-value ab-trust-value-violet">U.S.</div>
+          <div class="ab-trust-label">Trusted Domestic Suppliers</div>
         </div>
         <div class="ab-trust-item ab-reveal">
           <div class="ab-trust-value">&lt;24hr</div>
           <div class="ab-trust-label">Same-Day Processing &amp; Shipping</div>
+        </div>
+        <div class="ab-trust-item ab-reveal">
+          <div class="ab-trust-value">Secure</div>
+          <div class="ab-trust-label">Encrypted Checkout &amp; Data Protection</div>
         </div>
       </div>
     </div>
@@ -172,10 +165,10 @@
           <p class="ab-label">About ARC Biologics</p>
           <h2>Precision Compounds.<br>No Compromises.</h2>
           <p class="ab-about-text">
-            ARC Biologics was founded with a single mission: provide researchers with the highest-quality peptide compounds available, backed by rigorous third-party testing and complete transparency.
+            ARC Biologics was founded with a single mission: provide researchers with premium peptide compounds from trusted U.S. suppliers, backed by fast shipping and dedicated support.
           </p>
           <p class="ab-about-text">
-            Every compound in our catalog undergoes HPLC analysis for purity and identity verification. We publish full Certificates of Analysis because we believe trust is built through transparency, not marketing.
+            We work directly with established domestic labs to ensure consistent quality across our full catalog. Transparency and reliability aren't just promises — they're how we operate.
           </p>
           <a href="/about" class="ab-btn ab-btn-primary">Learn More</a>
         </div>

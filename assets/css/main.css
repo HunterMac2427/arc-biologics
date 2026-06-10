@@ -384,7 +384,7 @@ h4 { font-size: 18px; font-weight: 600; }
 
 .ab-hero-content { position: relative; z-index: 2; }
 
-/* --- Hero Vial Showcase --- */
+/* --- Hero Vial Showcase (Path Peptides inspired) --- */
 .ab-hero-vial {
   position: relative;
   z-index: 2;
@@ -393,76 +393,54 @@ h4 { font-size: 18px; font-weight: 600; }
   justify-content: center;
 }
 
-.ab-vial-stage {
+.ab-vial-panel {
   position: relative;
-  width: 480px;
-  height: 620px;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-width: 480px;
+  border-radius: var(--ab-radius);
+  overflow: hidden;
+  background: #080810;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Topographic wireframe background */
+.ab-topo-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='600' height='600' viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%230B8F68' stroke-width='0.8'%3E%3Cellipse cx='300' cy='300' rx='280' ry='120' transform='rotate(-15 300 300)'/%3E%3Cellipse cx='300' cy='300' rx='240' ry='100' transform='rotate(-15 300 300)'/%3E%3Cellipse cx='300' cy='300' rx='200' ry='80' transform='rotate(-15 300 300)'/%3E%3Cellipse cx='300' cy='300' rx='160' ry='65' transform='rotate(-15 300 300)'/%3E%3Cellipse cx='300' cy='300' rx='120' ry='50' transform='rotate(-15 300 300)'/%3E%3Cellipse cx='300' cy='300' rx='80' ry='35' transform='rotate(-15 300 300)'/%3E%3Cellipse cx='300' cy='300' rx='45' ry='20' transform='rotate(-15 300 300)'/%3E%3Cellipse cx='180' cy='180' rx='140' ry='60' transform='rotate(25 180 180)'/%3E%3Cellipse cx='180' cy='180' rx='100' ry='45' transform='rotate(25 180 180)'/%3E%3Cellipse cx='180' cy='180' rx='60' ry='28' transform='rotate(25 180 180)'/%3E%3Cellipse cx='450' cy='420' rx='120' ry='55' transform='rotate(-30 450 420)'/%3E%3Cellipse cx='450' cy='420' rx='80' ry='38' transform='rotate(-30 450 420)'/%3E%3Cellipse cx='450' cy='420' rx='40' ry='20' transform='rotate(-30 450 420)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Vial with rotating animation */
+.ab-vial-rotate {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1200px;
-}
-
-.ab-vial-glow {
-  position: absolute;
-  width: 320px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(11,143,104,0.25) 0%, rgba(116,82,160,0.1) 40%, transparent 70%);
-  filter: blur(50px);
-  animation: ab-glow-pulse 5s ease-in-out infinite alternate;
-}
-
-@keyframes ab-glow-pulse {
-  0%   { transform: scale(1); opacity: 0.7; }
-  100% { transform: scale(1.2); opacity: 1; }
-}
-
-.ab-vial-float {
-  position: relative;
-  z-index: 2;
-  transform: rotateY(-8deg) rotateX(2deg);
-  transform-style: preserve-3d;
-  animation: ab-vial-hover 7s ease-in-out infinite;
+  animation: ab-vial-rock 6s ease-in-out infinite;
+  transform-origin: center center;
 }
 
 .ab-vial-img {
-  width: 420px;
+  width: 65%;
+  max-width: 320px;
   height: auto;
   filter:
-    drop-shadow(0 30px 60px rgba(0,0,0,0.5))
-    drop-shadow(0 0 80px rgba(11,143,104,0.12))
-    drop-shadow(-10px 0 30px rgba(116,82,160,0.08));
+    drop-shadow(0 20px 40px rgba(0,0,0,0.6))
+    drop-shadow(0 0 60px rgba(11,143,104,0.15));
 }
 
-@keyframes ab-vial-hover {
-  0%, 100% { transform: rotateY(-8deg) rotateX(2deg) translateY(0); }
-  50%      { transform: rotateY(-8deg) rotateX(2deg) translateY(-16px); }
-}
-
-/* Floor reflection */
-.ab-vial-reflection {
-  position: absolute;
-  bottom: -20px;
-  z-index: 1;
-  transform: rotateY(-8deg) rotateX(2deg) scaleY(-0.35) translateY(-10px);
-  transform-origin: bottom center;
-  animation: ab-reflect-hover 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.ab-vial-img-reflect {
-  width: 420px;
-  height: auto;
-  opacity: 0.12;
-  filter: blur(4px);
-  mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%);
-}
-
-@keyframes ab-reflect-hover {
-  0%, 100% { transform: rotateY(-8deg) rotateX(2deg) scaleY(-0.35) translateY(-10px); }
-  50%      { transform: rotateY(-8deg) rotateX(2deg) scaleY(-0.35) translateY(-26px); }
+@keyframes ab-vial-rock {
+  0%   { transform: rotate(-8deg) translateY(0); }
+  25%  { transform: rotate(5deg) translateY(-8px); }
+  50%  { transform: rotate(-4deg) translateY(0); }
+  75%  { transform: rotate(7deg) translateY(-6px); }
+  100% { transform: rotate(-8deg) translateY(0); }
 }
 
 .ab-hero h1 {
