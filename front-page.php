@@ -157,17 +157,15 @@
           <p>Endurance, muscle growth, and physical performance peptides.</p>
         </button>
 
-      </div>
 
-      <!-- Expandable product carousel panel -->
-      <div class="ab-category-panel" id="ab-category-panel">
-        <div class="ab-category-panel-inner">
-          <div class="ab-category-carousel" id="ab-category-carousel">
-            <!-- Products injected by JS -->
+        <!-- Expandable product carousel panel (JS moves this inside grid) -->
+        <div class="ab-category-panel" id="ab-category-panel">
+          <div class="ab-category-panel-inner">
+            <div class="ab-category-carousel" id="ab-category-carousel"></div>
           </div>
         </div>
-      </div>
 
+      </div>
     </div>
   </section>
 

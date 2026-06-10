@@ -57,12 +57,31 @@ const categoryProducts = {
 };
 
 (function() {
+  const grid = document.querySelector('.ab-categories-grid');
   const cards = document.querySelectorAll('.ab-category-card');
   const panel = document.getElementById('ab-category-panel');
   const carousel = document.getElementById('ab-category-carousel');
-  if (!cards.length || !panel || !carousel) return;
+  if (!cards.length || !panel || !carousel || !grid) return;
 
   let activeCategory = null;
+
+  // Find the last card in the same visual row as the clicked card
+  function getLastCardInRow(clickedCard) {
+    const clickedTop = clickedCard.getBoundingClientRect().top;
+    let lastInRow = clickedCard;
+    cards.forEach(card => {
+      if (card === panel) return;
+      const cardTop = card.getBoundingClientRect().top;
+      // Same row = same top offset (within 5px tolerance)
+      if (Math.abs(cardTop - clickedTop) < 5) {
+        // Pick the one that comes later in DOM order
+        if (card.compareDocumentPosition(lastInRow) & Node.DOCUMENT_POSITION_PRECEDING) {
+          lastInRow = card;
+        }
+      }
+    });
+    return lastInRow;
+  }
 
   cards.forEach(card => {
     card.addEventListener('click', () => {
@@ -70,8 +89,8 @@ const categoryProducts = {
 
       // Toggle off if clicking the same category
       if (activeCategory === cat) {
-        card.classList.remove('active');
         panel.classList.remove('open');
+        card.classList.remove('active');
         activeCategory = null;
         return;
       }
@@ -79,30 +98,46 @@ const categoryProducts = {
       // Deactivate previous
       cards.forEach(c => c.classList.remove('active'));
 
-      // Activate new
-      card.classList.add('active');
-      activeCategory = cat;
+      // Close panel first if switching rows
+      panel.classList.remove('open');
 
-      // Build product cards
-      const products = categoryProducts[cat] || [];
-      carousel.innerHTML = products.map(p => `
-        <div class="ab-carousel-product">
-          <div class="ab-carousel-product-name">${p.name}</div>
-          <div class="ab-carousel-product-desc">${p.desc}</div>
-          <div class="ab-carousel-product-price">${p.price}</div>
-        </div>
-      `).join('');
+      // Small delay to let close animation start, then reposition and reopen
+      const doOpen = () => {
+        // Insert panel after the last card in this row
+        const lastInRow = getLastCardInRow(card);
+        lastInRow.after(panel);
 
-      // Open panel
-      panel.classList.add('open');
+        // Build product cards
+        const products = categoryProducts[cat] || [];
+        carousel.innerHTML = products.map(p => `
+          <div class="ab-carousel-product">
+            <div class="ab-carousel-product-name">${p.name}</div>
+            <div class="ab-carousel-product-desc">${p.desc}</div>
+            <div class="ab-carousel-product-price">${p.price}</div>
+          </div>
+        `).join('');
 
-      // Scroll carousel to start
-      carousel.scrollLeft = 0;
+        // Activate card and open panel
+        card.classList.add('active');
+        activeCategory = cat;
+        carousel.scrollLeft = 0;
 
-      // Smooth scroll panel into view
-      setTimeout(() => {
-        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 100);
+        // Force reflow before opening for smooth animation
+        panel.offsetHeight;
+        panel.classList.add('open');
+
+        // Scroll into view
+        setTimeout(() => {
+          panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 150);
+      };
+
+      // If panel was already open (switching categories), wait for close
+      if (activeCategory !== null) {
+        setTimeout(doOpen, 80);
+      } else {
+        doOpen();
+      }
     });
   });
 })();
