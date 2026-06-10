@@ -13,15 +13,15 @@
   <!-- ======== NAV ======== -->
   <nav class="ab-nav">
     <div class="ab-nav-inner">
-      <a href="<?php echo esc_url(home_url('/')); ?>" class="ab-nav-logo">
-        <?php
-        if (has_custom_logo()) {
-            the_custom_logo();
-        } else {
-            echo '<img src="' . esc_url(get_template_directory_uri()) . '/assets/images/logo.png" alt="' . esc_attr(get_bloginfo('name')) . '">';
-        }
-        ?>
-      </a>
+      <div class="ab-nav-logo">
+        <?php if (has_custom_logo()) : ?>
+          <?php the_custom_logo(); ?>
+        <?php else : ?>
+          <a href="<?php echo esc_url(home_url('/')); ?>">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo.png" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
+          </a>
+        <?php endif; ?>
+      </div>
       <div class="ab-nav-links">
         <?php
         wp_nav_menu([

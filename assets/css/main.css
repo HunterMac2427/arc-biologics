@@ -187,9 +187,11 @@ h4 { font-size: 18px; font-weight: 600; }
   justify-content: space-between;
 }
 
-.ab-nav-logo img {
+.ab-nav-logo img,
+.ab-nav-logo .custom-logo {
   height: 48px;
   width: auto;
+  max-height: 48px;
 }
 
 .ab-nav-links {
@@ -825,8 +827,11 @@ h4 { font-size: 18px; font-weight: 600; }
   margin-bottom: 48px;
 }
 
-.ab-footer-brand img {
+.ab-footer-brand img,
+.ab-footer-brand .custom-logo {
   height: 40px;
+  width: auto;
+  max-height: 40px;
   margin-bottom: 16px;
 }
 
