@@ -58,7 +58,6 @@
         <div class="ab-product-card ab-reveal">
           <div class="ab-product-img">
             <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/ghkcu.png" alt="GHK-cu">
-            <span class="ab-product-badge">Best Seller</span>
           </div>
           <div class="ab-product-glass">
             <div class="ab-product-name">GHK-cu</div>
@@ -69,7 +68,6 @@
         <div class="ab-product-card ab-reveal">
           <div class="ab-product-img">
             <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157">
-            <span class="ab-product-badge">Popular</span>
           </div>
           <div class="ab-product-glass">
             <div class="ab-product-name">BPC-157</div>
@@ -80,7 +78,6 @@
         <div class="ab-product-card ab-reveal">
           <div class="ab-product-img">
             <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/glow.png" alt="GLOW">
-            <span class="ab-product-badge">Blend</span>
           </div>
           <div class="ab-product-glass">
             <div class="ab-product-name">GLOW</div>
@@ -91,7 +88,6 @@
         <div class="ab-product-card ab-reveal">
           <div class="ab-product-img">
             <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/duoblend.png" alt="Duo Blend">
-            <span class="ab-product-badge">Popular</span>
           </div>
           <div class="ab-product-glass">
             <div class="ab-product-name">Duo Blend</div>
