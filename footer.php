@@ -10,7 +10,7 @@
               echo '<img src="' . esc_url(get_template_directory_uri()) . '/assets/images/logo.png" alt="' . esc_attr(get_bloginfo('name')) . '">';
           }
           ?>
-          <p>Research-grade peptide compounds with third-party COA verification. Precision, transparency, same-day shipping.</p>
+          <p>Premium peptide compounds sourced from trusted U.S. suppliers. Quality, transparency, reliability.</p>
         </div>
         <div class="ab-footer-col">
           <h5>Shop</h5>

@@ -13,7 +13,7 @@
             <span class="ab-heading-bold ab-gradient-text">Peptides.</span>
           </h1>
           <p class="ab-hero-sub ab-reveal">
-            Premium peptide compounds sourced from trusted U.S. suppliers. Quality you can count on, shipped same-day.
+            Premium peptide compounds sourced from trusted U.S. suppliers. Quality you can count on.
           </p>
           <div class="ab-hero-actions ab-reveal">
             <a href="/shop" class="ab-btn ab-btn-primary">Browse Compounds</a>
@@ -23,10 +23,6 @@
             <div class="ab-stat">
               <div class="ab-stat-value ab-shimmer">20+</div>
               <div class="ab-stat-label">Compounds</div>
-            </div>
-            <div class="ab-stat">
-              <div class="ab-stat-value">&lt;24h</div>
-              <div class="ab-stat-label">Ship Time</div>
             </div>
             <div class="ab-stat-text">Sourced in the U.S.</div>
           </div>
@@ -200,36 +196,8 @@
         </div>
         <div class="ab-card ab-reveal">
           <div class="ab-step-number">03</div>
-          <h4>Same-Day Shipping</h4>
-          <p>Orders placed before 2 PM ET ship same day. Every package includes proper documentation and handling.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======== TRUST SIGNALS ======== -->
-  <section class="ab-section ab-section-light">
-    <div class="ab-container">
-      <div class="ab-section-header ab-reveal">
-        <p class="ab-label ab-label-violet">Why ARC</p>
-        <h2>Built on Trust &amp; Transparency</h2>
-      </div>
-      <div class="ab-trust-grid ab-stagger">
-        <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value">20+</div>
-          <div class="ab-trust-label">Peptide Compounds Available</div>
-        </div>
-        <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value ab-trust-value-violet">U.S.</div>
-          <div class="ab-trust-label">Trusted Domestic Suppliers</div>
-        </div>
-        <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value">&lt;24hr</div>
-          <div class="ab-trust-label">Same-Day Processing &amp; Shipping</div>
-        </div>
-        <div class="ab-trust-item ab-reveal">
-          <div class="ab-trust-value">Secure</div>
-          <div class="ab-trust-label">Encrypted Checkout &amp; Data Protection</div>
+          <h4>Fast Shipping</h4>
+          <p>Orders are processed and shipped Monday through Friday. Every package includes proper documentation and handling.</p>
         </div>
       </div>
     </div>
@@ -341,7 +309,7 @@
       <div class="ab-cta-bar ab-reveal">
         <div>
           <h3>Ready to Get Started?</h3>
-          <p>Complete the waiver and access our full catalog of research-grade compounds.</p>
+          <p>Complete the research waiver and access our full catalog of peptide compounds.</p>
         </div>
         <a href="#" class="ab-btn">Start Waiver</a>
       </div>
