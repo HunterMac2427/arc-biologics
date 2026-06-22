@@ -101,9 +101,81 @@ function ab_product_waiver_notice() {
 }
 add_action('woocommerce_single_product_summary', 'ab_product_waiver_notice', 25);
 
-// ── WooCommerce REST API keys for Zapier ──
-function ab_wc_api_keys_notice() {
-    // Generate keys via WP Admin → WooCommerce → Settings → Advanced → REST API
+// ── Webhook: Create Approved Buyer from Zapier/Jotform ──
+add_action('rest_api_init', function () {
+    register_rest_route('arc/v1', '/approve-buyer', [
+        'methods'  => 'POST',
+        'callback' => 'ab_approve_buyer_webhook',
+        'permission_callback' => '__return_true',
+    ]);
+});
+
+function ab_approve_buyer_webhook(WP_REST_Request $request) {
+    // Verify webhook secret
+    $secret = $request->get_header('X-Webhook-Secret');
+    $stored_secret = get_option('ab_webhook_secret', '');
+
+    if (empty($stored_secret) || $secret !== $stored_secret) {
+        return new WP_REST_Response(['error' => 'Unauthorized'], 401);
+    }
+
+    $email = sanitize_email($request->get_param('email'));
+    $name  = sanitize_text_field($request->get_param('name'));
+
+    if (empty($email) || !is_email($email)) {
+        return new WP_REST_Response(['error' => 'Valid email required'], 400);
+    }
+
+    // Check if user already exists
+    $user = get_user_by('email', $email);
+
+    if ($user) {
+        // Add approved_buyer role if they don't have it
+        $user_obj = new WP_User($user->ID);
+        if (!in_array('approved_buyer', $user_obj->roles)) {
+            $user_obj->add_role('approved_buyer');
+        }
+        return new WP_REST_Response([
+            'status'  => 'updated',
+            'user_id' => $user->ID,
+            'message' => 'Existing user granted approved_buyer role',
+        ], 200);
+    }
+
+    // Create new user
+    $name_parts = explode(' ', $name, 2);
+    $first_name = $name_parts[0];
+    $last_name  = isset($name_parts[1]) ? $name_parts[1] : '';
+    $username   = sanitize_user(strtolower(str_replace(' ', '.', $name)));
+
+    // Ensure unique username
+    if (username_exists($username)) {
+        $username = $username . '_' . wp_rand(100, 999);
+    }
+
+    $password = wp_generate_password(16, true, true);
+    $user_id  = wp_create_user($username, $password, $email);
+
+    if (is_wp_error($user_id)) {
+        return new WP_REST_Response(['error' => $user_id->get_error_message()], 500);
+    }
+
+    // Set user meta and role
+    wp_update_user([
+        'ID'         => $user_id,
+        'first_name' => $first_name,
+        'last_name'  => $last_name,
+        'role'       => 'approved_buyer',
+    ]);
+
+    // Send new account email with password
+    wp_new_user_notification($user_id, null, 'user');
+
+    return new WP_REST_Response([
+        'status'  => 'created',
+        'user_id' => $user_id,
+        'message' => 'New approved_buyer account created',
+    ], 201);
 }
 
 // ── Remove default WooCommerce styles (we use our own) ──
