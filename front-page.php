@@ -51,46 +51,31 @@
         <p class="ab-subtitle">Browse our full catalog of research-grade peptide compounds. Sourced from trusted U.S. suppliers.</p>
       </div>
       <div class="ab-products-grid ab-stagger">
-        <div class="ab-product-card ab-reveal">
+        <?php
+        $featured_query = new WP_Query([
+            'post_type'      => 'product',
+            'post_status'    => 'publish',
+            'posts_per_page' => 4,
+            'orderby'        => 'date',
+            'order'          => 'ASC',
+        ]);
+        if ($featured_query->have_posts()) : while ($featured_query->have_posts()) : $featured_query->the_post();
+          $product = wc_get_product(get_the_ID());
+          $thumb = get_the_post_thumbnail_url(get_the_ID(), 'medium_large');
+        ?>
+        <a href="<?php the_permalink(); ?>" class="ab-product-card ab-reveal">
           <div class="ab-product-img">
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/ghkcu.png" alt="GHK-cu">
+            <?php if ($thumb) : ?>
+              <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
+            <?php endif; ?>
           </div>
           <div class="ab-product-glass">
-            <div class="ab-product-name">GHK-cu</div>
-            <div class="ab-product-desc">100mg - 3ml vial</div>
-            <div class="ab-product-price">$200</div>
+            <div class="ab-product-name"><?php the_title(); ?></div>
+            <div class="ab-product-desc"><?php echo esc_html($product->get_short_description()); ?></div>
+            <div class="ab-product-price"><?php echo $product->get_price_html(); ?></div>
           </div>
-        </div>
-        <div class="ab-product-card ab-reveal">
-          <div class="ab-product-img">
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157">
-          </div>
-          <div class="ab-product-glass">
-            <div class="ab-product-name">BPC-157</div>
-            <div class="ab-product-desc">15mg - 3ml vial</div>
-            <div class="ab-product-price">$250</div>
-          </div>
-        </div>
-        <div class="ab-product-card ab-reveal">
-          <div class="ab-product-img">
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/glow.png" alt="GLOW">
-          </div>
-          <div class="ab-product-glass">
-            <div class="ab-product-name">GLOW</div>
-            <div class="ab-product-desc">BPC-157/GHK-cu/TB-500 — 10/70/10mg - 5ml</div>
-            <div class="ab-product-price">$390</div>
-          </div>
-        </div>
-        <div class="ab-product-card ab-reveal">
-          <div class="ab-product-img">
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/duoblend.png" alt="Duo Blend">
-          </div>
-          <div class="ab-product-glass">
-            <div class="ab-product-name">Duo Blend</div>
-            <div class="ab-product-desc">Tesa/Ipa - 3ml vial</div>
-            <div class="ab-product-price">$240</div>
-          </div>
-        </div>
+        </a>
+        <?php endwhile; wp_reset_postdata(); endif; ?>
       </div>
       <div class="ab-products-cta ab-reveal-simple">
         <a href="/shop" class="ab-btn ab-btn-outline">View All 20+ Compounds</a>

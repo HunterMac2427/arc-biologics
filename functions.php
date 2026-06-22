@@ -108,3 +108,29 @@ function ab_wc_api_keys_notice() {
 
 // ── Remove default WooCommerce styles (we use our own) ──
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
+
+// ── WooCommerce wrapper overrides ──
+remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
+remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
+
+function ab_wc_wrapper_start() {
+    echo '<div class="woocommerce">';
+}
+function ab_wc_wrapper_end() {
+    echo '</div>';
+}
+add_action('woocommerce_before_main_content', 'ab_wc_wrapper_start', 10);
+add_action('woocommerce_after_main_content', 'ab_wc_wrapper_end', 10);
+
+// ── Remove default WooCommerce sidebar ──
+remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
+
+// ── Disable WooCommerce default single product page hooks (we handle in template) ──
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_price', 10);
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20);
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40);
+remove_action('woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20);
+remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
+remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10);
