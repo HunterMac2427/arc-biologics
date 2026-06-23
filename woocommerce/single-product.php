@@ -9,6 +9,8 @@ while (have_posts()) : the_post();
   $thumb = get_the_post_thumbnail_url(get_the_ID(), 'large');
   $cats = wp_get_post_terms(get_the_ID(), 'product_cat', ['fields' => 'names']);
   $cat_label = !empty($cats) ? $cats[0] : 'Peptide';
+  $approved = ab_is_approved_buyer();
+  $max_qty = $product->get_max_purchase_quantity();
 ?>
 
   <section class="ab-product-hero">
@@ -42,14 +44,30 @@ while (have_posts()) : the_post();
             </div>
           <?php endif; ?>
 
-          <?php if ($product->is_purchasable() && $product->is_in_stock()) : ?>
+          <?php if ($approved && $product->is_in_stock()) : ?>
+            <!-- Approved buyer: show add to cart -->
             <form class="ab-add-to-cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post">
               <div class="ab-qty-wrap">
                 <label for="quantity" class="ab-qty-label">Qty</label>
-                <input type="number" id="quantity" name="quantity" value="1" min="1" max="<?php echo esc_attr($product->get_max_purchase_quantity()); ?>" class="ab-qty-input">
+                <input type="number" id="quantity" name="quantity" value="1" min="1"<?php echo ($max_qty > 0) ? ' max="' . esc_attr($max_qty) . '"' : ''; ?> class="ab-qty-input">
               </div>
               <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="ab-btn ab-btn-primary ab-btn-lg">Add to Cart</button>
             </form>
+          <?php else : ?>
+            <!-- Not approved: show waiver gate -->
+            <div class="ab-product-gate">
+              <div class="ab-gate-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <h3>Waiver Required to Purchase</h3>
+              <p>All purchases require a completed research waiver. Complete the form below to create your account and unlock ordering.</p>
+              <a href="<?php echo esc_url(home_url('/waiver/')); ?>" class="ab-btn ab-btn-primary ab-btn-lg ab-gate-btn">Complete Research Waiver</a>
+              <?php if (is_user_logged_in() && !$approved) : ?>
+                <p class="ab-gate-note">Your account is pending approval. If you've already submitted the waiver, please allow a few minutes for processing.</p>
+              <?php elseif (!is_user_logged_in()) : ?>
+                <p class="ab-gate-note">Already have an account? <a href="<?php echo esc_url(wp_login_url(get_permalink())); ?>">Log in</a></p>
+              <?php endif; ?>
+            </div>
           <?php endif; ?>
 
           <div class="ab-product-meta">

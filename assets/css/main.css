@@ -1179,7 +1179,7 @@ h4 { font-size: 18px; font-weight: 600; }
 .ab-waiver-admin-note { font-size: 12px; opacity: 0.25; }
 .ab-waiver-admin-note code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; }
 
-/* Product gating notice */
+/* Product gating notice (archive pages) */
 .ab-waiver-notice {
   background: rgba(11,143,104,0.08);
   border: 1px solid rgba(11,143,104,0.2);
@@ -1192,6 +1192,54 @@ h4 { font-size: 18px; font-weight: 600; }
 .ab-waiver-notice p {
   margin-bottom: 12px;
   opacity: 0.7;
+}
+
+/* Product gate (single product lock screen) */
+.ab-product-gate {
+  background: var(--ab-dark-surface);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius);
+  padding: 40px;
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.ab-gate-icon {
+  color: var(--ab-teal);
+  opacity: 0.6;
+  margin-bottom: 20px;
+}
+
+.ab-product-gate h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.ab-product-gate > p {
+  font-size: 14px;
+  opacity: 0.45;
+  line-height: 1.6;
+  max-width: 400px;
+  margin: 0 auto 24px;
+}
+
+.ab-gate-btn {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+
+.ab-gate-note {
+  font-size: 13px;
+  opacity: 0.35;
+  margin-top: 16px;
+}
+
+.ab-gate-note a {
+  color: var(--ab-teal);
+  text-decoration: underline;
 }
 
 /* --- Single Product Page --- */
