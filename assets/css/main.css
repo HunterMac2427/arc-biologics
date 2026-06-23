@@ -1246,6 +1246,32 @@ h4 { font-size: 18px; font-weight: 500; }
 .ab-waiver-admin-note { font-size: 12px; opacity: 0.25; }
 .ab-waiver-admin-note code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; }
 
+/* --- Empty Cart --- */
+.ab-empty-cart {
+  text-align: center;
+  padding: 80px 0 60px;
+}
+
+.ab-empty-cart h2 {
+  font-size: clamp(28px, 4vw, 38px);
+  margin-bottom: 12px;
+}
+
+.ab-empty-cart p {
+  font-size: 16px;
+  opacity: 0.4;
+  margin-bottom: 32px;
+}
+
+.ab-empty-cart-products {
+  padding-bottom: 80px;
+}
+
+.ab-empty-cart-products .ab-section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 /* --- Waiver Complete Page --- */
 .ab-waiver-complete {
   max-width: 640px;
