@@ -178,6 +178,29 @@ function ab_approve_buyer_webhook(WP_REST_Request $request) {
     ], 201);
 }
 
+// ── Custom new-user email for approved buyers ──
+function ab_custom_new_user_email($wp_new_user_notification_email, $user, $blogname) {
+    $set_password_url = network_site_url('wp-login.php?action=rp&key=' . get_password_reset_key($user) . '&login=' . rawurlencode($user->user_login), 'login');
+    $shop_url = home_url('/shop/');
+    $first_name = $user->first_name ?: $user->display_name;
+
+    $message = "Hi {$first_name},\n\n";
+    $message .= "Your ARC Biologics account has been created. You're now approved to purchase from our full catalog of research-grade peptide compounds.\n\n";
+    $message .= "SET YOUR PASSWORD\n";
+    $message .= "{$set_password_url}\n\n";
+    $message .= "Once you've set your password, you can log in and start shopping:\n";
+    $message .= "{$shop_url}\n\n";
+    $message .= "If you have any questions, reply to this email.\n\n";
+    $message .= "— ARC Biologics";
+
+    $wp_new_user_notification_email['subject'] = 'Your ARC Biologics Account Is Ready';
+    $wp_new_user_notification_email['message'] = $message;
+    $wp_new_user_notification_email['headers'] = 'From: ARC Biologics <noreply@arcbiologics.com>';
+
+    return $wp_new_user_notification_email;
+}
+add_filter('wp_new_user_notification_email', 'ab_custom_new_user_email', 10, 3);
+
 // ── Remove default WooCommerce styles (we use our own) ──
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
 

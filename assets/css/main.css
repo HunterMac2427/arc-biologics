@@ -1225,6 +1225,63 @@ h4 { font-size: 18px; font-weight: 500; }
 .ab-waiver-admin-note { font-size: 12px; opacity: 0.25; }
 .ab-waiver-admin-note code { background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; }
 
+/* --- Waiver Complete Page --- */
+.ab-waiver-complete {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ab-complete-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.ab-complete-step {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.ab-complete-step-num {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--ab-ghost);
+  background: var(--ab-dark-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.4);
+}
+
+.ab-complete-step-done {
+  background: rgba(11,143,104,0.15);
+  border-color: rgba(11,143,104,0.3);
+  color: var(--ab-teal);
+}
+
+.ab-complete-step h4 {
+  margin-bottom: 4px;
+}
+
+.ab-complete-step p {
+  font-size: 14px;
+  opacity: 0.45;
+  line-height: 1.6;
+}
+
+.ab-complete-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
 /* Product gating notice (archive pages) */
 .ab-waiver-notice {
   background: rgba(11,143,104,0.08);
