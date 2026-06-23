@@ -62,7 +62,7 @@ h1, h2, h3, h4, h5 {
   letter-spacing: -0.02em;
 }
 
-h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 700; }
+h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 400; }
 
 /* --- Hero Heading System --- */
 h1.ab-hero-heading {
@@ -70,12 +70,12 @@ h1.ab-hero-heading {
   line-height: 0.95;
   letter-spacing: -0.04em;
   margin-bottom: 32px;
-  font-weight: 700;
+  font-weight: 300;
 }
 
 h1.ab-hero-heading .ab-heading-light {
   display: block;
-  font-weight: 300;
+  font-weight: 200;
   font-size: inherit;
   color: rgba(255,255,255,0.9);
   line-height: 0.95;
@@ -85,7 +85,7 @@ h1.ab-hero-heading .ab-heading-light {
 
 h1.ab-hero-heading .ab-heading-bold {
   display: block;
-  font-weight: 800;
+  font-weight: 500;
   font-size: inherit;
   line-height: 1.0;
   margin: 0;
@@ -112,9 +112,9 @@ h1.ab-hero-heading .ab-heading-bold {
   height: 1px;
   background: linear-gradient(90deg, var(--ab-teal), var(--ab-violet));
 }
-h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 600; }
-h3 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 600; }
-h4 { font-size: 18px; font-weight: 600; }
+h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 400; }
+h3 { font-size: clamp(20px, 2.5vw, 28px); font-weight: 400; }
+h4 { font-size: 18px; font-weight: 500; }
 
 .ab-label {
   font-family: 'Outfit', sans-serif;
@@ -1128,7 +1128,7 @@ h4 { font-size: 18px; font-weight: 600; }
 
 /* --- Shop Page --- */
 .ab-shop-hero {
-  padding: 100px 0 40px;
+  padding: 80px 0 32px;
   background: var(--ab-dark);
   position: relative;
 }
@@ -1323,7 +1323,7 @@ h4 { font-size: 18px; font-weight: 600; }
 .ab-product-title {
   font-family: 'Outfit', sans-serif;
   font-size: 40px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: -0.02em;
   margin-bottom: 16px;
   line-height: 1.15;
@@ -1332,7 +1332,7 @@ h4 { font-size: 18px; font-weight: 600; }
 .ab-product-price-lg {
   font-family: 'Outfit', sans-serif;
   font-size: 32px;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--ab-teal);
   margin-bottom: 24px;
 }
