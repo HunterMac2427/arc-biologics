@@ -206,6 +206,18 @@ add_action('woocommerce_after_main_content', 'ab_wc_wrapper_end', 10);
 // ── Remove default WooCommerce sidebar ──
 remove_action('woocommerce_sidebar', 'woocommerce_get_sidebar', 10);
 
+// ── AJAX cart count fragment (updates header cart badge without reload) ──
+function ab_cart_count_fragment($fragments) {
+    $count = WC()->cart->get_cart_contents_count();
+    if ($count > 0) {
+        $fragments['.ab-cart-count'] = '<span class="ab-cart-count">' . esc_html($count) . '</span>';
+    } else {
+        $fragments['.ab-cart-count'] = '';
+    }
+    return $fragments;
+}
+add_filter('woocommerce_add_to_cart_fragments', 'ab_cart_count_fragment');
+
 // ── Disable WooCommerce default single product page hooks (we handle in template) ──
 remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_title', 5);
 remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_price', 10);
