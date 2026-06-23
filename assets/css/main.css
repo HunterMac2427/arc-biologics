@@ -1263,13 +1263,8 @@ h4 { font-size: 18px; font-weight: 500; }
   margin-bottom: 32px;
 }
 
-.ab-empty-cart-products {
+.ab-empty-cart-categories {
   padding-bottom: 80px;
-}
-
-.ab-empty-cart-products .ab-section-header {
-  text-align: center;
-  margin-bottom: 40px;
 }
 
 /* --- Waiver Complete Page --- */
