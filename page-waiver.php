@@ -7,7 +7,6 @@ get_header();
 
   <section class="ab-shop-hero">
     <div class="ab-container">
-      <p class="ab-label ab-label-decorated">Get Started</p>
       <h1 class="ab-hero-heading">
         <span class="ab-heading-light">Research</span>
         <span class="ab-heading-bold ab-gradient-text">Waiver.</span>
