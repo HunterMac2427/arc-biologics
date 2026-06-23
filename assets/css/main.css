@@ -1138,7 +1138,17 @@ h4 { font-size: 18px; font-weight: 600; }
 }
 
 .ab-shop-hero .ab-hero-sub {
-  max-width: 500px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ab-shop-hero .ab-container {
+  text-align: center;
+}
+
+.ab-shop-hero .ab-label-decorated {
+  justify-content: center;
 }
 
 .ab-shop-section {
