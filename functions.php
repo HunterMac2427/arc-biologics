@@ -181,6 +181,15 @@ function ab_approve_buyer_webhook(WP_REST_Request $request) {
 // ── Remove default WooCommerce styles (we use our own) ──
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
 
+// ── Remove WC block styles and fonts ──
+function ab_dequeue_wc_block_styles() {
+    wp_dequeue_style('wc-blocks-style');
+    wp_deregister_style('wc-blocks-style');
+    wp_dequeue_style('wc-blocks-style-coming-soon');
+    wp_deregister_style('wc-blocks-style-coming-soon');
+}
+add_action('wp_enqueue_scripts', 'ab_dequeue_wc_block_styles', 100);
+
 // ── WooCommerce wrapper overrides ──
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
 remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
