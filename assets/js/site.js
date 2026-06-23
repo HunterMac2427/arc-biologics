@@ -199,20 +199,24 @@ const categoryProducts = {
 
   const cards = grid.querySelectorAll('.ab-product-card');
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const filter = tab.dataset.filter;
-
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      cards.forEach(card => {
-        if (filter === 'all' || card.dataset.cat === filter) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
+  function applyFilter(filter) {
+    tabs.forEach(t => {
+      t.classList.toggle('active', t.dataset.filter === filter);
     });
+    cards.forEach(card => {
+      if (filter === 'all' || card.dataset.cat === filter) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => applyFilter(tab.dataset.filter));
   });
+
+  // Apply filter from URL hash (e.g. /shop/#recovery)
+  const hash = window.location.hash.replace('#', '');
+  if (hash) applyFilter(hash);
 })();
