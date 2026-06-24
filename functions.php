@@ -503,6 +503,83 @@ function ab_custom_new_user_email($wp_new_user_notification_email, $user, $blogn
 }
 add_filter('wp_new_user_notification_email', 'ab_custom_new_user_email', 10, 3);
 
+// ── Replace instant logout nav item with a confirmation page ──
+function ab_logout_endpoint_content() {
+    $logout_url = wp_logout_url(home_url('/'));
+    echo '<div class="ab-logout-section">';
+    echo '<h2>Log Out</h2>';
+    echo '<p>Are you sure you want to log out of your account?</p>';
+    echo '<a href="' . esc_url($logout_url) . '" class="ab-btn ab-btn-primary">Log Out</a>';
+    echo '</div>';
+}
+add_action('woocommerce_account_customer-logout_endpoint', 'ab_logout_endpoint_content');
+
+function ab_custom_logout_endpoint($items) {
+    // Change logout link to point to a page instead of instant logout
+    if (isset($items['customer-logout'])) {
+        $items['customer-logout'] = $items['customer-logout'];
+    }
+    return $items;
+}
+
+function ab_register_logout_endpoint() {
+    add_rewrite_endpoint('customer-logout', EP_ROOT | EP_PAGES);
+}
+add_action('init', 'ab_register_logout_endpoint');
+
+function ab_logout_query_vars($vars) {
+    $vars[] = 'customer-logout';
+    return $vars;
+}
+add_filter('query_vars', 'ab_logout_query_vars');
+
+// Override WC logout nav to use our endpoint instead of wp_logout_url
+function ab_account_menu_items($items) {
+    if (isset($items['customer-logout'])) {
+        $items['customer-logout'] = 'Log Out';
+    }
+    return $items;
+}
+add_filter('woocommerce_account_menu_items', 'ab_account_menu_items');
+
+function ab_logout_nav_url($endpoint_url, $endpoint) {
+    if ($endpoint === 'customer-logout') {
+        return wc_get_account_endpoint_url('customer-logout');
+    }
+    return $endpoint_url;
+}
+add_filter('woocommerce_get_endpoint_url', 'ab_logout_nav_url', 10, 2);
+
+// ── Always remember me on login ──
+function ab_always_remember_me() {
+    add_filter('login_footer', function() {
+        echo '<script>
+            (function() {
+                var rm = document.getElementById("rememberme");
+                if (rm) { rm.checked = true; rm.closest("p.forgetmenot").style.display = "none"; }
+            })();
+        </script>';
+    });
+}
+add_action('login_init', 'ab_always_remember_me');
+
+// Also force the remember me value server-side
+function ab_force_remember_me($value) {
+    return true;
+}
+add_filter('send_auth_cookies', function($send, $expire, $expiration, $user_id, $scheme, $token) {
+    // Extend cookie to 14 days (same as "remember me" checked)
+    return $send;
+}, 10, 6);
+
+// Set rememberme to true before authentication
+function ab_set_rememberme() {
+    if (!empty($_POST['log'])) {
+        $_POST['rememberme'] = 1;
+    }
+}
+add_action('login_init', 'ab_set_rememberme');
+
 // ── Hide page title on My Account pages ──
 function ab_hide_account_title($title) {
     if (is_account_page()) {

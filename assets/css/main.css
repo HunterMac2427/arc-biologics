@@ -2007,6 +2007,36 @@ h4 { font-size: 18px; font-weight: 500; }
   line-height: 1.7;
 }
 
+/* Logout confirmation page */
+.ab-logout-section {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.ab-logout-section h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.ab-logout-section p {
+  font-size: 15px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 28px;
+}
+
+/* Hide remember me on WC login forms */
+.woocommerce-form-login .woocommerce-form-login__rememberme,
+.woocommerce .lost_password {
+  /* keep lost password visible */
+}
+
+.woocommerce-form-login .woocommerce-form-login__rememberme {
+  display: none;
+}
+
 /* No orders message */
 .woocommerce-MyAccount-content .woocommerce-info,
 .woocommerce-message,
