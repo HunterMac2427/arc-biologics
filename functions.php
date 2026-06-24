@@ -503,9 +503,10 @@ function ab_custom_new_user_email($wp_new_user_notification_email, $user, $blogn
 }
 add_filter('wp_new_user_notification_email', 'ab_custom_new_user_email', 10, 3);
 
-// ── Replace instant logout with confirmation page ──
+// ── Customize account menu: remove Dashboard & Downloads, reorder ──
 function ab_account_menu_items($items) {
-    // Rename to "Log Out" and keep it in the menu
+    unset($items['dashboard']);
+    unset($items['downloads']);
     if (isset($items['customer-logout'])) {
         $items['customer-logout'] = 'Log Out';
     }
@@ -513,36 +514,38 @@ function ab_account_menu_items($items) {
 }
 add_filter('woocommerce_account_menu_items', 'ab_account_menu_items');
 
-// Redirect WC logout to a confirm page instead of instant logout
-function ab_redirect_logout() {
-    if (is_account_page() && isset($_GET['ab-confirm-logout'])) {
-        return; // Show the page, don't redirect
+// Make Orders the default account page (redirect /my-account/ to /my-account/orders/)
+function ab_default_account_to_orders() {
+    if (is_account_page() && !is_wc_endpoint_url() && !isset($_GET['ab-confirm-logout'])) {
+        wp_safe_redirect(wc_get_account_endpoint_url('orders'));
+        exit;
     }
 }
+add_action('template_redirect', 'ab_default_account_to_orders');
 
 // Override the logout URL in the nav to go to confirm page
 function ab_logout_url_override($endpoint_url, $endpoint) {
     if ($endpoint === 'customer-logout') {
-        return wc_get_account_endpoint_url('dashboard') . '?ab-confirm-logout=1';
+        return wc_get_account_endpoint_url('orders') . '?ab-confirm-logout=1';
     }
     return $endpoint_url;
 }
 add_filter('woocommerce_get_endpoint_url', 'ab_logout_url_override', 10, 2);
 
-// Show logout confirmation content when ?ab-confirm-logout=1
-function ab_logout_confirmation_content() {
+// Show logout confirmation when ?ab-confirm-logout=1 (override page content)
+function ab_logout_confirmation_override() {
     if (is_account_page() && isset($_GET['ab-confirm-logout'])) {
         $logout_url = wp_logout_url(home_url('/'));
-        ?>
-        <div class="ab-logout-section">
-            <h2>Log Out</h2>
-            <p>Are you sure you want to log out of your account?</p>
-            <a href="<?php echo esc_url($logout_url); ?>" class="ab-btn ab-btn-primary">Log Out</a>
-        </div>
-        <?php
+        echo '<div class="ab-logout-section">';
+        echo '<h2>Log Out</h2>';
+        echo '<p>Are you sure you want to log out of your account?</p>';
+        echo '<a href="' . esc_url($logout_url) . '" class="ab-btn ab-btn-primary">Log Out</a>';
+        echo '</div>';
+        // Hide the normal page content via CSS
+        echo '<style>.woocommerce-MyAccount-content > *:not(.ab-logout-section) { display: none; }</style>';
     }
 }
-add_action('woocommerce_account_dashboard', 'ab_logout_confirmation_content');
+add_action('woocommerce_before_account_orders', 'ab_logout_confirmation_override', 1);
 
 // ── Always remember me on login ──
 function ab_set_rememberme() {
