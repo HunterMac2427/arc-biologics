@@ -537,12 +537,16 @@ function ab_logout_confirmation_override() {
     if (is_account_page() && isset($_GET['ab-confirm-logout'])) {
         $logout_url = wp_logout_url(home_url('/'));
         echo '<div class="ab-logout-section">';
-        echo '<h2>Log Out</h2>';
         echo '<p>Are you sure you want to log out of your account?</p>';
-        echo '<a href="' . esc_url($logout_url) . '" class="ab-btn ab-btn-primary">Log Out</a>';
+        echo '<a href="' . esc_url($logout_url) . '" class="ab-btn ab-btn-primary" style="color:#fff;">Log Out</a>';
         echo '</div>';
-        // Hide the normal page content via CSS
-        echo '<style>.woocommerce-MyAccount-content > *:not(.ab-logout-section) { display: none; }</style>';
+        echo '<style>';
+        // Hide normal page content behind the logout prompt
+        echo '.woocommerce-MyAccount-content > *:not(.ab-logout-section) { display: none !important; }';
+        // Highlight the Log Out tab instead of Orders
+        echo '.woocommerce-MyAccount-navigation ul li.is-active a { color: rgba(255,255,255,0.35); border-bottom-color: transparent; }';
+        echo '.woocommerce-MyAccount-navigation ul li:last-child a { color: #fff !important; border-bottom-color: var(--ab-teal) !important; }';
+        echo '</style>';
     }
 }
 add_action('woocommerce_before_account_orders', 'ab_logout_confirmation_override', 1);
@@ -569,6 +573,14 @@ function ab_hide_account_title($title) {
     return $title;
 }
 add_filter('woocommerce_show_page_title', 'ab_hide_account_title');
+
+// Also hide WC endpoint titles (Orders, Addresses, etc.)
+function ab_hide_endpoint_title($title, $endpoint) {
+    return '';
+}
+add_filter('woocommerce_endpoint_orders_title', 'ab_hide_endpoint_title', 10, 2);
+add_filter('woocommerce_endpoint_edit-address_title', 'ab_hide_endpoint_title', 10, 2);
+add_filter('woocommerce_endpoint_edit-account_title', 'ab_hide_endpoint_title', 10, 2);
 
 // ── Remove default WooCommerce styles (we use our own) ──
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
