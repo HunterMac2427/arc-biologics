@@ -141,13 +141,25 @@ function ab_login_styles() {
             overflow: hidden;
         }
 
-        /* Form container */
-        .login form {
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            padding: 0;
-            margin: 0;
+        /* Kill ALL white backgrounds from WP core login styles */
+        .login form,
+        #loginform,
+        #lostpasswordform,
+        #resetpassform,
+        #registerform {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Kill any stray white panels */
+        #login form p,
+        #login form .user-pass-wrap,
+        #login form .forgetmenot,
+        #login form .submit {
+            background: transparent !important;
         }
 
         /* Labels */
@@ -156,40 +168,48 @@ function ab_login_styles() {
             font-family: 'Outfit', sans-serif;
             font-size: 13px;
             font-weight: 500;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.5) !important;
             letter-spacing: 0.02em;
         }
 
-        /* Inputs */
+        /* Inputs — nuke WP defaults completely */
         .login input[type="text"],
         .login input[type="password"],
-        .login input[type="email"] {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            padding: 12px 16px;
-            height: auto;
-            width: 100%;
+        .login input[type="email"],
+        #user_login,
+        #user_pass,
+        #user_email {
+            background: rgba(255,255,255,0.04) !important;
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            border-radius: 10px !important;
+            color: #fff !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 15px !important;
+            padding: 12px 16px !important;
+            height: auto !important;
+            width: 100% !important;
             margin-top: 6px;
+            box-shadow: none !important;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .login input[type="text"]:focus,
         .login input[type="password"]:focus,
-        .login input[type="email"]:focus {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(11,143,104,0.5);
-            box-shadow: 0 0 0 3px rgba(11,143,104,0.12);
-            outline: none;
-            color: #fff;
+        .login input[type="email"]:focus,
+        #user_login:focus,
+        #user_pass:focus,
+        #user_email:focus {
+            background: rgba(255,255,255,0.06) !important;
+            border-color: rgba(11,143,104,0.5) !important;
+            box-shadow: 0 0 0 3px rgba(11,143,104,0.12) !important;
+            outline: none !important;
+            color: #fff !important;
         }
 
         /* Submit button */
         .login .button-primary,
-        .wp-core-ui .button-primary {
+        .wp-core-ui .button-primary,
+        #wp-submit {
             background: linear-gradient(135deg, #0B8F68, #087B5A) !important;
             border: none !important;
             border-radius: 10px !important;
