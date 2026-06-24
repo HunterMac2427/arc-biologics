@@ -19,20 +19,9 @@ $first_name = $current_user->first_name ?: $current_user->display_name;
 
 <section class="ab-account-section">
   <div class="ab-container">
-    <div class="ab-account-layout">
-
-      <!-- Sidebar Nav -->
-      <aside class="ab-account-sidebar">
-        <nav class="ab-account-nav">
-          <?php woocommerce_account_navigation(); ?>
-        </nav>
-      </aside>
-
-      <!-- Content Area -->
-      <div class="ab-account-content">
-        <?php woocommerce_account_content(); ?>
-      </div>
-
+    <?php woocommerce_account_navigation(); ?>
+    <div class="ab-account-content">
+      <?php woocommerce_account_content(); ?>
     </div>
   </div>
 </section>

@@ -503,6 +503,15 @@ function ab_custom_new_user_email($wp_new_user_notification_email, $user, $blogn
 }
 add_filter('wp_new_user_notification_email', 'ab_custom_new_user_email', 10, 3);
 
+// ── Hide page title on My Account pages ──
+function ab_hide_account_title($title) {
+    if (is_account_page()) {
+        return false;
+    }
+    return $title;
+}
+add_filter('woocommerce_show_page_title', 'ab_hide_account_title');
+
 // ── Remove default WooCommerce styles (we use our own) ──
 add_filter('woocommerce_enqueue_styles', '__return_empty_array');
 
