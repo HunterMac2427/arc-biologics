@@ -113,9 +113,10 @@ function ab_login_styles() {
         #login {
             position: relative;
             z-index: 2;
-            width: 400px;
-            padding: 48px 48px 40px;
-            background: rgba(22, 22, 24, 0.85);
+            width: 420px !important;
+            max-width: 420px !important;
+            padding: 36px 40px 36px 40px !important;
+            background: rgba(22, 22, 24, 0.85) !important;
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255,255,255,0.06);
