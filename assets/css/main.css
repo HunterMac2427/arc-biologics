@@ -1696,7 +1696,7 @@ h4 { font-size: 18px; font-weight: 500; }
 
 /* Hero */
 .ab-account-hero {
-  padding: 120px 0 40px;
+  padding: 100px 0 32px;
   background: var(--ab-dark);
 }
 
@@ -1730,13 +1730,18 @@ h4 { font-size: 18px; font-weight: 500; }
   padding: 0 24px;
 }
 
-/* Hide WC page title (belt + suspenders with PHP filter) */
-.woocommerce-account .woocommerce h2:first-child,
+/* Hide ALL page titles on account pages */
 .woocommerce-account .entry-title,
 .woocommerce-account .page-title,
+.woocommerce-account .woocommerce > h2:first-child,
 .woocommerce-account .woocommerce-MyAccount-content > h2:first-child,
-.woocommerce-account .woocommerce-MyAccount-content > h3:first-child {
-  display: none;
+.woocommerce-account .woocommerce-MyAccount-content > h3:first-child,
+.woocommerce-account article > .entry-header,
+.woocommerce-account article > header,
+.woocommerce-account h1.entry-title,
+body.woocommerce-account .entry-content > h1:first-child,
+body.woocommerce-account h1 {
+  display: none !important;
 }
 
 /* Horizontal tab nav */
