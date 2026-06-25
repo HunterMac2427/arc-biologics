@@ -573,14 +573,19 @@ function ab_logout_confirmation_override() {
 add_action('woocommerce_before_account_orders', 'ab_logout_confirmation_override', 1);
 
 // ── Always remember me on login ──
-function ab_set_rememberme() {
-    if (!empty($_POST['log'])) {
-        $_POST['rememberme'] = 1;
-    }
+// Force rememberme on ALL login forms (wp-login.php + WooCommerce)
+function ab_force_rememberme_wp_login() {
+    $_POST['rememberme'] = 1;
 }
-add_action('login_init', 'ab_set_rememberme');
+add_action('wp_authenticate', 'ab_force_rememberme_wp_login');
 
-// Hide remember me checkbox via CSS + JS on wp-login.php
+// Extend auth cookie expiration to 14 days regardless of rememberme
+function ab_extend_auth_cookie($expiration, $user_id, $remember) {
+    return 14 * DAY_IN_SECONDS;
+}
+add_filter('auth_cookie_expiration', 'ab_extend_auth_cookie', 10, 3);
+
+// Hide remember me checkbox on wp-login.php
 function ab_hide_rememberme() {
     echo '<script>document.addEventListener("DOMContentLoaded",function(){var r=document.getElementById("rememberme");if(r){r.checked=true;var p=r.closest(".forgetmenot");if(p)p.style.display="none";}});</script>';
 }
