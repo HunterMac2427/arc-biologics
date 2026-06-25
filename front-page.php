@@ -94,53 +94,67 @@
 
       <div class="ab-categories-grid ab-stagger">
 
-        <a href="<?php echo esc_url(get_term_link('recovery', 'product_cat')); ?>" class="ab-category-card ab-reveal">
+        <button class="ab-category-card ab-reveal" data-category="recovery">
           <div class="ab-category-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
           <h4>Recovery & Healing</h4>
           <p>Tissue repair, wound healing, and inflammation support peptides.</p>
-        </a>
+        </button>
 
-        <a href="<?php echo esc_url(get_term_link('cognitive', 'product_cat')); ?>" class="ab-category-card ab-reveal">
+        <button class="ab-category-card ab-reveal" data-category="cognitive">
           <div class="ab-category-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a8 8 0 0 0-8 8c0 6 8 12 8 12s8-6 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
           </div>
           <h4>Cognitive & Neuro</h4>
           <p>Neuroprotective and cognitive enhancement research compounds.</p>
-        </a>
+        </button>
 
-        <a href="<?php echo esc_url(get_term_link('antiaging', 'product_cat')); ?>" class="ab-category-card ab-reveal">
+        <button class="ab-category-card ab-reveal" data-category="antiaging">
           <div class="ab-category-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
           </div>
           <h4>Anti-Aging & Longevity</h4>
           <p>Cellular repair, telomere support, and longevity-focused peptides.</p>
-        </a>
+        </button>
 
-        <a href="<?php echo esc_url(get_term_link('bodycomp', 'product_cat')); ?>" class="ab-category-card ab-reveal">
+        <button class="ab-category-card ab-reveal" data-category="bodycomp">
           <div class="ab-category-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18L18 6M8 6h10v10"/></svg>
           </div>
           <h4>Body Composition</h4>
           <p>Metabolic optimization, fat loss, and body recomposition peptides.</p>
-        </a>
+        </button>
 
-        <a href="<?php echo esc_url(get_term_link('blends', 'product_cat')); ?>" class="ab-category-card ab-reveal">
+        <button class="ab-category-card ab-reveal" data-category="blends">
           <div class="ab-category-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="12" r="6"/><circle cx="16" cy="12" r="6"/></svg>
           </div>
           <h4>Blends & Stacks</h4>
           <p>Multi-compound formulations for synergistic research applications.</p>
-        </a>
+        </button>
 
-        <a href="<?php echo esc_url(get_term_link('performance', 'product_cat')); ?>" class="ab-category-card ab-reveal">
+        <button class="ab-category-card ab-reveal" data-category="performance">
           <div class="ab-category-icon">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           </div>
           <h4>Performance</h4>
           <p>Endurance, muscle growth, and physical performance peptides.</p>
-        </a>
+        </button>
+
+
+        <!-- Expandable product carousel panel (JS moves this inside grid) -->
+        <div class="ab-category-panel" id="ab-category-panel">
+          <div class="ab-category-panel-inner">
+            <button class="ab-carousel-arrow ab-carousel-prev" id="ab-carousel-prev" aria-label="Previous">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="ab-category-carousel" id="ab-category-carousel"></div>
+            <button class="ab-carousel-arrow ab-carousel-next" id="ab-carousel-next" aria-label="Next">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>
