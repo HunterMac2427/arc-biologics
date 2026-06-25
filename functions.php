@@ -159,8 +159,29 @@ function ab_login_styles() {
         #login form p,
         #login form .user-pass-wrap,
         #login form .forgetmenot,
-        #login form .submit {
+        #login form .submit,
+        #login .message,
+        #login .success,
+        #login p.message,
+        .login .message,
+        .login p {
             background: transparent !important;
+            color: rgba(255,255,255,0.5) !important;
+            border: none !important;
+            box-shadow: none !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 13px !important;
+            padding: 0 !important;
+            margin-bottom: 16px !important;
+        }
+
+        /* Re-style the info message box (lost password instructions) */
+        #login .message {
+            background: rgba(11,143,104,0.08) !important;
+            border: 1px solid rgba(11,143,104,0.2) !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            color: rgba(255,255,255,0.6) !important;
         }
 
         /* Labels */
