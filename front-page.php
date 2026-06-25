@@ -157,6 +157,37 @@
         </div>
 
       </div>
+
+      <?php
+      // Generate category products JSON with permalinks for carousel
+      $cat_slugs = ['recovery', 'cognitive', 'antiaging', 'bodycomp', 'blends', 'performance'];
+      $cat_products_data = [];
+      foreach ($cat_slugs as $slug) {
+          $cat_query = new WP_Query([
+              'post_type' => 'product',
+              'post_status' => 'publish',
+              'posts_per_page' => -1,
+              'tax_query' => [['taxonomy' => 'product_cat', 'field' => 'slug', 'terms' => $slug]],
+          ]);
+          $items = [];
+          while ($cat_query->have_posts()) {
+              $cat_query->the_post();
+              $p = wc_get_product(get_the_ID());
+              $thumb = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+              $items[] = [
+                  'name' => get_the_title(),
+                  'desc' => $p->get_short_description() ?: $p->get_name(),
+                  'price' => $p->get_price_html(),
+                  'url' => get_permalink(),
+                  'img' => $thumb ?: '',
+              ];
+          }
+          wp_reset_postdata();
+          $cat_products_data[$slug] = $items;
+      }
+      ?>
+      <script>var abCategoryProducts = <?php echo wp_json_encode($cat_products_data); ?>;</script>
+
     </div>
   </section>
 
