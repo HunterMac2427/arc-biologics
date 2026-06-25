@@ -281,7 +281,7 @@
             wp_reset_postdata();
         else :
         ?>
-        <a href="#" class="ab-blog-card ab-reveal">
+        <a href="/shop/" class="ab-blog-card ab-reveal">
           <div class="ab-blog-thumb">
             <span class="ab-blog-tag">Peptide Guide</span>
           </div>
@@ -291,7 +291,7 @@
             <span class="ab-blog-link">Read Article &rarr;</span>
           </div>
         </a>
-        <a href="#" class="ab-blog-card ab-reveal">
+        <a href="/shop/" class="ab-blog-card ab-reveal">
           <div class="ab-blog-thumb">
             <span class="ab-blog-tag">Research</span>
           </div>
@@ -301,7 +301,7 @@
             <span class="ab-blog-link">Read Article &rarr;</span>
           </div>
         </a>
-        <a href="#" class="ab-blog-card ab-reveal">
+        <a href="/shop/" class="ab-blog-card ab-reveal">
           <div class="ab-blog-thumb">
             <span class="ab-blog-tag">Quality</span>
           </div>
@@ -327,7 +327,7 @@
           <h3>Ready to Get Started?</h3>
           <p>Complete the research waiver and access our full catalog of peptide compounds.</p>
         </div>
-        <a href="#" class="ab-btn">Start Waiver</a>
+        <a href="/waiver/" class="ab-btn">Start Waiver</a>
       </div>
     </div>
   </section>

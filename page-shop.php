@@ -80,7 +80,7 @@ $shop_query = new WP_Query([
           <h3>Ready to Get Started?</h3>
           <p>Complete the waiver and access our full catalog of research-grade compounds.</p>
         </div>
-        <a href="#" class="ab-btn">Start Waiver</a>
+        <a href="/waiver/" class="ab-btn">Start Waiver</a>
       </div>
     </div>
   </section>
