@@ -9,7 +9,7 @@
         <div class="ab-hero-content">
           <p class="ab-label ab-label-decorated ab-reveal">Advanced Research Compounds</p>
           <h1 class="ab-hero-heading ab-reveal">
-            <span class="ab-heading-light">Research-Grade</span>
+            <span class="ab-heading-light">Professional-Grade</span>
             <span class="ab-heading-bold ab-gradient-text">Peptides.</span>
           </h1>
           <p class="ab-hero-sub ab-reveal">
@@ -48,7 +48,7 @@
       <div class="ab-section-header ab-reveal">
         <p class="ab-label">Our Catalog</p>
         <h2>Research Compounds</h2>
-        <p class="ab-subtitle">Browse our full catalog of research-grade peptide compounds. Sourced from trusted U.S. suppliers.</p>
+        <p class="ab-subtitle">Browse our full catalog of professional-grade peptide compounds. Sourced from trusted U.S. suppliers.</p>
       </div>
       <div class="ab-products-grid ab-stagger">
         <?php
