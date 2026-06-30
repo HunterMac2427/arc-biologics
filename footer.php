@@ -14,16 +14,12 @@
         </div>
         <div class="ab-footer-col">
           <h5>Shop</h5>
-          <a href="/shop">All Peptides</a>
-          <a href="/shop?orderby=date">New Arrivals</a>
-          <a href="/shop?orderby=popularity">Best Sellers</a>
-          <a href="/coas">Certificates of Analysis</a>
-        </div>
-        <div class="ab-footer-col">
-          <h5>Company</h5>
-          <a href="/about">About Us</a>
-          <a href="/blog">Research Library</a>
-          <a href="/contact">Contact</a>
+          <a href="/shop/#recovery">Recovery &amp; Healing</a>
+          <a href="/shop/#cognitive">Cognitive &amp; Neuro</a>
+          <a href="/shop/#antiaging">Anti-Aging &amp; Longevity</a>
+          <a href="/shop/#bodycomp">Body Composition</a>
+          <a href="/shop/#blends">Blends &amp; Stacks</a>
+          <a href="/shop/#performance">Performance</a>
         </div>
         <div class="ab-footer-col">
           <h5>Legal</h5>

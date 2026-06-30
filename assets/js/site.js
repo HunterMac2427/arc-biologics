@@ -17,6 +17,27 @@ document.querySelectorAll('.ab-reveal, .ab-reveal-simple').forEach(el => {
   observer.observe(el);
 });
 
+/* How It Works — staggered reveal */
+const hiwObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const section = entry.target;
+      const cards = section.querySelectorAll('.ab-step-card');
+      const connectors = section.querySelectorAll('.ab-step-connector');
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('visible'), i * 200);
+      });
+      connectors.forEach((conn, i) => {
+        setTimeout(() => conn.classList.add('visible'), 150 + i * 200);
+      });
+      hiwObserver.unobserve(section);
+    }
+  });
+}, { threshold: 0.2 });
+
+const hiwSection = document.querySelector('.ab-hiw-section');
+if (hiwSection) hiwObserver.observe(hiwSection);
+
 /* ======== Browse by Application — Category Accordion ======== */
 // Product data injected from PHP via abCategoryProducts global
 const categoryProducts = (typeof abCategoryProducts !== 'undefined') ? abCategoryProducts : {};
