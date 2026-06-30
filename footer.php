@@ -17,6 +17,9 @@
           <a href="/shop/#recovery">Recovery &amp; Healing</a>
           <a href="/shop/#cognitive">Cognitive &amp; Neuro</a>
           <a href="/shop/#antiaging">Anti-Aging &amp; Longevity</a>
+        </div>
+        <div class="ab-footer-col">
+          <h5>&nbsp;</h5>
           <a href="/shop/#bodycomp">Body Composition</a>
           <a href="/shop/#blends">Blends &amp; Stacks</a>
           <a href="/shop/#performance">Performance</a>
