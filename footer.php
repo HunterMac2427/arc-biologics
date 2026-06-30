@@ -34,7 +34,6 @@
       </div>
       <div class="ab-footer-bottom">
         <span>&copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. All rights reserved.</span>
-        <span>Research use only. Not for human consumption.</span>
       </div>
     </div>
   </footer>
