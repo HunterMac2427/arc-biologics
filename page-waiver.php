@@ -5,34 +5,21 @@
 get_header();
 ?>
 
-  <section class="ab-shop-hero">
-    <div class="ab-container">
-      <h1 class="ab-hero-heading">
-        <span class="ab-heading-light">Research</span>
-        <span class="ab-heading-bold ab-gradient-text">Waiver.</span>
-      </h1>
-      <p class="ab-hero-sub">Complete this form to verify your research credentials and unlock access to our full catalog of peptide compounds.</p>
-    </div>
-  </section>
-
-  <section class="ab-section ab-section-surface">
-    <div class="ab-container">
-      <div class="ab-waiver-form-wrap">
-        <?php
-        // Replace FORM_ID with your actual Jotform form ID
-        // Example: 241234567890
-        $jotform_id = get_option('ab_jotform_id', '');
-        if ($jotform_id) :
-        ?>
-          <script type="text/javascript" src="https://form.jotform.com/jsform/<?php echo esc_attr($jotform_id); ?>"></script>
-        <?php else : ?>
-          <div class="ab-waiver-placeholder">
-            <h3>Waiver Form</h3>
-            <p>The research waiver form will appear here once configured.</p>
-            <p class="ab-waiver-admin-note">Admin: Set the Jotform ID in WordPress options (key: <code>ab_jotform_id</code>)</p>
-          </div>
-        <?php endif; ?>
+  <section class="ab-section ab-section-dark" style="min-height: 70vh; display: flex; align-items: center;">
+    <div class="ab-container" style="text-align: center; max-width: 600px;">
+      <div style="margin-bottom: 32px;">
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="url(#wg)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <defs><linearGradient id="wg" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#0B8F68"/><stop offset="1" stop-color="#7452A0"/></linearGradient></defs>
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
       </div>
+      <p class="ab-label ab-label-decorated" style="justify-content: center;">Verification</p>
+      <h1 class="ab-hero-heading" style="margin-bottom: 20px;">
+        <span class="ab-heading-light">Waiver</span>
+        <span class="ab-heading-bold ab-gradient-text">Coming Soon.</span>
+      </h1>
+      <p class="ab-hero-sub" style="margin-bottom: 40px;">Our verification and waiver system is being finalized. Check back shortly to complete your credentials and unlock full catalog access.</p>
+      <a href="/shop/" class="ab-btn ab-btn-outline">Browse Catalog</a>
     </div>
   </section>
 
