@@ -1146,6 +1146,8 @@ h4 { font-size: 18px; font-weight: 500; }
 
 .ab-post-hero-content {
   max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .ab-post-date {
@@ -1173,6 +1175,7 @@ h4 { font-size: 18px; font-weight: 500; }
   color: rgba(255,255,255,0.5);
   line-height: 1.7;
   max-width: 600px;
+  margin: 0 auto;
 }
 
 /* --- Single Post Content --- */
