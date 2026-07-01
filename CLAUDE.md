@@ -1,7 +1,7 @@
 # ARC Biologics
 
 ## Stage
-mockup
+wordpress
 
 ## Deployment Method
 Git-deployed (dedicated Cloudways server)

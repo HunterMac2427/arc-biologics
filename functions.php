@@ -23,6 +23,55 @@ function ab_theme_setup() {
 }
 add_action('after_setup_theme', 'ab_theme_setup');
 
+// ── SEO: Meta Tags + Open Graph ──
+function ab_seo_meta() {
+    $site_name = 'ARC Biologics';
+    $default_img = get_template_directory_uri() . '/assets/images/logo.png';
+
+    if ( is_front_page() ) {
+        $title = 'ARC Biologics — Professional-Grade Peptides';
+        $desc  = 'ARC Biologics delivers professional-grade peptide compounds sourced from trusted U.S. suppliers. COA-verified, 99%+ purity, same-day shipping.';
+    } elseif ( is_page('shop') || is_shop() ) {
+        $title = 'Shop Peptide Compounds | ARC Biologics';
+        $desc  = 'Browse our full catalog of professional-grade peptide compounds. Recovery, cognitive, anti-aging, body composition, and more.';
+    } elseif ( is_singular('product') ) {
+        $title = get_the_title() . ' | ARC Biologics';
+        $desc  = get_the_excerpt() ?: 'Professional-grade peptide compound from ARC Biologics. COA-verified, sourced from trusted U.S. suppliers.';
+        $thumb = get_the_post_thumbnail_url(get_the_ID(), 'large');
+        if ($thumb) $default_img = $thumb;
+    } elseif ( is_page('waiver') ) {
+        $title = 'Research Waiver | ARC Biologics';
+        $desc  = 'Complete the ARC Biologics research waiver to verify your credentials and unlock access to our full peptide catalog.';
+    } else {
+        $title = get_the_title() . ' | ARC Biologics';
+        $desc  = 'Professional-grade peptide compounds from ARC Biologics. Sourced from trusted U.S. suppliers.';
+    }
+
+    echo '<meta name="description" content="' . esc_attr($desc) . '">' . "\n";
+    echo '<meta property="og:type" content="website">' . "\n";
+    echo '<meta property="og:locale" content="en_US">' . "\n";
+    echo '<meta property="og:site_name" content="' . esc_attr($site_name) . '">' . "\n";
+    echo '<meta property="og:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
+    echo '<meta property="og:url" content="' . esc_url(home_url($_SERVER['REQUEST_URI'])) . '">' . "\n";
+    echo '<meta property="og:image" content="' . esc_url($default_img) . '">' . "\n";
+    echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
+    echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
+    echo '<meta name="twitter:description" content="' . esc_attr($desc) . '">' . "\n";
+    echo '<meta name="twitter:image" content="' . esc_url($default_img) . '">' . "\n";
+    echo '<link rel="canonical" href="' . esc_url(home_url($_SERVER['REQUEST_URI'])) . '">' . "\n";
+}
+add_action('wp_head', 'ab_seo_meta', 1);
+
+// ── Override WordPress title for social sharing ──
+function ab_document_title( $title ) {
+    if ( is_front_page() ) {
+        return 'ARC Biologics — Professional-Grade Peptides';
+    }
+    return $title;
+}
+add_filter('pre_get_document_title', 'ab_document_title');
+
 // ── Enqueue Styles & Scripts ──
 function ab_enqueue_assets() {
     // Google Fonts
@@ -508,7 +557,7 @@ function ab_custom_new_user_email($wp_new_user_notification_email, $user, $blogn
     $first_name = $user->first_name ?: $user->display_name;
 
     $message = "Hi {$first_name},\n\n";
-    $message .= "Your ARC Biologics account has been created. You're now approved to purchase from our full catalog of research-grade peptide compounds.\n\n";
+    $message .= "Your ARC Biologics account has been created. You're now approved to purchase from our full catalog of professional-grade peptide compounds.\n\n";
     $message .= "SET YOUR PASSWORD\n";
     $message .= "{$set_password_url}\n\n";
     $message .= "Once you've set your password, you can log in and start shopping:\n";

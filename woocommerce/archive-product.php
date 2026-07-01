@@ -79,7 +79,7 @@ $shop_query = new WP_Query([
       <div class="ab-cta-bar ab-reveal">
         <div>
           <h3>Ready to Get Started?</h3>
-          <p>Complete the waiver and access our full catalog of research-grade compounds.</p>
+          <p>Complete the waiver and access our full catalog of professional-grade compounds.</p>
         </div>
         <a href="/waiver" class="ab-btn">Start Waiver</a>
       </div>
