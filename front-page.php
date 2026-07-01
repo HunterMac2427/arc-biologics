@@ -279,17 +279,9 @@
             <?php if (has_post_thumbnail()) : ?>
               <?php the_post_thumbnail('medium_large'); ?>
             <?php endif; ?>
-            <?php
-            $categories = get_the_category();
-            if ($categories) :
-            ?>
-              <span class="ab-blog-tag"><?php echo esc_html($categories[0]->name); ?></span>
-            <?php endif; ?>
           </div>
           <div class="ab-blog-body">
             <h4><?php the_title(); ?></h4>
-            <p><?php echo wp_trim_words(get_the_excerpt(), 20); ?></p>
-            <span class="ab-blog-link">Read Article &rarr;</span>
           </div>
         </a>
         <?php
@@ -297,36 +289,10 @@
             wp_reset_postdata();
         else :
         ?>
-        <a href="/shop/" class="ab-blog-card ab-reveal">
-          <div class="ab-blog-thumb">
-            <span class="ab-blog-tag">Peptide Guide</span>
-          </div>
-          <div class="ab-blog-body">
-            <h4>What Is BPC-157? A Complete Research Guide</h4>
-            <p>An evidence-based overview of Body Protection Compound-157, its mechanism of action, and current research applications.</p>
-            <span class="ab-blog-link">Read Article &rarr;</span>
-          </div>
-        </a>
-        <a href="/shop/" class="ab-blog-card ab-reveal">
-          <div class="ab-blog-thumb">
-            <span class="ab-blog-tag">Research</span>
-          </div>
-          <div class="ab-blog-body">
-            <h4>Understanding Dihexa: Cognitive Peptide Research</h4>
-            <p>A deep dive into the angiotensin IV analog showing promise in cognitive and neurotrophic factor research.</p>
-            <span class="ab-blog-link">Read Article &rarr;</span>
-          </div>
-        </a>
-        <a href="/shop/" class="ab-blog-card ab-reveal">
-          <div class="ab-blog-thumb">
-            <span class="ab-blog-tag">Quality</span>
-          </div>
-          <div class="ab-blog-body">
-            <h4>How to Read a Certificate of Analysis (COA)</h4>
-            <p>Understanding HPLC results, mass spectrometry data, and what purity percentages actually mean for your research.</p>
-            <span class="ab-blog-link">Read Article &rarr;</span>
-          </div>
-        </a>
+        <div class="ab-blog-card ab-reveal">
+          <div class="ab-blog-thumb"></div>
+          <div class="ab-blog-body"><h4>More articles coming soon</h4></div>
+        </div>
         <?php endif; ?>
       </div>
       <div class="ab-products-cta ab-reveal-simple">
