@@ -26,7 +26,7 @@ add_action('after_setup_theme', 'ab_theme_setup');
 // ── SEO: Meta Tags + Open Graph ──
 function ab_seo_meta() {
     $site_name = 'ARC Biologics';
-    $default_img = get_template_directory_uri() . '/assets/images/logo.png';
+    $default_img = get_template_directory_uri() . '/assets/images/og-share.png';
 
     if ( is_front_page() ) {
         $title = 'ARC Biologics — Professional-Grade Peptides';
