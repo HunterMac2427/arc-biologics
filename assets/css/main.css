@@ -316,16 +316,16 @@ h4 { font-size: 18px; font-weight: 500; }
 
 /* --- Mobile Dropdown Menu --- */
 .ab-mobile-menu {
-  display: none;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.35s ease;
   background: var(--ab-dark-surface);
-  border-top: 1px solid var(--ab-ghost);
+  border-top: 1px solid transparent;
 }
 
 .ab-mobile-menu--open {
-  max-height: 400px;
+  max-height: 500px;
+  border-top-color: var(--ab-ghost);
 }
 
 .ab-mobile-links {
@@ -355,8 +355,12 @@ h4 { font-size: 18px; font-weight: 500; }
   color: var(--ab-teal);
 }
 
-@media (max-width: 1024px) {
-  .ab-mobile-menu { display: block; }
+.ab-shop-full { display: inline; }
+.ab-shop-short { display: none; }
+
+/* Hide hamburger + mobile menu on desktop */
+@media (min-width: 1025px) {
+  .ab-mobile-menu { display: none !important; }
 }
 
 /* --- Buttons --- */
@@ -2184,6 +2188,8 @@ h4 { font-size: 18px; font-weight: 500; }
   .ab-nav-links { display: none; }
   .ab-nav-account-text { display: none; }
   .ab-hamburger { display: flex; }
+  .ab-shop-full { display: none; }
+  .ab-shop-short { display: inline; }
   .ab-categories-grid { grid-template-columns: repeat(2, 1fr); }
   .ab-shop-grid { grid-template-columns: repeat(2, 1fr); }
   .ab-section { padding: 80px 0; }

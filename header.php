@@ -58,7 +58,7 @@
             <span class="ab-cart-count"><?php echo esc_html($cart_count); ?></span>
           <?php endif; ?>
         </a>
-        <a href="/shop" class="ab-btn ab-btn-primary ab-btn-sm ab-nav-shop-btn">Shop</a>
+        <a href="/shop" class="ab-btn ab-btn-primary ab-btn-sm ab-nav-shop-btn"><span class="ab-shop-full">Shop Peptides</span><span class="ab-shop-short">Shop</span></a>
 
         <!-- Hamburger (mobile only) -->
         <button class="ab-hamburger" id="abHamburger" aria-label="Toggle menu" aria-expanded="false">
