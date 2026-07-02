@@ -22,6 +22,8 @@
           </a>
         <?php endif; ?>
       </div>
+
+      <!-- Desktop nav links -->
       <div class="ab-nav-links">
         <?php
         wp_nav_menu([
@@ -33,6 +35,7 @@
         ]);
         ?>
       </div>
+
       <div class="ab-nav-actions">
         <?php if (is_user_logged_in()) :
           $current_user = wp_get_current_user();
@@ -40,12 +43,12 @@
         ?>
           <a href="<?php echo esc_url(wc_get_account_endpoint_url('dashboard')); ?>" class="ab-nav-account">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>Hi, <?php echo esc_html($display); ?></span>
+            <span class="ab-nav-account-text">Hi, <?php echo esc_html($display); ?></span>
           </a>
         <?php else : ?>
           <a href="<?php echo esc_url(wp_login_url(wc_get_page_permalink('shop'))); ?>" class="ab-nav-account">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>Log In</span>
+            <span class="ab-nav-account-text">Log In</span>
           </a>
         <?php endif; ?>
         <?php $cart_count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0; ?>
@@ -55,7 +58,44 @@
             <span class="ab-cart-count"><?php echo esc_html($cart_count); ?></span>
           <?php endif; ?>
         </a>
-        <a href="/shop" class="ab-btn ab-btn-primary ab-btn-sm">Shop Peptides</a>
+        <a href="/shop" class="ab-btn ab-btn-primary ab-btn-sm ab-nav-shop-btn">Shop</a>
+
+        <!-- Hamburger (mobile only) -->
+        <button class="ab-hamburger" id="abHamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
     </div>
+
+    <!-- Mobile dropdown -->
+    <div class="ab-mobile-menu" id="abMobileMenu">
+      <?php
+      wp_nav_menu([
+          'theme_location' => 'primary',
+          'container'      => false,
+          'items_wrap'     => '<div class="ab-mobile-links">%3$s</div>',
+          'fallback_cb'    => false,
+          'depth'          => 1,
+      ]);
+      ?>
+    </div>
   </nav>
+
+<script>
+(function() {
+  var btn = document.getElementById('abHamburger');
+  var menu = document.getElementById('abMobileMenu');
+  if (!btn || !menu) return;
+  btn.addEventListener('click', function() {
+    var open = menu.classList.toggle('ab-mobile-menu--open');
+    btn.classList.toggle('active', open);
+    btn.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      menu.classList.remove('ab-mobile-menu--open');
+      btn.classList.remove('active');
+    });
+  });
+})();
+</script>
