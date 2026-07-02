@@ -100,7 +100,7 @@ get_header();
           <!-- Barrel -->
           <rect x="60" y="22" width="360" height="36" rx="4" fill="#1a1a1a" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
           <!-- Fill -->
-          <rect x="62" y="24" width="0" height="32" rx="3" fill="url(#syringeFill)" id="syringeFill" class="ab-syringe-fill"/>
+          <rect x="62" y="24" width="0" height="32" rx="3" fill="url(#syringeFillGrad)" id="syringeFillRect" class="ab-syringe-fill"/>
           <!-- Tick marks -->
           <g stroke="rgba(255,255,255,0.2)" stroke-width="0.5">
             <line x1="96" y1="58" x2="96" y2="64"/>
@@ -135,7 +135,7 @@ get_header();
           <rect x="488" y="38" width="12" height="4" rx="1" fill="#333"/>
           <!-- Gradient -->
           <defs>
-            <linearGradient id="syringeFill" x1="0" y1="0" x2="1" y2="0">
+            <linearGradient id="syringeFillGrad" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#0B8F68"/>
               <stop offset="100%" stop-color="#10B981"/>
             </linearGradient>
@@ -193,7 +193,7 @@ get_header();
     var resUnits = document.getElementById('resUnits');
     var resConc = document.getElementById('resConc');
     var resDoses = document.getElementById('resDoses');
-    var fill = document.getElementById('syringeFill');
+    var fill = document.getElementById('syringeFillRect');
 
     if (dose <= 0 || strength <= 0 || water <= 0) {
       resDose.textContent = '--';
