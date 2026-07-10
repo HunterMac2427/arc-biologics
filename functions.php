@@ -708,8 +708,6 @@ remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_re
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10);
 
 // ── Custom Payment Gateways: Cash App & Zelle ──
-// Define classes after WooCommerce loads, register via filter separately
-add_action('woocommerce_loaded', 'ab_define_custom_gateways');
 add_filter('woocommerce_payment_gateways', 'ab_add_custom_gateways');
 
 function ab_add_custom_gateways($gateways) {
@@ -718,9 +716,9 @@ function ab_add_custom_gateways($gateways) {
     return $gateways;
 }
 
-function ab_define_custom_gateways() {
-    // Cash App Gateway
-    class AB_Gateway_CashApp extends WC_Payment_Gateway {
+// Cash App Gateway
+if (class_exists('WC_Payment_Gateway')) {
+class AB_Gateway_CashApp extends WC_Payment_Gateway {
         public function __construct() {
             $this->id                 = 'ab_cashapp';
             $this->method_title       = 'Cash App';
@@ -826,8 +824,8 @@ function ab_define_custom_gateways() {
         }
     }
 
-    // Zelle Gateway
-    class AB_Gateway_Zelle extends WC_Payment_Gateway {
+// Zelle Gateway
+class AB_Gateway_Zelle extends WC_Payment_Gateway {
         public function __construct() {
             $this->id                 = 'ab_zelle';
             $this->method_title       = 'Zelle';
@@ -932,5 +930,4 @@ function ab_define_custom_gateways() {
             }
         }
     }
-
-}
+} // end if class_exists WC_Payment_Gateway
