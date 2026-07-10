@@ -706,3 +706,231 @@ remove_action('woocommerce_single_product_summary', 'woocommerce_template_single
 remove_action('woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20);
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10);
+
+// ── Custom Payment Gateways: Cash App & Zelle ──
+add_action('plugins_loaded', 'ab_register_custom_gateways');
+
+function ab_register_custom_gateways() {
+    if (!class_exists('WC_Payment_Gateway')) return;
+
+    // Cash App Gateway
+    class AB_Gateway_CashApp extends WC_Payment_Gateway {
+        public function __construct() {
+            $this->id                 = 'ab_cashapp';
+            $this->method_title       = 'Cash App';
+            $this->method_description = 'Accept payments via Cash App. Customers send payment manually after checkout.';
+            $this->has_fields         = false;
+            $this->icon               = '';
+
+            $this->init_form_fields();
+            $this->init_settings();
+
+            $this->title        = $this->get_option('title');
+            $this->description  = $this->get_option('description');
+            $this->instructions = $this->get_option('instructions');
+            $this->cashtag      = $this->get_option('cashtag');
+
+            add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+            add_action('woocommerce_thankyou_' . $this->id, [$this, 'thankyou_page']);
+            add_filter('woocommerce_email_before_order_table', [$this, 'email_instructions'], 10, 3);
+        }
+
+        public function init_form_fields() {
+            $this->form_fields = [
+                'enabled' => [
+                    'title'   => 'Enable/Disable',
+                    'type'    => 'checkbox',
+                    'label'   => 'Enable Cash App payments',
+                    'default' => 'no',
+                ],
+                'title' => [
+                    'title'       => 'Title',
+                    'type'        => 'text',
+                    'description' => 'Payment method name shown at checkout.',
+                    'default'     => 'Cash App',
+                    'desc_tip'    => true,
+                ],
+                'description' => [
+                    'title'       => 'Description',
+                    'type'        => 'textarea',
+                    'description' => 'Displayed when the customer selects this payment method.',
+                    'default'     => 'Pay using Cash App. You will receive payment instructions after placing your order.',
+                ],
+                'cashtag' => [
+                    'title'       => 'Cash Tag',
+                    'type'        => 'text',
+                    'description' => 'Your Cash App $cashtag (e.g. $ArcBiologics).',
+                    'default'     => '',
+                    'desc_tip'    => true,
+                ],
+                'instructions' => [
+                    'title'       => 'Instructions',
+                    'type'        => 'textarea',
+                    'description' => 'Instructions shown on thank you page and order emails.',
+                    'default'     => '',
+                ],
+            ];
+        }
+
+        public function process_payment($order_id) {
+            $order = wc_get_order($order_id);
+            $order->update_status('on-hold', 'Awaiting Cash App payment.');
+            wc_reduce_stock_levels($order_id);
+            WC()->cart->empty_cart();
+
+            return [
+                'result'   => 'success',
+                'redirect' => $this->get_return_url($order),
+            ];
+        }
+
+        public function thankyou_page($order_id) {
+            $order = wc_get_order($order_id);
+            $total = $order->get_total();
+            $cashtag = $this->cashtag ?: '(not configured)';
+
+            echo '<div class="ab-payment-instructions">';
+            echo '<h3>Cash App Payment Instructions</h3>';
+            echo '<p>Send <strong>$' . esc_html($total) . '</strong> to <strong>' . esc_html($cashtag) . '</strong> on Cash App.</p>';
+            echo '<p>Include your order number <strong>#' . esc_html($order->get_order_number()) . '</strong> in the payment note.</p>';
+            if ($this->instructions) {
+                echo '<p>' . wp_kses_post(wpautop(wptexturize($this->instructions))) . '</p>';
+            }
+            echo '<p>Your order will be processed once payment is confirmed.</p>';
+            echo '</div>';
+        }
+
+        public function email_instructions($order, $sent_to_admin, $plain_text = false) {
+            if ($sent_to_admin || $order->get_payment_method() !== $this->id || $order->has_status('completed')) return;
+
+            $total = $order->get_total();
+            $cashtag = $this->cashtag ?: '(not configured)';
+
+            if ($plain_text) {
+                echo "\n\nCASH APP PAYMENT INSTRUCTIONS\n";
+                echo "Send \${$total} to {$cashtag} on Cash App.\n";
+                echo "Include order #{$order->get_order_number()} in the payment note.\n\n";
+            } else {
+                echo '<div style="margin-bottom: 24px; padding: 16px; background: #f7f7f7; border-radius: 8px;">';
+                echo '<h3 style="margin: 0 0 8px;">Cash App Payment Instructions</h3>';
+                echo '<p style="margin: 0 0 4px;">Send <strong>$' . esc_html($total) . '</strong> to <strong>' . esc_html($cashtag) . '</strong> on Cash App.</p>';
+                echo '<p style="margin: 0;">Include order <strong>#' . esc_html($order->get_order_number()) . '</strong> in the payment note.</p>';
+                echo '</div>';
+            }
+        }
+    }
+
+    // Zelle Gateway
+    class AB_Gateway_Zelle extends WC_Payment_Gateway {
+        public function __construct() {
+            $this->id                 = 'ab_zelle';
+            $this->method_title       = 'Zelle';
+            $this->method_description = 'Accept payments via Zelle. Customers send payment manually after checkout.';
+            $this->has_fields         = false;
+            $this->icon               = '';
+
+            $this->init_form_fields();
+            $this->init_settings();
+
+            $this->title          = $this->get_option('title');
+            $this->description    = $this->get_option('description');
+            $this->instructions   = $this->get_option('instructions');
+            $this->zelle_contact  = $this->get_option('zelle_contact');
+
+            add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+            add_action('woocommerce_thankyou_' . $this->id, [$this, 'thankyou_page']);
+            add_filter('woocommerce_email_before_order_table', [$this, 'email_instructions'], 10, 3);
+        }
+
+        public function init_form_fields() {
+            $this->form_fields = [
+                'enabled' => [
+                    'title'   => 'Enable/Disable',
+                    'type'    => 'checkbox',
+                    'label'   => 'Enable Zelle payments',
+                    'default' => 'no',
+                ],
+                'title' => [
+                    'title'       => 'Title',
+                    'type'        => 'text',
+                    'description' => 'Payment method name shown at checkout.',
+                    'default'     => 'Zelle',
+                    'desc_tip'    => true,
+                ],
+                'description' => [
+                    'title'       => 'Description',
+                    'type'        => 'textarea',
+                    'description' => 'Displayed when the customer selects this payment method.',
+                    'default'     => 'Pay directly from your bank using Zelle. You will receive payment instructions after placing your order.',
+                ],
+                'zelle_contact' => [
+                    'title'       => 'Zelle Email or Phone',
+                    'type'        => 'text',
+                    'description' => 'The email address or phone number registered with Zelle.',
+                    'default'     => '',
+                    'desc_tip'    => true,
+                ],
+                'instructions' => [
+                    'title'       => 'Instructions',
+                    'type'        => 'textarea',
+                    'description' => 'Instructions shown on thank you page and order emails.',
+                    'default'     => '',
+                ],
+            ];
+        }
+
+        public function process_payment($order_id) {
+            $order = wc_get_order($order_id);
+            $order->update_status('on-hold', 'Awaiting Zelle payment.');
+            wc_reduce_stock_levels($order_id);
+            WC()->cart->empty_cart();
+
+            return [
+                'result'   => 'success',
+                'redirect' => $this->get_return_url($order),
+            ];
+        }
+
+        public function thankyou_page($order_id) {
+            $order = wc_get_order($order_id);
+            $total = $order->get_total();
+            $contact = $this->zelle_contact ?: '(not configured)';
+
+            echo '<div class="ab-payment-instructions">';
+            echo '<h3>Zelle Payment Instructions</h3>';
+            echo '<p>Send <strong>$' . esc_html($total) . '</strong> via Zelle to <strong>' . esc_html($contact) . '</strong>.</p>';
+            echo '<p>Include your order number <strong>#' . esc_html($order->get_order_number()) . '</strong> in the memo.</p>';
+            if ($this->instructions) {
+                echo '<p>' . wp_kses_post(wpautop(wptexturize($this->instructions))) . '</p>';
+            }
+            echo '<p>Your order will be processed once payment is confirmed.</p>';
+            echo '</div>';
+        }
+
+        public function email_instructions($order, $sent_to_admin, $plain_text = false) {
+            if ($sent_to_admin || $order->get_payment_method() !== $this->id || $order->has_status('completed')) return;
+
+            $total = $order->get_total();
+            $contact = $this->zelle_contact ?: '(not configured)';
+
+            if ($plain_text) {
+                echo "\n\nZELLE PAYMENT INSTRUCTIONS\n";
+                echo "Send \${$total} via Zelle to {$contact}.\n";
+                echo "Include order #{$order->get_order_number()} in the memo.\n\n";
+            } else {
+                echo '<div style="margin-bottom: 24px; padding: 16px; background: #f7f7f7; border-radius: 8px;">';
+                echo '<h3 style="margin: 0 0 8px;">Zelle Payment Instructions</h3>';
+                echo '<p style="margin: 0 0 4px;">Send <strong>$' . esc_html($total) . '</strong> via Zelle to <strong>' . esc_html($contact) . '</strong>.</p>';
+                echo '<p style="margin: 0;">Include order <strong>#' . esc_html($order->get_order_number()) . '</strong> in the memo.</p>';
+                echo '</div>';
+            }
+        }
+    }
+
+    // Register both gateways with WooCommerce
+    add_filter('woocommerce_payment_gateways', function ($gateways) {
+        $gateways[] = 'AB_Gateway_CashApp';
+        $gateways[] = 'AB_Gateway_Zelle';
+        return $gateways;
+    });
+}
