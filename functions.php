@@ -40,8 +40,8 @@ function ab_seo_meta() {
         $thumb = get_the_post_thumbnail_url(get_the_ID(), 'large');
         if ($thumb) $default_img = $thumb;
     } elseif ( is_page('waiver') ) {
-        $title = 'Research Waiver | ARC Biologics';
-        $desc  = 'Complete the ARC Biologics research waiver to verify your credentials and unlock access to our full peptide catalog.';
+        $title = 'Create Account | ARC Biologics';
+        $desc  = 'Create your ARC Biologics account to browse and purchase professional-grade peptide compounds. Quick signup with instant access.';
     } elseif ( is_page('quality') ) {
         $title = 'Quality & Testing | ARC Biologics';
         $desc  = 'Every ARC Biologics peptide passes three testing checkpoints: Certificate of Authenticity, sterility testing, and mycotoxin screening. Every batch, every time.';
@@ -442,100 +442,114 @@ function ab_register_roles() {
 }
 add_action('init', 'ab_register_roles');
 
-// ── Product Gating: Block purchases for non-approved users ──
+// ── Product Gating: Redirect non-logged-in users from product pages ──
 function ab_is_approved_buyer() {
     if (!is_user_logged_in()) return false;
     $user = wp_get_current_user();
     return in_array('approved_buyer', $user->roles) || in_array('administrator', $user->roles);
 }
 
-// Prevent adding to cart
+function ab_product_login_redirect() {
+    if (is_singular('product') && !is_user_logged_in()) {
+        $redirect_url = get_permalink();
+        wp_redirect(home_url('/waiver/?redirect_to=' . urlencode($redirect_url)));
+        exit;
+    }
+}
+add_action('template_redirect', 'ab_product_login_redirect');
+
+// Block add-to-cart for non-logged-in users (safety net)
 function ab_block_add_to_cart($purchasable, $product) {
-    if (!ab_is_approved_buyer()) return false;
+    if (!is_user_logged_in()) return false;
     return $purchasable;
 }
 add_filter('woocommerce_is_purchasable', 'ab_block_add_to_cart', 10, 2);
 
-// Replace "Add to Cart" with waiver CTA on shop/archive pages
-function ab_replace_cart_button($button, $product) {
-    if (!ab_is_approved_buyer()) {
-        return '<a href="/waiver" class="ab-btn ab-btn-primary">Complete Waiver to Purchase</a>';
-    }
-    return $button;
-}
-add_filter('woocommerce_loop_add_to_cart_link', 'ab_replace_cart_button', 10, 2);
-
-// Show notice on single product pages
-function ab_product_waiver_notice() {
-    if (!ab_is_approved_buyer()) {
-        echo '<div class="ab-waiver-notice">';
-        echo '<p>You must complete the research waiver before purchasing.</p>';
-        echo '<a href="/waiver" class="ab-btn ab-btn-primary">Complete Waiver</a>';
-        echo '</div>';
-    }
-}
-add_action('woocommerce_single_product_summary', 'ab_product_waiver_notice', 25);
-
-// ── Webhook: Create Approved Buyer from Zapier/Jotform ──
-add_action('rest_api_init', function () {
-    register_rest_route('arc/v1', '/approve-buyer', [
-        'methods'  => 'POST',
-        'callback' => 'ab_approve_buyer_webhook',
-        'permission_callback' => '__return_true',
-    ]);
-});
-
-function ab_approve_buyer_webhook(WP_REST_Request $request) {
-    // Verify webhook secret
-    $secret = $request->get_header('X-Webhook-Secret');
-    $stored_secret = get_option('ab_webhook_secret', '');
-
-    if (empty($stored_secret) || $secret !== $stored_secret) {
-        return new WP_REST_Response(['error' => 'Unauthorized'], 401);
+// ── Registration Form Handler ──
+function ab_handle_registration() {
+    if (!isset($_POST['ab_register_nonce']) || !wp_verify_nonce($_POST['ab_register_nonce'], 'ab_register')) {
+        return;
     }
 
-    $email = sanitize_email($request->get_param('email'));
-    $name  = sanitize_text_field($request->get_param('name'));
+    $errors = [];
 
-    if (empty($email) || !is_email($email)) {
-        return new WP_REST_Response(['error' => 'Valid email required'], 400);
-    }
+    // Sanitize inputs
+    $first_name = sanitize_text_field($_POST['ab_first_name'] ?? '');
+    $last_name  = sanitize_text_field($_POST['ab_last_name'] ?? '');
+    $email      = sanitize_email($_POST['ab_email'] ?? '');
+    $phone      = sanitize_text_field($_POST['ab_phone'] ?? '');
+    $dob        = sanitize_text_field($_POST['ab_dob'] ?? '');
+    $address_1  = sanitize_text_field($_POST['ab_address_1'] ?? '');
+    $address_2  = sanitize_text_field($_POST['ab_address_2'] ?? '');
+    $city       = sanitize_text_field($_POST['ab_city'] ?? '');
+    $state      = sanitize_text_field($_POST['ab_state'] ?? '');
+    $zip        = sanitize_text_field($_POST['ab_zip'] ?? '');
+    $check_age  = isset($_POST['ab_check_age']);
+    $check_research = isset($_POST['ab_check_research']);
+    $check_risk = isset($_POST['ab_check_risk']);
+    $redirect_to = esc_url_raw($_POST['ab_redirect_to'] ?? home_url('/shop/'));
 
-    // Check if user already exists
-    $user = get_user_by('email', $email);
+    // Validate required fields
+    if (empty($first_name)) $errors[] = 'First name is required.';
+    if (empty($last_name)) $errors[] = 'Last name is required.';
+    if (empty($email) || !is_email($email)) $errors[] = 'A valid email address is required.';
+    if (empty($phone)) $errors[] = 'Phone number is required.';
+    if (empty($dob)) $errors[] = 'Date of birth is required.';
+    if (empty($address_1)) $errors[] = 'Street address is required.';
+    if (empty($city)) $errors[] = 'City is required.';
+    if (empty($state)) $errors[] = 'State is required.';
+    if (empty($zip)) $errors[] = 'ZIP code is required.';
+    if (!$check_age) $errors[] = 'You must confirm you are 18 or older.';
+    if (!$check_research) $errors[] = 'You must acknowledge the research use policy.';
+    if (!$check_risk) $errors[] = 'You must acknowledge the risk disclaimer.';
 
-    if ($user) {
-        // Add approved_buyer role if they don't have it
-        $user_obj = new WP_User($user->ID);
-        if (!in_array('approved_buyer', $user_obj->roles)) {
-            $user_obj->add_role('approved_buyer');
+    // Validate age
+    if (!empty($dob)) {
+        $dob_date = DateTime::createFromFormat('Y-m-d', $dob);
+        if (!$dob_date) {
+            $errors[] = 'Invalid date of birth format.';
+        } else {
+            $age = $dob_date->diff(new DateTime())->y;
+            if ($age < 18) {
+                $errors[] = 'You must be 18 or older to create an account.';
+            }
         }
-        return new WP_REST_Response([
-            'status'  => 'updated',
-            'user_id' => $user->ID,
-            'message' => 'Existing user granted approved_buyer role',
-        ], 200);
     }
 
-    // Create new user
-    $name_parts = explode(' ', $name, 2);
-    $first_name = $name_parts[0];
-    $last_name  = isset($name_parts[1]) ? $name_parts[1] : '';
-    $username   = sanitize_user(strtolower(str_replace(' ', '.', $name)));
+    // Validate ZIP
+    if (!empty($zip) && !preg_match('/^\d{5}$/', $zip)) {
+        $errors[] = 'ZIP code must be 5 digits.';
+    }
 
-    // Ensure unique username
+    // Check if email already exists
+    if (email_exists($email)) {
+        $errors[] = 'An account with this email already exists. <a href="' . esc_url(wp_login_url($redirect_to)) . '">Log in instead?</a>';
+    }
+
+    // Store errors in transient so the form can display them
+    if (!empty($errors)) {
+        set_transient('ab_reg_errors', $errors, 60);
+        set_transient('ab_reg_form_data', $_POST, 60);
+        wp_redirect(home_url('/waiver/' . ($redirect_to !== home_url('/shop/') ? '?redirect_to=' . urlencode($redirect_to) : '')));
+        exit;
+    }
+
+    // Create user
+    $username = sanitize_user(strtolower($first_name . '.' . $last_name));
     if (username_exists($username)) {
         $username = $username . '_' . wp_rand(100, 999);
     }
 
     $password = wp_generate_password(16, true, true);
-    $user_id  = wp_create_user($username, $password, $email);
+    $user_id = wp_create_user($username, $password, $email);
 
     if (is_wp_error($user_id)) {
-        return new WP_REST_Response(['error' => $user_id->get_error_message()], 500);
+        set_transient('ab_reg_errors', [$user_id->get_error_message()], 60);
+        wp_redirect(home_url('/waiver/'));
+        exit;
     }
 
-    // Set user meta and role
+    // Set role and user data
     wp_update_user([
         'ID'         => $user_id,
         'first_name' => $first_name,
@@ -543,15 +557,37 @@ function ab_approve_buyer_webhook(WP_REST_Request $request) {
         'role'       => 'approved_buyer',
     ]);
 
-    // Send new account email with password
+    // Save WooCommerce billing fields (auto-fills checkout)
+    update_user_meta($user_id, 'billing_first_name', $first_name);
+    update_user_meta($user_id, 'billing_last_name', $last_name);
+    update_user_meta($user_id, 'billing_email', $email);
+    update_user_meta($user_id, 'billing_phone', $phone);
+    update_user_meta($user_id, 'billing_address_1', $address_1);
+    update_user_meta($user_id, 'billing_address_2', $address_2);
+    update_user_meta($user_id, 'billing_city', $city);
+    update_user_meta($user_id, 'billing_state', $state);
+    update_user_meta($user_id, 'billing_postcode', $zip);
+    update_user_meta($user_id, 'billing_country', 'US');
+
+    // Save custom meta
+    update_user_meta($user_id, 'ab_phone', $phone);
+    update_user_meta($user_id, 'ab_dob', $dob);
+    update_user_meta($user_id, 'ab_consent_age', current_time('mysql'));
+    update_user_meta($user_id, 'ab_consent_research', current_time('mysql'));
+    update_user_meta($user_id, 'ab_consent_risk', current_time('mysql'));
+
+    // Send password reset email so user can set their password
     wp_new_user_notification($user_id, null, 'user');
 
-    return new WP_REST_Response([
-        'status'  => 'created',
-        'user_id' => $user_id,
-        'message' => 'New approved_buyer account created',
-    ], 201);
+    // Auto-login
+    wp_set_current_user($user_id);
+    wp_set_auth_cookie($user_id, true);
+
+    // Redirect
+    wp_redirect($redirect_to);
+    exit;
 }
+add_action('init', 'ab_handle_registration');
 
 // ── Custom new-user email for approved buyers ──
 function ab_custom_new_user_email($wp_new_user_notification_email, $user, $blogname) {
