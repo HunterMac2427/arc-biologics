@@ -257,6 +257,47 @@
     </div>
   </section>
 
+  <!-- ======== QUALITY ASSURANCE ======== -->
+  <section class="ab-section ab-section-surface">
+    <div class="ab-container">
+      <div class="ab-section-header ab-reveal">
+        <p class="ab-label">Quality Assurance</p>
+        <h2>Three Tests. Every Batch.</h2>
+        <p class="ab-subtitle">Every compound passes our three-checkpoint testing process before it ships. No exceptions.</p>
+      </div>
+      <div class="ab-pillars-grid ab-stagger">
+
+        <div class="ab-pillar-card ab-reveal">
+          <div class="ab-pillar-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Certificate of Authenticity</h3>
+          <p>Batch-specific identity and purity verification. Not a claim — proof tied to the compound inside the vial.</p>
+        </div>
+
+        <div class="ab-pillar-card ab-reveal">
+          <div class="ab-pillar-icon ab-pillar-icon-violet">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>
+          </div>
+          <h3>Sterility Testing</h3>
+          <p>Every batch screened for bacterial and microbial contamination. A baseline requirement, not an occasional check.</p>
+        </div>
+
+        <div class="ab-pillar-card ab-reveal">
+          <div class="ab-pillar-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+          </div>
+          <h3>Mycotoxin Testing</h3>
+          <p>The step most sellers skip. ARC screens every batch for mold and fungi toxins that leave no visible trace.</p>
+        </div>
+
+      </div>
+      <div class="ab-products-cta ab-reveal-simple" style="margin-top: 48px;">
+        <a href="/quality/" class="ab-btn ab-btn-outline">Learn More About Our Testing</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ======== BLOG PREVIEW ======== -->
   <section id="blog" class="ab-section ab-section-surface">
     <div class="ab-container">
