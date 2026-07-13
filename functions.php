@@ -42,6 +42,9 @@ function ab_seo_meta() {
     } elseif ( is_page('waiver') ) {
         $title = 'Research Waiver | ARC Biologics';
         $desc  = 'Complete the ARC Biologics research waiver to verify your credentials and unlock access to our full peptide catalog.';
+    } elseif ( is_page('quality') ) {
+        $title = 'Quality & Testing | ARC Biologics';
+        $desc  = 'Every ARC Biologics peptide passes three testing checkpoints: Certificate of Authenticity, sterility testing, and mycotoxin screening. Every batch, every time.';
     } else {
         $title = get_the_title() . ' | ARC Biologics';
         $desc  = 'Professional-grade peptide compounds from ARC Biologics. Sourced from trusted U.S. suppliers.';
