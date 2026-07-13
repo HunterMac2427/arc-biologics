@@ -902,15 +902,18 @@ class AB_Gateway_Zelle extends WC_Payment_Gateway {
             $order = wc_get_order($order_id);
             $total = $order->get_total();
             $contact = $this->zelle_contact ?: '(not configured)';
+            $order_num = $order->get_order_number();
 
             echo '<div class="ab-payment-instructions">';
             echo '<h3>Zelle Payment Instructions</h3>';
-            echo '<p>Send <strong>$' . esc_html($total) . '</strong> via Zelle to <strong>' . esc_html($contact) . '</strong>.</p>';
-            echo '<p>Include your order number <strong>#' . esc_html($order->get_order_number()) . '</strong> in the memo.</p>';
-            if ($this->instructions) {
-                echo '<p>' . wp_kses_post(wpautop(wptexturize($this->instructions))) . '</p>';
-            }
-            echo '<p>Your order will be processed once payment is confirmed.</p>';
+            echo '<div class="ab-payment-steps">';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">1</span><span>Open your banking app and navigate to <strong>Zelle</strong></span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">2</span><span>Send <strong>$' . esc_html($total) . '</strong> to <strong>' . esc_html($contact) . '</strong></span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">3</span><span>Verify the recipient shows as <strong>ARC Biologics LLC</strong></span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">4</span><span>Enter order <strong>#' . esc_html($order_num) . '</strong> in the memo field</span></div>';
+            echo '</div>';
+            echo '<p class="ab-payment-deadline">Payment must be received within <strong>48 hours</strong> or your order will be automatically cancelled.</p>';
+            echo '<p class="ab-payment-support">Questions? Contact us at <a href="mailto:info@arcbiologics.com">info@arcbiologics.com</a></p>';
             echo '</div>';
         }
 
@@ -919,16 +922,27 @@ class AB_Gateway_Zelle extends WC_Payment_Gateway {
 
             $total = $order->get_total();
             $contact = $this->zelle_contact ?: '(not configured)';
+            $order_num = $order->get_order_number();
 
             if ($plain_text) {
                 echo "\n\nZELLE PAYMENT INSTRUCTIONS\n";
-                echo "Send \${$total} via Zelle to {$contact}.\n";
-                echo "Include order #{$order->get_order_number()} in the memo.\n\n";
+                echo "1. Open your banking app and navigate to Zelle\n";
+                echo "2. Send \${$total} to {$contact}\n";
+                echo "3. Verify the recipient shows as ARC Biologics LLC\n";
+                echo "4. Enter order #{$order_num} in the memo field\n\n";
+                echo "Payment must be received within 48 hours or your order will be automatically cancelled.\n";
+                echo "Questions? Contact us at info@arcbiologics.com\n\n";
             } else {
-                echo '<div style="margin-bottom: 24px; padding: 16px; background: #f7f7f7; border-radius: 8px;">';
-                echo '<h3 style="margin: 0 0 8px;">Zelle Payment Instructions</h3>';
-                echo '<p style="margin: 0 0 4px;">Send <strong>$' . esc_html($total) . '</strong> via Zelle to <strong>' . esc_html($contact) . '</strong>.</p>';
-                echo '<p style="margin: 0;">Include order <strong>#' . esc_html($order->get_order_number()) . '</strong> in the memo.</p>';
+                echo '<div style="margin-bottom: 24px; padding: 20px; background: #f8f8f8; border-radius: 10px; border-left: 4px solid #0B8F68; font-family: -apple-system, sans-serif;">';
+                echo '<h3 style="margin: 0 0 16px; font-size: 18px; color: #1a1a1a;">Zelle Payment Instructions</h3>';
+                echo '<table style="width: 100%; border-collapse: collapse;">';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top; width: 24px;">1.</td><td style="padding: 8px 0;">Open your banking app and navigate to <strong>Zelle</strong></td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">2.</td><td style="padding: 8px 0;">Send <strong>$' . esc_html($total) . '</strong> to <strong>' . esc_html($contact) . '</strong></td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">3.</td><td style="padding: 8px 0;">Verify the recipient shows as <strong>ARC Biologics LLC</strong></td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">4.</td><td style="padding: 8px 0;">Enter order <strong>#' . esc_html($order_num) . '</strong> in the memo field</td></tr>';
+                echo '</table>';
+                echo '<p style="margin: 16px 0 0; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 13px; color: #666;">Payment must be received within <strong>48 hours</strong> or your order will be automatically cancelled.</p>';
+                echo '<p style="margin: 8px 0 0; font-size: 13px; color: #666;">Questions? Contact us at <a href="mailto:info@arcbiologics.com" style="color: #0B8F68;">info@arcbiologics.com</a></p>';
                 echo '</div>';
             }
         }

@@ -3111,6 +3111,61 @@ body.woocommerce-account h1 {
   margin-bottom: 8px;
 }
 
+/* Step-by-step payment instructions */
+.ab-payment-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.ab-payment-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius-sm);
+}
+
+.ab-step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(11,143,104,0.15);
+  color: var(--ab-teal);
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ab-payment-step span:last-child {
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.4;
+}
+
+.ab-payment-deadline {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  padding-top: 16px;
+  border-top: 1px solid var(--ab-ghost);
+}
+
+.ab-payment-support {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+}
+
+.ab-payment-support a {
+  color: var(--ab-teal);
+}
+
 /* ============================================
    GreenPay eCheck — Dark Theme Overrides
    ============================================ */
