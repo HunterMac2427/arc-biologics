@@ -3771,6 +3771,48 @@ mark.order-status {
 }
 
 /* ============================================
+   Checkout: Same as Shipping checkbox
+   ============================================ */
+
+/* Hide WC's default "Ship to a different address?" text — we use our own */
+.woocommerce-shipping-fields h3#ship-to-different-address {
+  display: none;
+}
+
+.ab-same-as-shipping {
+  margin-bottom: 24px;
+}
+
+.ab-same-as-shipping-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.ab-same-as-shipping-label:hover {
+  border-color: rgba(255,255,255,0.12);
+}
+
+.ab-same-as-shipping-label input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ab-teal);
+  cursor: pointer;
+}
+
+.ab-same-as-shipping-label span {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* ============================================
    Registration Form
    ============================================ */
 

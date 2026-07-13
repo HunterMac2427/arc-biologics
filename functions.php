@@ -557,7 +557,17 @@ function ab_handle_registration() {
         'role'       => 'approved_buyer',
     ]);
 
-    // Save WooCommerce billing fields (auto-fills checkout)
+    // Save WooCommerce shipping fields (primary — auto-fills checkout)
+    update_user_meta($user_id, 'shipping_first_name', $first_name);
+    update_user_meta($user_id, 'shipping_last_name', $last_name);
+    update_user_meta($user_id, 'shipping_address_1', $address_1);
+    update_user_meta($user_id, 'shipping_address_2', $address_2);
+    update_user_meta($user_id, 'shipping_city', $city);
+    update_user_meta($user_id, 'shipping_state', $state);
+    update_user_meta($user_id, 'shipping_postcode', $zip);
+    update_user_meta($user_id, 'shipping_country', 'US');
+
+    // Also save to billing (default same as shipping)
     update_user_meta($user_id, 'billing_first_name', $first_name);
     update_user_meta($user_id, 'billing_last_name', $last_name);
     update_user_meta($user_id, 'billing_email', $email);
@@ -745,6 +755,101 @@ remove_action('woocommerce_single_product_summary', 'woocommerce_template_single
 remove_action('woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20);
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
 remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10);
+
+// ── Checkout: Shipping First, Billing with "Same as Shipping" ──
+
+// Reorder checkout: shipping fields above billing
+function ab_checkout_shipping_first($fields) {
+    // Set shipping field priorities lower (shown first)
+    if (isset($fields['shipping'])) {
+        foreach ($fields['shipping'] as $key => &$field) {
+            if (isset($field['priority'])) {
+                $field['priority'] = $field['priority'];
+            }
+        }
+    }
+    return $fields;
+}
+add_filter('woocommerce_checkout_fields', 'ab_checkout_shipping_first');
+
+// Output "Same as Shipping Address" checkbox before billing fields
+function ab_same_as_shipping_checkbox() {
+    ?>
+    <div class="ab-same-as-shipping">
+        <label class="ab-same-as-shipping-label">
+            <input type="checkbox" id="ab_same_as_shipping" checked>
+            <span>Billing address is the same as shipping address</span>
+        </label>
+    </div>
+    <script>
+    (function() {
+        var cb = document.getElementById('ab_same_as_shipping');
+        if (!cb) return;
+        var billingFields = document.querySelector('.woocommerce-billing-fields__field-wrapper');
+        if (!billingFields) return;
+
+        function toggle() {
+            billingFields.style.display = cb.checked ? 'none' : '';
+            if (cb.checked) {
+                // Copy shipping values to billing
+                var map = {
+                    'shipping_first_name': 'billing_first_name',
+                    'shipping_last_name': 'billing_last_name',
+                    'shipping_address_1': 'billing_address_1',
+                    'shipping_address_2': 'billing_address_2',
+                    'shipping_city': 'billing_city',
+                    'shipping_state': 'billing_state',
+                    'shipping_postcode': 'billing_postcode',
+                    'shipping_country': 'billing_country'
+                };
+                for (var s in map) {
+                    var sf = document.getElementById(s);
+                    var bf = document.getElementById(map[s]);
+                    if (sf && bf) bf.value = sf.value;
+                }
+                // Trigger change events for select2/WC updates
+                var selects = billingFields.querySelectorAll('select');
+                selects.forEach(function(sel) { sel.dispatchEvent(new Event('change', {bubbles:true})); });
+            }
+        }
+
+        toggle();
+        cb.addEventListener('change', toggle);
+
+        // Also copy on form submit if checkbox is checked
+        var form = document.querySelector('form.woocommerce-checkout');
+        if (form) {
+            form.addEventListener('submit', function() {
+                if (cb.checked) {
+                    var map = {
+                        'shipping_first_name': 'billing_first_name',
+                        'shipping_last_name': 'billing_last_name',
+                        'shipping_address_1': 'billing_address_1',
+                        'shipping_address_2': 'billing_address_2',
+                        'shipping_city': 'billing_city',
+                        'shipping_state': 'billing_state',
+                        'shipping_postcode': 'billing_postcode',
+                        'shipping_country': 'billing_country'
+                    };
+                    for (var s in map) {
+                        var sf = document.getElementById(s);
+                        var bf = document.getElementById(map[s]);
+                        if (sf && bf) bf.value = sf.value;
+                    }
+                }
+            });
+        }
+    })();
+    </script>
+    <?php
+}
+add_action('woocommerce_before_checkout_billing_form', 'ab_same_as_shipping_checkbox');
+
+// Hide WooCommerce's default "Ship to a different address?" checkbox since we flipped the flow
+function ab_ship_to_different_default($default) {
+    return true; // Always show shipping fields
+}
+add_filter('woocommerce_ship_to_different_address_checked', 'ab_ship_to_different_default');
 
 // ── Custom Payment Gateways: Cash App & Zelle ──
 add_filter('woocommerce_payment_gateways', 'ab_add_custom_gateways');
