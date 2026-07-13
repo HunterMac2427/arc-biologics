@@ -206,8 +206,8 @@
             <div class="ab-step-glow"></div>
             <div class="ab-step-number">01</div>
           </div>
-          <h4>Complete the Waiver</h4>
-          <p>Submit our HIPAA-compliant waiver form. This verifies your credentials and creates your account automatically.</p>
+          <h4>Create an Account</h4>
+          <p>Sign up in under a minute. Just your basic info and a few quick acknowledgments — then you're in.</p>
         </div>
         <div class="ab-step-connector">
           <svg viewBox="0 0 80 24" fill="none"><path d="M0 12h60m0 0l-8-6m8 6l-8 6" stroke="url(#arrow-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="arrow-grad" x1="0" y1="12" x2="60" y2="12" gradientUnits="userSpaceOnUse"><stop stop-color="#0B8F68" stop-opacity="0.2"/><stop offset="1" stop-color="#0B8F68"/></linearGradient></defs></svg>
@@ -218,7 +218,7 @@
             <div class="ab-step-number">02</div>
           </div>
           <h4>Browse &amp; Order</h4>
-          <p>Once approved, the full catalog opens. Select your compounds, review COAs, and checkout securely.</p>
+          <p>Your account unlocks our full catalog of 20+ compounds. Select what you need and check out securely.</p>
         </div>
         <div class="ab-step-connector">
           <svg viewBox="0 0 80 24" fill="none"><path d="M0 12h60m0 0l-8-6m8 6l-8 6" stroke="url(#arrow-grad2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="arrow-grad2" x1="0" y1="12" x2="60" y2="12" gradientUnits="userSpaceOnUse"><stop stop-color="#0B8F68" stop-opacity="0.2"/><stop offset="1" stop-color="#0B8F68"/></linearGradient></defs></svg>
@@ -348,9 +348,9 @@
       <div class="ab-cta-bar ab-reveal">
         <div>
           <h3>Ready to Get Started?</h3>
-          <p>Complete the research waiver and access our full catalog of peptide compounds.</p>
+          <p>Create your free account and start shopping professional-grade peptide compounds.</p>
         </div>
-        <a href="/waiver/" class="ab-btn">Start Waiver</a>
+        <a href="/shop/" class="ab-btn ab-btn-primary">Shop Now</a>
       </div>
     </div>
   </section>

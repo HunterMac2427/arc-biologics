@@ -3770,6 +3770,187 @@ mark.order-status {
   }
 }
 
+/* ============================================
+   Registration Form
+   ============================================ */
+
+.ab-reg-form-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ab-reg-errors {
+  background: rgba(220,50,50,0.08);
+  border: 1px solid rgba(220,50,50,0.2);
+  border-radius: var(--ab-radius-sm);
+  padding: 16px 20px;
+  margin-bottom: 32px;
+}
+
+.ab-reg-errors p {
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.ab-reg-errors p:last-child {
+  margin-bottom: 0;
+}
+
+.ab-reg-errors a {
+  color: var(--ab-teal);
+}
+
+.ab-reg-section-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--ab-ghost);
+}
+
+.ab-reg-section-title:first-of-type {
+  margin-top: 0;
+}
+
+.ab-reg-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ab-reg-row-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.ab-reg-field {
+  margin-bottom: 16px;
+}
+
+.ab-reg-field label {
+  display: block;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ab-text-muted);
+  margin-bottom: 6px;
+}
+
+.ab-req {
+  color: var(--ab-teal);
+}
+
+.ab-reg-field input[type="text"],
+.ab-reg-field input[type="email"],
+.ab-reg-field input[type="tel"],
+.ab-reg-field input[type="date"],
+.ab-reg-field select {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius-sm);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s var(--ab-ease), box-shadow 0.3s var(--ab-ease);
+  height: auto;
+}
+
+.ab-reg-field input:focus,
+.ab-reg-field select:focus {
+  border-color: rgba(11,143,104,0.5);
+  box-shadow: 0 0 0 3px rgba(11,143,104,0.1);
+}
+
+.ab-reg-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.4)' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+
+.ab-reg-field select option {
+  background: var(--ab-dark-surface);
+  color: #fff;
+}
+
+.ab-reg-field input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+}
+
+.ab-reg-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.ab-reg-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius-sm);
+  transition: border-color 0.2s;
+}
+
+.ab-reg-check:hover {
+  border-color: rgba(255,255,255,0.12);
+}
+
+.ab-reg-check input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--ab-teal);
+  cursor: pointer;
+}
+
+.ab-reg-check span {
+  font-size: 14px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.5;
+}
+
+.ab-reg-check a {
+  color: var(--ab-teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ab-reg-submit {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.ab-reg-login-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--ab-text-muted);
+}
+
+.ab-reg-login-link a {
+  color: var(--ab-teal);
+}
+
+@media (max-width: 767px) {
+  .ab-reg-row,
+  .ab-reg-row-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Checkout Responsive ── */
 @media (max-width: 1024px) {
   .woocommerce form.woocommerce-checkout {
