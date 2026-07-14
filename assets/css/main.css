@@ -3856,7 +3856,121 @@ mark.order-status {
   color: #e05252;
 }
 
+/* COA Lightbox Modal */
+.ab-coa-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, visibility 0.25s;
+}
+
+.ab-coa-modal--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ab-coa-modal-inner {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ab-dark-surface);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius);
+  box-shadow: 0 32px 100px rgba(0,0,0,0.5);
+  overflow: hidden;
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.25s var(--ab-ease);
+}
+
+.ab-coa-modal--open .ab-coa-modal-inner {
+  transform: translateY(0) scale(1);
+}
+
+.ab-coa-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--ab-ghost);
+  flex-shrink: 0;
+}
+
+.ab-coa-modal-header h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.ab-coa-modal-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.4);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.ab-coa-modal-close:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+
+.ab-coa-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+  text-align: center;
+}
+
+.ab-coa-canvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+
+.ab-coa-loading {
+  color: rgba(255,255,255,0.4);
+  font-size: 14px;
+  padding: 48px 0;
+}
+
+.ab-coa-modal-body .ab-coa-error {
+  padding: 48px 0;
+}
+
+.ab-coa-modal-body .ab-coa-error a {
+  color: var(--ab-teal);
+  text-decoration: underline;
+}
+
 @media (max-width: 767px) {
+  .ab-coa-modal {
+    padding: 12px;
+  }
+
+  .ab-coa-modal-inner {
+    max-height: 95vh;
+  }
+
+  .ab-coa-modal-body {
+    padding: 16px;
+  }
+
   .ab-coa-form {
     flex-direction: column;
   }
