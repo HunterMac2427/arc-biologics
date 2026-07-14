@@ -420,23 +420,23 @@ function ab_login_styles() {
         .ab-login-register-btn {
             display: block;
             width: 100%;
-            padding: 13px 24px;
-            background: transparent;
-            border: 1.5px solid var(--ab-teal, #0B8F68);
-            border-radius: 10px;
-            color: #0B8F68;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0B8F68, #087B5A) !important;
+            border: none !important;
+            border-radius: 10px !important;
+            color: #fff !important;
             font-family: 'Outfit', sans-serif;
             font-size: 14px;
             font-weight: 600;
             letter-spacing: 0.02em;
             text-align: center;
             cursor: pointer;
-            transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+            transition: box-shadow 0.2s, transform 0.2s;
+            text-shadow: none;
         }
 
         .ab-login-register-btn:hover {
-            background: #0B8F68;
-            color: #fff;
+            color: #fff !important;
             box-shadow: 0 10px 25px rgba(11,143,104,0.3);
             transform: translateY(-1px);
         }
@@ -713,17 +713,20 @@ function ab_logout_confirmation_override() {
 add_action('woocommerce_before_account_orders', 'ab_logout_confirmation_override', 1);
 
 // ── Always remember me on login ──
-// Force rememberme on ALL login forms (wp-login.php + WooCommerce)
-function ab_force_rememberme_wp_login() {
-    $_POST['rememberme'] = 1;
-}
-add_action('wp_authenticate', 'ab_force_rememberme_wp_login');
-
-// Extend auth cookie expiration to 14 days regardless of rememberme
+// Extend auth cookie to 14 days always (no need to modify $_POST)
 function ab_extend_auth_cookie($expiration, $user_id, $remember) {
     return 14 * DAY_IN_SECONDS;
 }
 add_filter('auth_cookie_expiration', 'ab_extend_auth_cookie', 10, 3);
+
+// Force remember-me checked via the authenticate filter (only fires on real login)
+function ab_force_rememberme($user, $username, $password) {
+    if (!empty($username)) {
+        $_POST['rememberme'] = 1;
+    }
+    return $user;
+}
+add_filter('authenticate', 'ab_force_rememberme', 5, 3);
 
 // Hide remember me checkbox on wp-login.php
 function ab_hide_rememberme() {
@@ -731,23 +734,15 @@ function ab_hide_rememberme() {
 }
 add_action('login_footer', 'ab_hide_rememberme');
 
-// Clear stale login errors on fresh page load (no POST = no login attempt)
-function ab_clear_stale_login_errors($errors, $redirect_to) {
-    if (empty($_POST) && !isset($_REQUEST['reauth'])) {
-        return new WP_Error();
-    }
-    return $errors;
-}
-add_filter('wp_login_errors', 'ab_clear_stale_login_errors', 10, 2);
-
-// Disable login shake animation on fresh page load
-function ab_disable_login_shake() {
-    if (empty($_POST)) {
-        echo '<script>document.addEventListener("DOMContentLoaded",function(){if(typeof wp!=="undefined"&&wp.hooks){wp.hooks.removeAction("wp-login-shake")}var s=document.getElementById("login");if(s)s.classList.remove("shake");});</script>';
-        echo '<style>#login.shake { animation: none !important; }</style>';
+// ── Clean login page: suppress errors & shake on fresh visits ──
+function ab_clean_login_page() {
+    // Remove errors and shake on fresh page load (GET request, no form submission)
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        echo '<style>#login_error, .login .message.error { display: none !important; } #login.shake { animation: none !important; }</style>';
+        echo '<script>document.addEventListener("DOMContentLoaded",function(){var e=document.getElementById("login_error");if(e)e.remove();var l=document.getElementById("login");if(l)l.classList.remove("shake");});</script>';
     }
 }
-add_action('login_footer', 'ab_disable_login_shake');
+add_action('login_footer', 'ab_clean_login_page');
 
 // "Create Account" CTA below login form (injected into #login container via JS)
 function ab_login_create_account() {
@@ -757,7 +752,6 @@ function ab_login_create_account() {
     document.addEventListener('DOMContentLoaded', function() {
         var login = document.getElementById('login');
         if (!login) return;
-        // Only show on the login action (not reset password, etc.)
         var action = new URLSearchParams(window.location.search).get('action');
         if (action && action !== 'login') return;
         var div = document.createElement('div');
