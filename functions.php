@@ -731,10 +731,11 @@ function ab_custom_new_user_email($wp_new_user_notification_email, $user, $blogn
 }
 add_filter('wp_new_user_notification_email', 'ab_custom_new_user_email', 10, 3);
 
-// ── Customize account menu: remove Dashboard & Downloads, reorder ──
+// ── Customize account menu: remove Dashboard, Downloads, Subscriptions ──
 function ab_account_menu_items($items) {
     unset($items['dashboard']);
     unset($items['downloads']);
+    unset($items['subscriptions']);
     if (isset($items['customer-logout'])) {
         $items['customer-logout'] = 'Log Out';
     }
@@ -773,11 +774,23 @@ function ab_logout_confirmation_override() {
         echo '.woocommerce-MyAccount-content > *:not(.ab-logout-section) { display: none !important; }';
         // Highlight the Log Out tab instead of Orders
         echo '.woocommerce-MyAccount-navigation ul li.is-active a { color: rgba(255,255,255,0.35); border-bottom-color: transparent; }';
-        echo '.woocommerce-MyAccount-navigation ul li:last-child a { color: #fff !important; border-bottom-color: var(--ab-teal) !important; }';
+        echo '.woocommerce-MyAccount-navigation ul li.woocommerce-MyAccount-navigation-link--customer-logout a { color: #fff !important; border-bottom-color: var(--ab-teal) !important; }';
         echo '</style>';
     }
 }
 add_action('woocommerce_before_account_orders', 'ab_logout_confirmation_override', 1);
+
+// ── Show shipping address alongside billing on view-order pages ──
+function ab_show_shipping_on_view_order($order) {
+    if (!$order->get_formatted_shipping_address()) return;
+    ?>
+    <section class="woocommerce-customer-details">
+        <h2><?php esc_html_e('Shipping Address', 'woocommerce'); ?></h2>
+        <address><?php echo wp_kses_post($order->get_formatted_shipping_address()); ?></address>
+    </section>
+    <?php
+}
+add_action('woocommerce_order_details_after_customer_details', 'ab_show_shipping_on_view_order');
 
 // ── Always remember me on login ──
 // Extend auth cookie to 14 days always (no need to modify $_POST)
