@@ -403,6 +403,48 @@ function ab_login_styles() {
             display: none;
         }
 
+        /* ── Create Account CTA ── */
+        .ab-login-register {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .ab-login-register p {
+            font-size: 13px !important;
+            color: rgba(255,255,255,0.35) !important;
+            margin-bottom: 14px !important;
+        }
+
+        .ab-login-register-btn {
+            display: block;
+            width: 100%;
+            padding: 13px 24px;
+            background: transparent;
+            border: 1.5px solid var(--ab-teal, #0B8F68);
+            border-radius: 10px;
+            color: #0B8F68;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .ab-login-register-btn:hover {
+            background: #0B8F68;
+            color: #fff;
+            box-shadow: 0 10px 25px rgba(11,143,104,0.3);
+            transform: translateY(-1px);
+        }
+
+        .ab-login-register-btn:active {
+            transform: translateY(0);
+        }
+
         /* Mobile */
         @media (max-width: 767px) {
             #login {
@@ -688,6 +730,45 @@ function ab_hide_rememberme() {
     echo '<script>document.addEventListener("DOMContentLoaded",function(){var r=document.getElementById("rememberme");if(r){r.checked=true;var p=r.closest(".forgetmenot");if(p)p.style.display="none";}});</script>';
 }
 add_action('login_footer', 'ab_hide_rememberme');
+
+// Clear stale login errors on fresh page load (no POST = no login attempt)
+function ab_clear_stale_login_errors($errors, $redirect_to) {
+    if (empty($_POST) && !isset($_REQUEST['reauth'])) {
+        return new WP_Error();
+    }
+    return $errors;
+}
+add_filter('wp_login_errors', 'ab_clear_stale_login_errors', 10, 2);
+
+// Disable login shake animation on fresh page load
+function ab_disable_login_shake() {
+    if (empty($_POST)) {
+        echo '<script>document.addEventListener("DOMContentLoaded",function(){if(typeof wp!=="undefined"&&wp.hooks){wp.hooks.removeAction("wp-login-shake")}var s=document.getElementById("login");if(s)s.classList.remove("shake");});</script>';
+        echo '<style>#login.shake { animation: none !important; }</style>';
+    }
+}
+add_action('login_footer', 'ab_disable_login_shake');
+
+// "Create Account" CTA below login form (injected into #login container via JS)
+function ab_login_create_account() {
+    $register_url = esc_url(home_url('/waiver/'));
+    ?>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var login = document.getElementById('login');
+        if (!login) return;
+        // Only show on the login action (not reset password, etc.)
+        var action = new URLSearchParams(window.location.search).get('action');
+        if (action && action !== 'login') return;
+        var div = document.createElement('div');
+        div.className = 'ab-login-register';
+        div.innerHTML = '<p>Don\'t have an account?</p><a href="<?php echo $register_url; ?>" class="ab-login-register-btn">Create an Account</a>';
+        login.appendChild(div);
+    });
+    </script>
+    <?php
+}
+add_action('login_footer', 'ab_login_create_account');
 
 // ── Hide page title on My Account pages ──
 function ab_hide_account_title($title) {
