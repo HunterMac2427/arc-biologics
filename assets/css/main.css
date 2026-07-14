@@ -1282,6 +1282,8 @@ h4 { font-size: 18px; font-weight: 500; }
   border: 1px solid var(--ab-ghost);
   border-radius: var(--ab-radius);
   padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
 }
 
 .ab-calc-label {
@@ -1298,6 +1300,8 @@ h4 { font-size: 18px; font-weight: 500; }
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
+  align-content: center;
+  flex: 1;
   margin-bottom: 16px;
 }
 
@@ -1328,6 +1332,7 @@ h4 { font-size: 18px; font-weight: 500; }
 
 .ab-calc-input {
   width: 100%;
+  margin-top: auto;
   background: rgba(255,255,255,0.03);
   border: 1px solid var(--ab-ghost);
   border-radius: 8px;
@@ -1718,7 +1723,7 @@ h4 { font-size: 18px; font-weight: 500; }
 
 /* --- Shop Page --- */
 .ab-shop-hero {
-  padding: 40px 0 32px;
+  padding: 100px 0 40px;
   background: var(--ab-dark);
   position: relative;
 }
@@ -3636,17 +3641,28 @@ mark.order-status {
   min-height: 60vh;
   display: flex;
   align-items: center;
-  padding-top: 80px;
+  justify-content: center;
+  padding-top: 120px;
   padding-bottom: 40px;
   background: var(--ab-dark);
   position: relative;
   overflow: hidden;
 }
 
+.ab-quality-hero .ab-container {
+  display: flex;
+  justify-content: center;
+}
+
 .ab-quality-hero-content {
   position: relative;
   z-index: 2;
   max-width: 700px;
+  text-align: center;
+}
+
+.ab-quality-hero .ab-label-decorated {
+  justify-content: center;
 }
 
 .ab-quality-hero h1 {

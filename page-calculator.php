@@ -24,7 +24,7 @@ get_header();
 
       <!-- Dose -->
       <div class="ab-calc-group">
-        <h3 class="ab-calc-label">Dose of Peptide</h3>
+        <h3 class="ab-calc-label">Desired Dosage</h3>
         <div class="ab-calc-pills" data-target="dose">
           <button class="ab-calc-pill" data-value="0.1">0.1mg</button>
           <button class="ab-calc-pill" data-value="0.25">0.25mg</button>
@@ -65,6 +65,8 @@ get_header();
           <button class="ab-calc-pill" data-value="2">2.0mL</button>
           <button class="ab-calc-pill" data-value="2.5">2.5mL</button>
           <button class="ab-calc-pill" data-value="3">3.0mL</button>
+          <button class="ab-calc-pill" data-value="5">5.0mL</button>
+          <button class="ab-calc-pill" data-value="10">10.0mL</button>
         </div>
         <input type="number" class="ab-calc-input" id="calcWater" placeholder="Enter custom water (mL)" step="any" min="0">
       </div>
