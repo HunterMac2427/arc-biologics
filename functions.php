@@ -526,6 +526,16 @@ function ab_login_title() {
 }
 add_filter('login_headertext', 'ab_login_title');
 
+// ── Add "Shop" link to primary nav ──
+function ab_add_shop_nav_item($items, $args) {
+    if ($args->theme_location === 'primary') {
+        $shop_url = esc_url(wc_get_page_permalink('shop'));
+        $items = '<li class="menu-item"><a href="' . $shop_url . '">Shop</a></li>' . $items;
+    }
+    return $items;
+}
+add_filter('wp_nav_menu_items', 'ab_add_shop_nav_item', 10, 2);
+
 // ── Disable WP emoji scripts ──
 remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_print_styles', 'print_emoji_styles');
