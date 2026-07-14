@@ -80,6 +80,121 @@ get_header();
     </div>
   </section>
 
+  <!-- ======== COA LOOKUP ======== -->
+  <section class="ab-section ab-section-surface ab-coa-section">
+    <div class="ab-container">
+      <div class="ab-coa-lookup ab-reveal">
+        <div class="ab-coa-content">
+          <p class="ab-label ab-label-decorated">Verify Your Product</p>
+          <h2>Certificate of Analysis Lookup</h2>
+          <p class="ab-about-text">
+            Every vial ships with a lot number on the label. Enter it below to view the third-party lab report for your specific batch.
+          </p>
+          <div class="ab-coa-form">
+            <input type="text" id="abCoaInput" class="ab-coa-input" placeholder="Enter lot number (e.g. BTAB1)" autocomplete="off">
+            <button type="button" id="abCoaSearch" class="ab-btn ab-btn-primary ab-coa-btn">Search</button>
+          </div>
+          <p id="abCoaMessage" class="ab-coa-message" style="display:none;"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (function() {
+    var input = document.getElementById('abCoaInput');
+    var btn = document.getElementById('abCoaSearch');
+    var msg = document.getElementById('abCoaMessage');
+    var baseUrl = 'https://pathpeptides.com/cdn/shop/files/';
+    var prefix = 'LOT-';
+
+    function showMessage(text, isError) {
+      msg.textContent = text;
+      msg.className = 'ab-coa-message' + (isError ? ' ab-coa-error' : '');
+      msg.style.display = '';
+    }
+
+    function hideMessage() {
+      msg.style.display = 'none';
+    }
+
+    function getVariants(value) {
+      var clean = value.trim().replace(/\.pdf$/i, '');
+      if (clean.toLowerCase().indexOf(prefix.toLowerCase()) === 0) {
+        clean = clean.slice(prefix.length);
+      }
+      clean = clean.replace(/\s+/g, '_');
+      var variants = [
+        prefix + clean,
+        prefix + clean.toUpperCase(),
+        prefix + clean.charAt(0).toUpperCase() + clean.slice(1).toLowerCase()
+      ];
+      var seen = {};
+      return variants.filter(function(v) {
+        if (seen[v]) return false;
+        seen[v] = true;
+        return true;
+      });
+    }
+
+    function tryUrl(url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('HEAD', url, true);
+      xhr.onload = function() { callback(xhr.status >= 200 && xhr.status < 400); };
+      xhr.onerror = function() { callback(false); };
+      xhr.send();
+    }
+
+    function search() {
+      var value = input.value.trim();
+      if (!value) {
+        showMessage('Please enter a lot number.', true);
+        input.focus();
+        return;
+      }
+      if (!/^[A-Za-z0-9_\-]+$/.test(value)) {
+        showMessage('Invalid format. Lot numbers contain only letters, numbers, and dashes.', true);
+        input.focus();
+        return;
+      }
+
+      hideMessage();
+      btn.disabled = true;
+      btn.textContent = 'Searching...';
+
+      var variants = getVariants(value);
+      var index = 0;
+
+      function tryNext() {
+        if (index >= variants.length) {
+          btn.disabled = false;
+          btn.textContent = 'Search';
+          showMessage('No certificate found for that lot number. Please double-check and try again.', true);
+          return;
+        }
+        var url = baseUrl + variants[index] + '.pdf';
+        tryUrl(url, function(found) {
+          if (found) {
+            btn.disabled = false;
+            btn.textContent = 'Search';
+            window.open(url, '_blank');
+          } else {
+            index++;
+            tryNext();
+          }
+        });
+      }
+      tryNext();
+    }
+
+    btn.addEventListener('click', search);
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') search();
+    });
+    input.addEventListener('input', hideMessage);
+  })();
+  </script>
+
   <!-- ======== EXPANDED CONTENT ======== -->
   <section class="ab-section ab-section-surface">
     <div class="ab-container">

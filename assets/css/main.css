@@ -3788,6 +3788,85 @@ mark.order-status {
 }
 
 /* ============================================
+   COA Lookup
+   ============================================ */
+
+.ab-coa-lookup {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.ab-coa-lookup h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.ab-coa-lookup .ab-about-text {
+  margin-bottom: 28px;
+}
+
+.ab-coa-lookup .ab-label-decorated {
+  justify-content: center;
+}
+
+.ab-coa-form {
+  display: flex;
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.ab-coa-input {
+  flex: 1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius-sm);
+  padding: 14px 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ab-coa-input::placeholder {
+  color: rgba(255,255,255,0.25);
+}
+
+.ab-coa-input:focus {
+  outline: none;
+  border-color: rgba(11,143,104,0.5);
+  box-shadow: 0 0 0 3px rgba(11,143,104,0.12);
+}
+
+.ab-coa-btn {
+  white-space: nowrap;
+  padding: 14px 28px;
+}
+
+.ab-coa-message {
+  margin-top: 16px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+}
+
+.ab-coa-error {
+  color: #e05252;
+}
+
+@media (max-width: 767px) {
+  .ab-coa-form {
+    flex-direction: column;
+  }
+
+  .ab-coa-lookup h2 {
+    font-size: 26px;
+  }
+}
+
+/* ============================================
    Checkout: Same as Shipping checkbox
    ============================================ */
 
