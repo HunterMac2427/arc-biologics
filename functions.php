@@ -23,6 +23,17 @@ function ab_theme_setup() {
 }
 add_action('after_setup_theme', 'ab_theme_setup');
 
+// ── Favicon ──
+function ab_favicon() {
+    $dir = get_template_directory_uri() . '/assets/images';
+    echo '<link rel="icon" type="image/x-icon" href="' . esc_url($dir . '/favicon.ico') . '">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url($dir . '/favicon-32.png') . '">' . "\n";
+    echo '<link rel="icon" type="image/png" sizes="192x192" href="' . esc_url($dir . '/favicon-192.png') . '">' . "\n";
+    echo '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url($dir . '/apple-touch-icon.png') . '">' . "\n";
+}
+add_action('wp_head', 'ab_favicon', 0);
+add_action('login_head', 'ab_favicon', 0);
+
 // ── SEO: Meta Tags + Open Graph ──
 function ab_seo_meta() {
     $site_name = 'ARC Biologics';
@@ -45,6 +56,38 @@ function ab_seo_meta() {
     } elseif ( is_page('quality') ) {
         $title = 'Quality & Testing | ARC Biologics';
         $desc  = 'Every ARC Biologics peptide passes three testing checkpoints: Certificate of Authenticity, sterility testing, and mycotoxin screening. Every batch, every time.';
+    } elseif ( is_page('calculator') ) {
+        $title = 'Peptide Dosing Calculator | ARC Biologics';
+        $desc  = 'Calculate your peptide reconstitution and dosing with our free dosing calculator. Enter dose, vial strength, and water volume for precise measurements.';
+    } elseif ( is_page('cart') || is_cart() ) {
+        $title = 'Shopping Cart | ARC Biologics';
+        $desc  = 'Review your peptide order before checkout. Professional-grade compounds from ARC Biologics.';
+    } elseif ( is_page('checkout') || is_checkout() ) {
+        $title = 'Checkout | ARC Biologics';
+        $desc  = 'Complete your ARC Biologics order. Secure checkout with eCheck, Cash App, and Zelle payment options.';
+    } elseif ( is_account_page() ) {
+        $title = 'My Account | ARC Biologics';
+        $desc  = 'Manage your ARC Biologics account, view order history, and update your shipping information.';
+    } elseif ( is_page('privacy-policy') ) {
+        $title = 'Privacy Policy | ARC Biologics';
+        $desc  = 'How ARC Biologics collects, uses, and protects your personal information.';
+    } elseif ( is_page('terms-of-service') || is_page('terms') ) {
+        $title = 'Terms of Service | ARC Biologics';
+        $desc  = 'Terms and conditions governing the purchase and use of ARC Biologics peptide compounds.';
+    } elseif ( is_page('refund-policy') || is_page('refunds') ) {
+        $title = 'Refund Policy | ARC Biologics';
+        $desc  = 'ARC Biologics refund and return policy for peptide compound orders.';
+    } elseif ( is_page('shipping-policy') || is_page('shipping') ) {
+        $title = 'Shipping Policy | ARC Biologics';
+        $desc  = 'ARC Biologics shipping rates, delivery times, and handling procedures for peptide compounds.';
+    } elseif ( is_home() ) {
+        $title = 'Research Library | ARC Biologics';
+        $desc  = 'In-depth guides on peptide science, mechanisms of action, and the latest compound research from ARC Biologics.';
+    } elseif ( is_singular('post') ) {
+        $title = get_the_title() . ' | ARC Biologics';
+        $desc  = get_the_excerpt() ?: 'Peptide research and science from ARC Biologics.';
+        $thumb = get_the_post_thumbnail_url(get_the_ID(), 'large');
+        if ($thumb) $default_img = $thumb;
     } else {
         $title = get_the_title() . ' | ARC Biologics';
         $desc  = 'Professional-grade peptide compounds from ARC Biologics. Sourced from trusted U.S. suppliers.';
@@ -58,6 +101,8 @@ function ab_seo_meta() {
     echo '<meta property="og:description" content="' . esc_attr($desc) . '">' . "\n";
     echo '<meta property="og:url" content="' . esc_url(home_url($_SERVER['REQUEST_URI'])) . '">' . "\n";
     echo '<meta property="og:image" content="' . esc_url($default_img) . '">' . "\n";
+    echo '<meta property="og:image:width" content="1200">' . "\n";
+    echo '<meta property="og:image:height" content="630">' . "\n";
     echo '<meta name="twitter:card" content="summary_large_image">' . "\n";
     echo '<meta name="twitter:title" content="' . esc_attr($title) . '">' . "\n";
     echo '<meta name="twitter:description" content="' . esc_attr($desc) . '">' . "\n";
@@ -417,32 +462,44 @@ function ab_login_styles() {
             margin-bottom: 14px !important;
         }
 
-        .ab-login-register-btn {
-            display: block;
-            width: 100%;
-            padding: 12px 24px;
+        .ab-login-register-btn,
+        .ab-login-register-btn:link,
+        .ab-login-register-btn:visited {
+            display: block !important;
+            width: 100% !important;
+            padding: 13px 24px !important;
+            margin: 0 !important;
             background: linear-gradient(135deg, #0B8F68, #087B5A) !important;
             border: none !important;
             border-radius: 10px !important;
+            outline: none !important;
             color: #fff !important;
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-            text-align: center;
-            cursor: pointer;
-            transition: box-shadow 0.2s, transform 0.2s;
-            text-shadow: none;
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.02em !important;
+            text-align: center !important;
+            text-decoration: none !important;
+            text-shadow: none !important;
+            cursor: pointer !important;
+            box-sizing: border-box !important;
+            line-height: 1.4 !important;
+            transition: box-shadow 0.2s, transform 0.2s !important;
         }
 
-        .ab-login-register-btn:hover {
+        .ab-login-register-btn:hover,
+        .ab-login-register-btn:focus {
             color: #fff !important;
-            box-shadow: 0 10px 25px rgba(11,143,104,0.3);
+            background: linear-gradient(135deg, #0B8F68, #087B5A) !important;
+            box-shadow: 0 10px 25px rgba(11,143,104,0.3) !important;
             transform: translateY(-1px);
+            text-decoration: none !important;
+            outline: none !important;
+            border: none !important;
         }
 
         .ab-login-register-btn:active {
-            transform: translateY(0);
+            transform: translateY(0) !important;
         }
 
         /* Mobile */
