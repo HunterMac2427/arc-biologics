@@ -2863,18 +2863,24 @@ body.woocommerce-account h1 {
   top: 100px;
   background: var(--ab-dark-surface);
   border: 1px solid var(--ab-ghost);
-  border-radius: var(--ab-radius);
+  border-top: none;
+  border-radius: 0 0 var(--ab-radius) var(--ab-radius);
   padding: 28px;
 }
 
-/* Order review heading */
+/* Order review heading — visually inside the order box */
 .woocommerce-checkout #order_review_heading {
   grid-column: 2;
   font-family: 'Outfit', sans-serif;
   font-size: 22px;
   font-weight: 500;
+  background: var(--ab-dark-surface);
+  border: 1px solid var(--ab-ghost);
+  border-bottom: none;
+  border-radius: var(--ab-radius) var(--ab-radius) 0 0;
+  padding: 24px 28px 16px;
   letter-spacing: -0.02em;
-  margin-bottom: -32px;
+  margin-bottom: 0;
   position: sticky;
   top: 68px;
   z-index: 2;
@@ -3234,10 +3240,19 @@ body.woocommerce-account h1 {
 .page-template-default .woocommerce h2:first-of-type,
 .woocommerce-page .entry-title {
   font-family: 'Outfit', sans-serif;
-  font-size: 36px;
-  font-weight: 400;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 500;
   letter-spacing: -0.03em;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
+  background: linear-gradient(135deg, var(--ab-teal) 0%, #10D6A0 40%, var(--ab-violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Reduce checkout top spacing */
+.woocommerce-checkout .woocommerce {
+  padding-top: 100px;
 }
 
 /* Payment instructions box (Cash App / Zelle / GreenPay thank-you page) */

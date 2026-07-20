@@ -927,6 +927,9 @@ function ab_checkout_simplify($fields) {
     unset($fields['billing']['billing_state']);
     unset($fields['billing']['billing_postcode']);
 
+    // Remove shipping phone (WC adds one by default) — we'll use billing_phone only
+    unset($fields['shipping']['shipping_phone']);
+
     // Move email and phone into shipping section
     if (isset($fields['billing']['billing_email'])) {
         $fields['shipping']['billing_email'] = $fields['billing']['billing_email'];
