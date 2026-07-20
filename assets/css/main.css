@@ -338,16 +338,16 @@ h4 { font-size: 18px; font-weight: 500; }
 .ab-mobile-menu {
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.35s ease;
+  transition: max-height 0.35s ease, border-top-color 0.2s;
   background: rgba(22,22,24,0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid transparent;
+  border-top: 0 solid transparent;
 }
 
 .ab-mobile-menu--open {
   max-height: 500px;
-  border-top-color: var(--ab-ghost);
+  border-top: 1px solid var(--ab-ghost);
 }
 
 .ab-mobile-menu .menu,
@@ -2241,48 +2241,87 @@ h4 { font-size: 18px; font-weight: 500; }
 }
 
 @media (max-width: 767px) {
-  .ab-product-hero { padding: 120px 0 40px; }
-  .ab-product-title { font-size: 28px; }
-  .ab-product-price-lg { font-size: 26px; }
-  .ab-add-to-cart { flex-direction: column; }
-  .ab-btn-lg { width: 100%; text-align: center; }
-  .ab-product-meta { flex-direction: column; gap: 16px; }
+  /* Hero */
   .ab-hero { min-height: auto; padding: 100px 0 50px; }
-  .ab-shop-hero { padding: 90px 0 24px; }
-  .ab-post-hero { padding: 110px 0 40px; min-height: 280px; }
-  .ab-nav-shop-btn { font-size: 12px; padding: 8px 14px; }
+  .ab-hero-content { text-align: center; }
   h1.ab-hero-heading { letter-spacing: -0.03em; margin-bottom: 20px; }
-  .ab-hero-sub { font-size: 17px; }
-  .ab-stats { flex-wrap: wrap; gap: 20px; }
-  .ab-stat { flex: 1; min-width: 80px; }
-  .ab-products-grid { grid-template-columns: 1fr; }
-  .ab-steps {
-    flex-direction: column;
-    gap: 16px;
-  }
-  .ab-step-card { max-width: 100%; }
-  .ab-step-connector {
-    transform: rotate(90deg);
-    width: 40px;
-    margin: -8px 0;
-  }
-  .ab-trust-grid { grid-template-columns: 1fr; }
-  .ab-blog-grid { grid-template-columns: 1fr; }
-  .ab-post-hero { min-height: 260px; padding: 110px 0 40px; }
-  .ab-post-title { font-size: 1.6rem; }
-  .ab-post-footer { flex-direction: column; }
-  .ab-categories-grid { grid-template-columns: 1fr; }
-  .ab-carousel-product { flex: 0 0 220px; }
-  .ab-shop-grid { grid-template-columns: 1fr; }
-  .ab-shop-hero { padding: 90px 0 24px; }
-  .ab-product-hero { padding: 110px 0 32px; }
-  .ab-cta-bar { flex-direction: column; text-align: center; gap: 24px; padding: 36px 28px; }
-  .ab-footer-grid { grid-template-columns: 1fr; gap: 32px; }
-  .ab-footer-bottom { flex-direction: column; gap: 8px; }
+  h1.ab-hero-heading .ab-heading-light { white-space: normal; }
+  .ab-hero-sub { font-size: 17px; margin-left: auto; margin-right: auto; }
+  .ab-hero-actions { flex-direction: column; align-items: center; }
+  .ab-hero-actions .ab-btn { width: 100%; }
+  .ab-label-decorated { justify-content: center; }
+  .ab-stats { flex-wrap: wrap; gap: 20px; justify-content: center; }
+  .ab-stat { flex: 1; min-width: 80px; text-align: center; }
+  .ab-stat-text { font-size: 28px; text-align: center; }
+
+  /* Sections */
   .ab-section { padding: 60px 0; }
   .ab-section-header { margin-bottom: 40px; }
   .ab-container { padding: 0 16px; }
-  .ab-hero-actions { flex-direction: column; }
+  .ab-subtitle { white-space: normal !important; }
+
+  /* Products */
+  .ab-products-grid { grid-template-columns: 1fr; }
+  .ab-product-hero { padding: 110px 0 32px; text-align: center; }
+  .ab-product-title { font-size: 28px; }
+  .ab-product-price-lg { font-size: 26px; }
+  .ab-add-to-cart { flex-direction: column; align-items: center; }
+  .ab-btn-lg { width: 100%; text-align: center; }
+  .ab-product-meta { flex-direction: column; gap: 16px; align-items: center; text-align: center; }
+
+  /* Categories */
+  .ab-categories-grid { grid-template-columns: 1fr; }
+  .ab-carousel-product { flex: 0 0 220px; }
+
+  /* How It Works */
+  .ab-steps {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  .ab-step-card { max-width: 100%; text-align: center; }
+  .ab-step-connector {
+    transform: rotate(90deg);
+    width: 40px;
+    margin: -8px auto;
+  }
+  .ab-hiw-section .ab-subtitle { white-space: normal !important; }
+
+  /* About */
+  .ab-about-grid { text-align: center; }
+  .ab-about-text { margin-left: auto; margin-right: auto; }
+  .ab-about-grid .ab-btn { display: inline-flex; }
+
+  /* Quality pillars */
+  .ab-pillars-grid { text-align: center; }
+  .ab-pillar-card { text-align: center; }
+
+  /* Blog */
+  .ab-trust-grid { grid-template-columns: 1fr; }
+  .ab-blog-grid { grid-template-columns: 1fr; }
+
+  /* CTA */
+  .ab-cta-bar { flex-direction: column; text-align: center; gap: 24px; padding: 36px 28px; }
+
+  /* Footer */
+  .ab-footer-grid { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+  .ab-footer-brand p { margin-left: auto; margin-right: auto; }
+  .ab-footer-brand img,
+  .ab-footer-brand .custom-logo { margin-left: auto; margin-right: auto; }
+  .ab-footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+
+  /* Shop page */
+  .ab-shop-hero { padding: 90px 0 24px; text-align: center; }
+  .ab-shop-hero .ab-hero-sub { margin-left: auto; margin-right: auto; }
+  .ab-shop-grid { grid-template-columns: 1fr; }
+
+  /* Blog posts */
+  .ab-post-hero { min-height: 260px; padding: 110px 0 40px; }
+  .ab-post-title { font-size: 1.6rem; }
+  .ab-post-footer { flex-direction: column; }
+
+  /* Nav */
+  .ab-nav-shop-btn { font-size: 12px; padding: 8px 14px; }
 }
 
 /* ============================================
