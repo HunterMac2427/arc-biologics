@@ -3445,7 +3445,12 @@ body.woocommerce-account h1 {
 .woocommerce-checkout #payment .payment_box input[type="password"],
 .woocommerce-checkout #payment .payment_box input[type="number"],
 .woocommerce-checkout #payment .payment_box input[type="tel"],
-.woocommerce-checkout #payment .payment_box input {
+.woocommerce-checkout #payment .payment_box input,
+#wc_greenpay_routing_number,
+#wc_greenpay_account_number,
+.wc-greenpay-fallback input[type="text"],
+#wc_greenpay_mount input,
+.payment_method_greenmoney input {
   color: #fff !important;
   background: rgba(255,255,255,0.04) !important;
   border: 1px solid var(--ab-ghost) !important;
@@ -3453,16 +3458,26 @@ body.woocommerce-account h1 {
   padding: 12px 16px !important;
   font-family: 'Inter', sans-serif !important;
   font-size: 14px !important;
+  -webkit-text-fill-color: #fff !important;
 }
 
-.woocommerce-checkout #payment .payment_box input:focus {
+.woocommerce-checkout #payment .payment_box input:focus,
+#wc_greenpay_routing_number:focus,
+#wc_greenpay_account_number:focus {
   border-color: rgba(11,143,104,0.5) !important;
   box-shadow: 0 0 0 3px rgba(11,143,104,0.1) !important;
   outline: none !important;
 }
 
-.woocommerce-checkout #payment .payment_box label {
+.woocommerce-checkout #payment .payment_box label,
+.wc-greenpay-fallback label,
+.payment_method_greenmoney label {
   color: rgba(255,255,255,0.5) !important;
+}
+
+/* GreenPay widget iframe/overlay — force dark text inside */
+#wc_greenpay_mount iframe {
+  color-scheme: dark;
 }
 
 /* ============================================
