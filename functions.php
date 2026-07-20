@@ -1255,3 +1255,49 @@ class AB_Gateway_Zelle extends WC_Payment_Gateway {
         }
     }
 } // end if class_exists WC_Payment_Gateway
+
+// ── Shipping: Rename to "Overnight Shipping" when cold chain items in cart ──
+function ab_dynamic_shipping_label($rates, $package) {
+    $has_cold_chain = false;
+    foreach ($package['contents'] as $item) {
+        $product = $item['data'];
+        $shipping_class = $product->get_shipping_class();
+        if ($shipping_class === 'cold-chain') {
+            $has_cold_chain = true;
+            break;
+        }
+    }
+
+    foreach ($rates as $rate_key => $rate) {
+        if ($rate->method_id === 'flat_rate' && $has_cold_chain) {
+            $rates[$rate_key]->label = 'Overnight Shipping (Cold Chain)';
+        }
+    }
+
+    return $rates;
+}
+add_filter('woocommerce_package_rates', 'ab_dynamic_shipping_label', 10, 2);
+
+// ── Shipping: Hide free shipping when cold chain items require overnight ──
+function ab_hide_free_shipping_for_cold_chain($rates, $package) {
+    $has_cold_chain = false;
+    foreach ($package['contents'] as $item) {
+        $product = $item['data'];
+        if ($product->get_shipping_class() === 'cold-chain') {
+            $has_cold_chain = true;
+            break;
+        }
+    }
+
+    // If cold chain items are in cart, remove free shipping option
+    if ($has_cold_chain) {
+        foreach ($rates as $rate_key => $rate) {
+            if ($rate->method_id === 'free_shipping') {
+                unset($rates[$rate_key]);
+            }
+        }
+    }
+
+    return $rates;
+}
+add_filter('woocommerce_package_rates', 'ab_hide_free_shipping_for_cold_chain', 20, 2);
