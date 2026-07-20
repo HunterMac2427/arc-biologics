@@ -33,6 +33,7 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body {
@@ -42,6 +43,7 @@ body {
   color: var(--ab-text-dark);
   background: var(--ab-dark);
   overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -66,7 +68,7 @@ h1 { font-size: clamp(36px, 5vw, 56px); font-weight: 400; }
 
 /* --- Hero Heading System --- */
 h1.ab-hero-heading {
-  font-size: 86px;
+  font-size: clamp(42px, 8vw, 86px);
   line-height: 0.95;
   letter-spacing: -0.04em;
   margin-bottom: 32px;
@@ -87,7 +89,7 @@ h1.ab-hero-heading .ab-heading-light {
 h1.ab-hero-heading .ab-heading-bold {
   display: block;
   font-weight: 500;
-  font-size: inherit;
+  font-size: clamp(42px, 8vw, 86px);
   line-height: 1.0;
   margin: 0;
   padding: 0;
@@ -2724,6 +2726,96 @@ body.woocommerce-account h1 {
   .woocommerce-account .woocommerce {
     padding: 0 16px;
   }
+
+  /* Orders table → stacked cards on mobile */
+  .woocommerce-orders-table thead {
+    display: none;
+  }
+
+  .woocommerce-orders-table,
+  .woocommerce-orders-table tbody,
+  .woocommerce-orders-table tr,
+  .woocommerce-orders-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .woocommerce-orders-table tbody tr {
+    background: var(--ab-dark-surface);
+    border: 1px solid var(--ab-ghost);
+    border-radius: var(--ab-radius);
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
+  .woocommerce-orders-table tbody td {
+    padding: 4px 0;
+    border-bottom: none;
+    font-size: 14px;
+  }
+
+  .woocommerce-orders-table tbody td::before {
+    content: attr(data-title);
+    display: block;
+    font-family: 'Outfit', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 2px;
+  }
+
+  .woocommerce-orders-table .woocommerce-orders-table__cell-order-actions {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--ab-ghost);
+  }
+
+  /* Order detail view tables */
+  .woocommerce-table--order-details thead {
+    display: none;
+  }
+
+  .woocommerce-table--order-details,
+  .woocommerce-table--order-details tbody,
+  .woocommerce-table--order-details tr,
+  .woocommerce-table--order-details td {
+    display: block;
+    width: 100%;
+  }
+
+  .woocommerce-table--order-details tbody tr {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--ab-ghost);
+  }
+
+  .woocommerce-table--order-details tbody td {
+    padding: 2px 0;
+    border-bottom: none;
+  }
+
+  .woocommerce-table--order-details tfoot tr {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+  }
+
+  .woocommerce-table--order-details tfoot th,
+  .woocommerce-table--order-details tfoot td {
+    padding: 4px 0;
+    border: none;
+  }
+
+  /* Order overview grid (thank-you / view-order page) */
+  .woocommerce-order .woocommerce-order-overview {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .woocommerce-order .woocommerce-order-overview li {
+    padding: 12px 16px;
+  }
 }
 
 /* ============================================
@@ -3675,12 +3767,48 @@ mark.order-status {
     width: 100%;
   }
 
+  /* Cart table → stacked on mobile */
+  .woocommerce-cart table.shop_table thead {
+    display: none;
+  }
+
+  .woocommerce-cart table.shop_table,
+  .woocommerce-cart table.shop_table tbody,
+  .woocommerce-cart table.shop_table tr,
+  .woocommerce-cart table.shop_table td {
+    display: block;
+    width: 100%;
+  }
+
+  .woocommerce-cart table.shop_table tbody tr {
+    padding: 16px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--ab-ghost);
+    position: relative;
+  }
+
+  .woocommerce-cart table.shop_table tbody td {
+    padding: 4px 0;
+    border: none;
+    text-align: left;
+  }
+
+  .woocommerce-cart table.shop_table .product-remove {
+    position: absolute;
+    top: 16px;
+    right: 0;
+  }
+
+  .woocommerce-cart table.shop_table img {
+    margin-bottom: 8px;
+  }
+
   .woocommerce-cart .cart_totals {
     max-width: 100%;
   }
 
   .woocommerce-order .woocommerce-order-overview {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
 }
 
