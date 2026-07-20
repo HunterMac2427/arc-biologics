@@ -3478,6 +3478,14 @@ body.woocommerce-account h1 {
 /* GreenPay widget styling */
 #wc_greenpay_mount {
   min-height: 80px;
+  background: var(--ab-dark-surface);
+  border-radius: var(--ab-radius-sm);
+  overflow: hidden;
+}
+
+#wc_greenpay_mount iframe {
+  color-scheme: dark;
+  border-radius: var(--ab-radius-sm);
 }
 
 /* ============================================
