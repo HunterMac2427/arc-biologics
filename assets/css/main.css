@@ -3475,9 +3475,17 @@ body.woocommerce-account h1 {
   color: rgba(255,255,255,0.5) !important;
 }
 
-/* GreenPay widget iframe/overlay — force dark text inside */
-#wc_greenpay_mount iframe {
-  color-scheme: dark;
+/* GreenPay: hide broken iframe widget, show fallback HTML fields */
+#wc_greenpay_mount {
+  display: none !important;
+}
+
+.wc-greenpay-fallback {
+  display: block !important;
+}
+
+.wc-greenpay-fallback p {
+  margin-bottom: 12px;
 }
 
 /* ============================================
