@@ -780,17 +780,7 @@ function ab_logout_confirmation_override() {
 }
 add_action('woocommerce_before_account_orders', 'ab_logout_confirmation_override', 1);
 
-// ── Show shipping address alongside billing on view-order pages ──
-function ab_show_shipping_on_view_order($order) {
-    if (!$order->get_formatted_shipping_address()) return;
-    ?>
-    <section class="woocommerce-customer-details">
-        <h2><?php esc_html_e('Shipping Address', 'woocommerce'); ?></h2>
-        <address><?php echo wp_kses_post($order->get_formatted_shipping_address()); ?></address>
-    </section>
-    <?php
-}
-add_action('woocommerce_order_details_after_customer_details', 'ab_show_shipping_on_view_order');
+// Shipping address already shown by WooCommerce in the billing/shipping columns
 
 // ── Always remember me on login ──
 // Extend auth cookie to 14 days always (no need to modify $_POST)

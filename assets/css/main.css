@@ -3493,7 +3493,13 @@ body.woocommerce-account h1 {
    ============================================ */
 
 .woocommerce-order-received .woocommerce {
-  padding-top: 140px;
+  padding-top: 0;
+}
+
+/* Hide redundant shipping address when same as billing */
+.woocommerce-order .woocommerce-customer-details .woocommerce-column--shipping-address + .woocommerce-customer-details,
+.woocommerce-order .woocommerce-customer-details ~ .woocommerce-customer-details {
+  display: none;
 }
 
 /* Order confirmation header */
@@ -3587,7 +3593,7 @@ body.woocommerce-account h1 {
 
 /* Cart items table */
 .woocommerce-cart .woocommerce {
-  padding-top: 140px;
+  padding-top: 0;
 }
 
 .woocommerce-cart table.shop_table {
