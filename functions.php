@@ -916,19 +916,9 @@ remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_pr
 // Hide billing fields entirely — we only need shipping address
 // Keep billing email + phone since WooCommerce requires them for order communication
 function ab_checkout_simplify($fields) {
-    // Remove all billing address fields (we'll copy from shipping on save)
-    unset($fields['billing']['billing_first_name']);
-    unset($fields['billing']['billing_last_name']);
-    unset($fields['billing']['billing_company']);
-    unset($fields['billing']['billing_country']);
-    unset($fields['billing']['billing_address_1']);
-    unset($fields['billing']['billing_address_2']);
-    unset($fields['billing']['billing_city']);
-    unset($fields['billing']['billing_state']);
-    unset($fields['billing']['billing_postcode']);
-
     // Remove shipping phone (WC adds one by default) — we'll use billing_phone only
     unset($fields['shipping']['shipping_phone']);
+    unset($fields['billing']['billing_company']);
 
     // Move email and phone into shipping section
     if (isset($fields['billing']['billing_email'])) {
@@ -958,33 +948,55 @@ function ab_ship_to_different_default($default) {
 }
 add_filter('woocommerce_ship_to_different_address_checked', 'ab_ship_to_different_default');
 
-// Hide the "Ship to a different address?" heading and the empty billing section
+// Hide billing section visually (keep in DOM for GreenPay) + auto-copy shipping values
 function ab_hide_billing_and_ship_heading() {
     ?>
     <style>
-        .woocommerce-billing-fields { display: none !important; }
+        .woocommerce-billing-fields { position: absolute !important; left: -9999px !important; height: 0 !important; overflow: hidden !important; opacity: 0 !important; pointer-events: none !important; }
         .woocommerce-shipping-fields h3#ship-to-different-address { display: none !important; }
     </style>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var map = {
+            'shipping_first_name': 'billing_first_name',
+            'shipping_last_name': 'billing_last_name',
+            'shipping_address_1': 'billing_address_1',
+            'shipping_address_2': 'billing_address_2',
+            'shipping_city': 'billing_city',
+            'shipping_state': 'billing_state',
+            'shipping_postcode': 'billing_postcode',
+            'shipping_country': 'billing_country'
+        };
+        function syncBilling() {
+            for (var s in map) {
+                var sf = document.getElementById(s);
+                var bf = document.getElementById(map[s]);
+                if (sf && bf) {
+                    bf.value = sf.value;
+                    bf.dispatchEvent(new Event('change', {bubbles: true}));
+                }
+            }
+        }
+        // Sync on any shipping field change
+        for (var s in map) {
+            var el = document.getElementById(s);
+            if (el) {
+                el.addEventListener('input', syncBilling);
+                el.addEventListener('change', syncBilling);
+            }
+        }
+        // Initial sync
+        syncBilling();
+        // Sync before any button click in payment area
+        var paymentArea = document.getElementById('payment');
+        if (paymentArea) {
+            paymentArea.addEventListener('click', syncBilling, true);
+        }
+    });
+    </script>
     <?php
 }
 add_action('woocommerce_before_checkout_form', 'ab_hide_billing_and_ship_heading');
-
-// Copy shipping data to billing when order is created (so WC has billing on record)
-function ab_copy_shipping_to_billing($order_id) {
-    $order = wc_get_order($order_id);
-    if (!$order) return;
-
-    $order->set_billing_first_name($order->get_shipping_first_name());
-    $order->set_billing_last_name($order->get_shipping_last_name());
-    $order->set_billing_address_1($order->get_shipping_address_1());
-    $order->set_billing_address_2($order->get_shipping_address_2());
-    $order->set_billing_city($order->get_shipping_city());
-    $order->set_billing_state($order->get_shipping_state());
-    $order->set_billing_postcode($order->get_shipping_postcode());
-    $order->set_billing_country($order->get_shipping_country());
-    $order->save();
-}
-add_action('woocommerce_checkout_order_created', 'ab_copy_shipping_to_billing');
 
 // ── Custom Payment Gateways: Cash App & Zelle ──
 add_filter('woocommerce_payment_gateways', 'ab_add_custom_gateways');
