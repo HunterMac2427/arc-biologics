@@ -1640,7 +1640,7 @@ h4 { font-size: 18px; font-weight: 500; }
 .ab-about-visual {
   aspect-ratio: 1;
   border-radius: var(--ab-radius);
-  background: linear-gradient(135deg, rgba(11,143,104,0.1), rgba(116,82,160,0.1));
+  background: linear-gradient(135deg, rgba(11,143,104,0.06), rgba(116,82,160,0.06));
   border: 1px solid var(--ab-ghost);
   display: flex;
   align-items: center;
@@ -1648,8 +1648,8 @@ h4 { font-size: 18px; font-weight: 500; }
 }
 
 .ab-about-visual img {
-  width: 60%;
-  opacity: 0.6;
+  width: 65%;
+  opacity: 0.85;
 }
 
 /* --- CTA Section --- */

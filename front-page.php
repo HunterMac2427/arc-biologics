@@ -240,7 +240,7 @@
     <div class="ab-container">
       <div class="ab-about-grid">
         <div class="ab-about-visual ab-reveal">
-          <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo.png" alt="<?php bloginfo('name'); ?>">
+          <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo-dark.png" alt="<?php bloginfo('name'); ?>">
         </div>
         <div class="ab-reveal">
           <p class="ab-label">About ARC Biologics</p>
