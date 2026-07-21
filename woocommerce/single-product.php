@@ -46,8 +46,13 @@ while (have_posts()) : the_post();
           <?php if ($product->is_in_stock()) : ?>
             <form class="ab-add-to-cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post">
               <div class="ab-qty-wrap">
-                <label for="quantity" class="ab-qty-label">Qty</label>
+                <button type="button" class="ab-qty-btn ab-qty-minus" aria-label="Decrease quantity">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
                 <input type="number" id="quantity" name="quantity" value="1" min="1"<?php echo ($max_qty > 0) ? ' max="' . esc_attr($max_qty) . '"' : ''; ?> class="ab-qty-input">
+                <button type="button" class="ab-qty-btn ab-qty-plus" aria-label="Increase quantity">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
               </div>
               <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="ab-btn ab-btn-primary ab-btn-lg">Add to Cart</button>
             </form>
@@ -111,6 +116,27 @@ while (have_posts()) : the_post();
     </div>
   </section>
   <?php endif; ?>
+
+<script>
+(function() {
+  var wrap = document.querySelector('.ab-qty-wrap');
+  if (!wrap) return;
+  var input = wrap.querySelector('.ab-qty-input');
+  var minus = wrap.querySelector('.ab-qty-minus');
+  var plus = wrap.querySelector('.ab-qty-plus');
+  if (!input || !minus || !plus) return;
+  minus.addEventListener('click', function() {
+    var v = parseInt(input.value) || 1;
+    var min = parseInt(input.min) || 1;
+    if (v > min) input.value = v - 1;
+  });
+  plus.addEventListener('click', function() {
+    var v = parseInt(input.value) || 1;
+    var max = parseInt(input.max) || 999;
+    if (v < max) input.value = v + 1;
+  });
+})();
+</script>
 
 <?php endwhile;
 
