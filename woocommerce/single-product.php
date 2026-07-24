@@ -60,6 +60,17 @@ while (have_posts()) : the_post();
             <p class="ab-out-of-stock">This product is currently out of stock.</p>
           <?php endif; ?>
 
+          <div class="ab-includes-banner ab-includes-compact">
+            <div class="ab-includes-item ab-includes-yes">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              <span>Bacteriostatic water included</span>
+            </div>
+            <div class="ab-includes-item ab-includes-no">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+              <span>Syringes not included</span>
+            </div>
+          </div>
+
           <div class="ab-product-meta">
             <?php if ($product->get_sku()) : ?>
               <div class="ab-meta-item">

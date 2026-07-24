@@ -5214,3 +5214,64 @@ ul.woocommerce-error {
   grid-template-columns: 1fr 1fr;
   gap: 24px;
 }
+
+/* ── Includes Banner (Bac Water / Syringes) ── */
+
+.ab-includes-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  padding: 14px 24px;
+  background: rgba(11,143,104,0.06);
+  border: 1px solid rgba(11,143,104,0.12);
+  border-radius: var(--ab-radius-sm);
+  margin-bottom: 32px;
+}
+
+.ab-includes-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ab-includes-yes {
+  color: var(--ab-teal);
+}
+
+.ab-includes-no {
+  color: rgba(255,255,255,0.35);
+}
+
+.ab-includes-no svg {
+  opacity: 0.5;
+}
+
+/* Compact variant for product pages */
+.ab-includes-compact {
+  justify-content: flex-start;
+  margin-top: 20px;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  gap: 24px;
+}
+
+.ab-includes-compact .ab-includes-item {
+  font-size: 13px;
+}
+
+@media (max-width: 767px) {
+  .ab-includes-banner {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 14px 16px;
+  }
+
+  .ab-includes-compact {
+    gap: 6px;
+  }
+}

@@ -37,6 +37,17 @@ $shop_query = new WP_Query([
   <section class="ab-section ab-section-surface ab-shop-section">
     <div class="ab-container">
 
+      <div class="ab-includes-banner">
+        <div class="ab-includes-item ab-includes-yes">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>Bacteriostatic water included with every order</span>
+        </div>
+        <div class="ab-includes-item ab-includes-no">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <span>Syringes not included</span>
+        </div>
+      </div>
+
       <div class="ab-filter-bar">
         <button class="ab-filter-tab active" data-filter="all">All Compounds</button>
         <?php foreach ($cat_terms as $term) : ?>
