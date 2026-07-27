@@ -68,7 +68,7 @@ function ab_seo_meta() {
     } elseif ( is_account_page() ) {
         $title = 'My Account | ARC Biologics';
         $desc  = 'Manage your ARC Biologics account, view order history, and update your shipping information.';
-    } elseif ( is_page('privacy-policy') ) {
+    } elseif ( is_page('privacy-policy') || is_page('privacy-policy-2') ) {
         $title = 'Privacy Policy | ARC Biologics';
         $desc  = 'How ARC Biologics collects, uses, and protects your personal information.';
     } elseif ( is_page('terms-of-service') || is_page('terms') ) {
@@ -80,6 +80,18 @@ function ab_seo_meta() {
     } elseif ( is_page('shipping-policy') || is_page('shipping') ) {
         $title = 'Shipping Policy | ARC Biologics';
         $desc  = 'ARC Biologics shipping rates, delivery times, and handling procedures for peptide compounds.';
+    } elseif ( is_page('age-policy') ) {
+        $title = 'Age Policy | ARC Biologics';
+        $desc  = 'ARC Biologics requires all customers to be 18 years or older. Read our age verification policy.';
+    } elseif ( is_page('research-use-policy') ) {
+        $title = 'Research Use Policy | ARC Biologics';
+        $desc  = 'All ARC Biologics peptide compounds are sold for research purposes only. Read our research use policy.';
+    } elseif ( is_page('risk-acknowledgment') ) {
+        $title = 'Risk Acknowledgment | ARC Biologics';
+        $desc  = 'Important risk information for ARC Biologics peptide compound purchases. Read before ordering.';
+    } elseif ( is_page('coa-lookup') ) {
+        $title = 'COA Lookup | ARC Biologics';
+        $desc  = 'Verify your ARC Biologics peptide with our Certificate of Analysis lookup. Enter your lot number to view third-party lab results.';
     } elseif ( is_home() ) {
         $title = 'Research Library | ARC Biologics';
         $desc  = 'In-depth guides on peptide science, mechanisms of action, and the latest compound research from ARC Biologics.';
@@ -111,10 +123,64 @@ function ab_seo_meta() {
 }
 add_action('wp_head', 'ab_seo_meta', 1);
 
-// ── Override WordPress title for social sharing ──
+// ── Override WordPress title to match OG titles ──
 function ab_document_title( $title ) {
     if ( is_front_page() ) {
         return 'ARC Biologics — Professional-Grade Peptides';
+    }
+    if ( is_page('shop') || is_shop() ) {
+        return 'Shop Peptide Compounds | ARC Biologics';
+    }
+    if ( is_singular('product') ) {
+        return get_the_title() . ' | ARC Biologics';
+    }
+    if ( is_page('waiver') ) {
+        return 'Create Account | ARC Biologics';
+    }
+    if ( is_page('quality') ) {
+        return 'Quality & Testing | ARC Biologics';
+    }
+    if ( is_page('calculator') ) {
+        return 'Peptide Dosing Calculator | ARC Biologics';
+    }
+    if ( is_page('cart') || is_cart() ) {
+        return 'Shopping Cart | ARC Biologics';
+    }
+    if ( is_page('checkout') || is_checkout() ) {
+        return 'Checkout | ARC Biologics';
+    }
+    if ( is_account_page() ) {
+        return 'My Account | ARC Biologics';
+    }
+    if ( is_page('coa-lookup') ) {
+        return 'COA Lookup | ARC Biologics';
+    }
+    if ( is_page('privacy-policy') || is_page('privacy-policy-2') ) {
+        return 'Privacy Policy | ARC Biologics';
+    }
+    if ( is_page('terms-of-service') || is_page('terms') ) {
+        return 'Terms of Service | ARC Biologics';
+    }
+    if ( is_page('refund-policy') || is_page('refunds') ) {
+        return 'Refund Policy | ARC Biologics';
+    }
+    if ( is_page('shipping-policy') || is_page('shipping') ) {
+        return 'Shipping Policy | ARC Biologics';
+    }
+    if ( is_page('age-policy') ) {
+        return 'Age Policy | ARC Biologics';
+    }
+    if ( is_page('research-use-policy') ) {
+        return 'Research Use Policy | ARC Biologics';
+    }
+    if ( is_page('risk-acknowledgment') ) {
+        return 'Risk Acknowledgment | ARC Biologics';
+    }
+    if ( is_home() ) {
+        return 'Research Library | ARC Biologics';
+    }
+    if ( is_singular('post') ) {
+        return get_the_title() . ' | ARC Biologics';
     }
     return $title;
 }
@@ -1237,4 +1303,145 @@ class AB_Gateway_Zelle extends WC_Payment_Gateway {
         }
     }
 } // end if class_exists WC_Payment_Gateway
+
+// ── SEO: Noindex non-content pages ──
+function ab_noindex_pages() {
+    // Noindex waiver page with redirect params (prevents duplicate indexing)
+    if ( is_page('waiver') && !empty($_GET['redirect_to']) ) {
+        echo '<meta name="robots" content="noindex, nofollow">' . "\n";
+        return;
+    }
+    // Noindex taxonomy archive pages (shipping class, uncategorized)
+    if ( is_tax('product_shipping_class') || is_category('uncategorized') ) {
+        echo '<meta name="robots" content="noindex, nofollow">' . "\n";
+        return;
+    }
+    // Noindex WP login page
+    if ( isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'wp-login.php' ) {
+        echo '<meta name="robots" content="noindex, nofollow">' . "\n";
+    }
+}
+add_action('wp_head', 'ab_noindex_pages', 0);
+
+// ── Disable user sitemap (prevents username enumeration) ──
+function ab_disable_user_sitemap($provider, $name) {
+    if ($name === 'users') return false;
+    return $provider;
+}
+add_filter('wp_sitemaps_add_provider', 'ab_disable_user_sitemap', 10, 2);
+
+// ── JSON-LD Schema Markup ──
+function ab_schema_markup() {
+    $site_url = home_url('/');
+    $logo_url = get_template_directory_uri() . '/assets/images/logo.png';
+
+    // Organization schema (every page)
+    $org = [
+        '@type' => 'Organization',
+        '@id' => $site_url . '#organization',
+        'name' => 'ARC Biologics',
+        'url' => $site_url,
+        'logo' => [
+            '@type' => 'ImageObject',
+            'url' => $logo_url,
+        ],
+        'contactPoint' => [
+            '@type' => 'ContactPoint',
+            'email' => 'info@arcbiologics.com',
+            'contactType' => 'customer service',
+        ],
+    ];
+
+    // WebSite schema (every page)
+    $website = [
+        '@type' => 'WebSite',
+        '@id' => $site_url . '#website',
+        'name' => 'ARC Biologics',
+        'url' => $site_url,
+        'publisher' => ['@id' => $site_url . '#organization'],
+    ];
+
+    $schemas = [$org, $website];
+
+    // Product schema (single product pages)
+    if ( is_singular('product') && function_exists('wc_get_product') ) {
+        $product = wc_get_product(get_the_ID());
+        if ($product) {
+            $thumb = get_the_post_thumbnail_url(get_the_ID(), 'large');
+            $product_schema = [
+                '@type' => 'Product',
+                'name' => $product->get_name(),
+                'description' => $product->get_short_description() ?: $product->get_description(),
+                'sku' => $product->get_sku() ?: '',
+                'brand' => ['@type' => 'Brand', 'name' => 'ARC Biologics'],
+                'offers' => [
+                    '@type' => 'Offer',
+                    'url' => get_permalink(),
+                    'priceCurrency' => 'USD',
+                    'price' => $product->get_price(),
+                    'availability' => $product->is_in_stock() ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+                    'seller' => ['@id' => $site_url . '#organization'],
+                ],
+            ];
+            if ($thumb) {
+                $product_schema['image'] = $thumb;
+            }
+            $schemas[] = $product_schema;
+        }
+    }
+
+    // BlogPosting schema (single blog posts)
+    if ( is_singular('post') ) {
+        $thumb = get_the_post_thumbnail_url(get_the_ID(), 'large');
+        $blog_schema = [
+            '@type' => 'BlogPosting',
+            'headline' => get_the_title(),
+            'datePublished' => get_the_date('c'),
+            'dateModified' => get_the_modified_date('c'),
+            'author' => ['@type' => 'Organization', 'name' => 'ARC Biologics'],
+            'publisher' => ['@id' => $site_url . '#organization'],
+            'mainEntityOfPage' => get_permalink(),
+        ];
+        if ($thumb) {
+            $blog_schema['image'] = $thumb;
+        }
+        if (has_excerpt()) {
+            $blog_schema['description'] = get_the_excerpt();
+        }
+        $schemas[] = $blog_schema;
+    }
+
+    // BreadcrumbList (all pages except homepage)
+    if ( !is_front_page() ) {
+        $breadcrumbs = [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $site_url],
+        ];
+        $position = 2;
+
+        if ( is_shop() || is_page('shop') ) {
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => 'Shop'];
+        } elseif ( is_singular('product') ) {
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => 'Shop', 'item' => home_url('/shop/')];
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position + 1, 'name' => get_the_title()];
+        } elseif ( is_singular('post') ) {
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => 'Research Library', 'item' => home_url('/blog/')];
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position + 1, 'name' => get_the_title()];
+        } elseif ( is_home() ) {
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => 'Research Library'];
+        } else {
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => get_the_title()];
+        }
+
+        $schemas[] = [
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $breadcrumbs,
+        ];
+    }
+
+    echo '<script type="application/ld+json">' . wp_json_encode([
+        '@context' => 'https://schema.org',
+        '@graph' => $schemas,
+    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
+}
+add_action('wp_head', 'ab_schema_markup', 2);
 
