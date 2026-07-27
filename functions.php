@@ -186,6 +186,128 @@ function ab_document_title( $title ) {
 }
 add_filter('pre_get_document_title', 'ab_document_title');
 
+// ── Google Analytics 4 (GA4) ──
+define('AB_GA4_ID', 'G-X4HQZGZV71');
+
+function ab_ga4_head() {
+    $ga_id = AB_GA4_ID;
+    // Don't track admin users
+    if ( current_user_can('manage_options') ) return;
+    ?>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_attr($ga_id); ?>"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<?php echo esc_js($ga_id); ?>');
+    </script>
+    <?php
+}
+add_action('wp_head', 'ab_ga4_head', 1);
+
+// GA4: Track WooCommerce events
+function ab_ga4_product_view() {
+    if ( !is_singular('product') || current_user_can('manage_options') ) return;
+    $product = wc_get_product(get_the_ID());
+    if (!$product) return;
+    $cats = wp_get_post_terms(get_the_ID(), 'product_cat', ['fields' => 'names']);
+    ?>
+    <script>
+    gtag('event', 'view_item', {
+      currency: 'USD',
+      value: <?php echo (float)$product->get_price(); ?>,
+      items: [{
+        item_id: '<?php echo esc_js($product->get_sku() ?: $product->get_id()); ?>',
+        item_name: '<?php echo esc_js($product->get_name()); ?>',
+        item_category: '<?php echo esc_js(!empty($cats) ? $cats[0] : ''); ?>',
+        price: <?php echo (float)$product->get_price(); ?>,
+        quantity: 1
+      }]
+    });
+    </script>
+    <?php
+}
+add_action('wp_footer', 'ab_ga4_product_view');
+
+// GA4: Track add-to-cart
+function ab_ga4_add_to_cart_script() {
+    if ( current_user_can('manage_options') ) return;
+    ?>
+    <script>
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      if (!form.classList.contains('ab-add-to-cart')) return;
+      var btn = form.querySelector('[name="add-to-cart"]');
+      if (!btn) return;
+      var name = document.querySelector('.ab-product-title');
+      var price = document.querySelector('.ab-product-price-lg .woocommerce-Price-amount bdi');
+      gtag('event', 'add_to_cart', {
+        currency: 'USD',
+        value: price ? parseFloat(price.textContent.replace(/[^0-9.]/g, '')) : 0,
+        items: [{
+          item_name: name ? name.textContent.trim() : '',
+          quantity: parseInt(form.querySelector('[name="quantity"]').value) || 1
+        }]
+      });
+    });
+    </script>
+    <?php
+}
+add_action('wp_footer', 'ab_ga4_add_to_cart_script');
+
+// GA4: Track registration
+function ab_ga4_registration_event($user_id) {
+    set_transient('ab_ga4_signup_' . $user_id, true, 60);
+}
+add_action('user_register', 'ab_ga4_registration_event');
+
+function ab_ga4_signup_script() {
+    if ( !is_user_logged_in() || current_user_can('manage_options') ) return;
+    $user_id = get_current_user_id();
+    if ( get_transient('ab_ga4_signup_' . $user_id) ) {
+        delete_transient('ab_ga4_signup_' . $user_id);
+        ?>
+        <script>gtag('event', 'sign_up', { method: 'registration_form' });</script>
+        <?php
+    }
+}
+add_action('wp_footer', 'ab_ga4_signup_script');
+
+// GA4: Track purchase on thank-you page
+function ab_ga4_purchase($order_id) {
+    if ( current_user_can('manage_options') ) return;
+    $order = wc_get_order($order_id);
+    if (!$order || $order->get_meta('_ab_ga4_tracked')) return;
+
+    $items = [];
+    foreach ($order->get_items() as $item) {
+        $product = $item->get_product();
+        $cats = $product ? wp_get_post_terms($product->get_id(), 'product_cat', ['fields' => 'names']) : [];
+        $items[] = [
+            'item_id' => $product ? ($product->get_sku() ?: $product->get_id()) : '',
+            'item_name' => $item->get_name(),
+            'item_category' => !empty($cats) ? $cats[0] : '',
+            'price' => (float)$item->get_total() / max($item->get_quantity(), 1),
+            'quantity' => $item->get_quantity(),
+        ];
+    }
+
+    $order->update_meta_data('_ab_ga4_tracked', 'yes');
+    $order->save();
+    ?>
+    <script>
+    gtag('event', 'purchase', {
+      transaction_id: '<?php echo esc_js($order->get_order_number()); ?>',
+      value: <?php echo (float)$order->get_total(); ?>,
+      currency: 'USD',
+      shipping: <?php echo (float)$order->get_shipping_total(); ?>,
+      items: <?php echo wp_json_encode($items); ?>
+    });
+    </script>
+    <?php
+}
+add_action('woocommerce_thankyou', 'ab_ga4_purchase');
+
 // ── Enqueue Styles & Scripts ──
 function ab_enqueue_assets() {
     // Google Fonts
