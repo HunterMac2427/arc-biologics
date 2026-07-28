@@ -746,8 +746,21 @@ function ab_is_approved_buyer() {
     return in_array('approved_buyer', $user->roles) || in_array('administrator', $user->roles);
 }
 
+function ab_is_search_crawler() {
+    if (empty($_SERVER['HTTP_USER_AGENT'])) return false;
+    $ua = strtolower($_SERVER['HTTP_USER_AGENT']);
+    $bots = ['googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider',
+             'yandexbot', 'semrushbot', 'ahrefsbot', 'dotbot', 'rogerbot',
+             'screaming frog', 'chatgpt-user', 'oai-searchbot', 'claudebot',
+             'perplexitybot', 'google-extended', 'applebot', 'facebookexternalhit'];
+    foreach ($bots as $bot) {
+        if (strpos($ua, $bot) !== false) return true;
+    }
+    return false;
+}
+
 function ab_product_login_redirect() {
-    if (is_singular('product') && !is_user_logged_in()) {
+    if (is_singular('product') && !is_user_logged_in() && !ab_is_search_crawler()) {
         $redirect_url = get_permalink();
         wp_redirect(home_url('/waiver/?redirect_to=' . urlencode($redirect_url)));
         exit;
