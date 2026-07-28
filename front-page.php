@@ -251,7 +251,7 @@
           <p class="ab-about-text">
             We work directly with established domestic labs to ensure consistent quality across our full catalog. Transparency and reliability aren't just promises — they're how we operate.
           </p>
-          <a href="/about" class="ab-btn ab-btn-primary">Learn More</a>
+          <a href="/quality/" class="ab-btn ab-btn-primary">Learn More</a>
         </div>
       </div>
     </div>
