@@ -1664,6 +1664,9 @@ h4 { font-size: 18px; font-weight: 500; }
 
 .ab-cta-bar h3 { color: #fff; margin-bottom: 4px; }
 .ab-cta-bar p { color: rgba(255,255,255,0.6); font-size: 15px; }
+.ab-cta-email { margin-top: 8px; font-size: 13px; }
+.ab-cta-email a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.ab-cta-email a:hover { text-decoration-color: rgba(255,255,255,0.4); }
 
 .ab-cta-bar .ab-btn {
   background: #fff;
@@ -1700,6 +1703,19 @@ h4 { font-size: 18px; font-weight: 500; }
   opacity: 0.35;
   line-height: 1.6;
   max-width: 280px;
+}
+
+.ab-footer-email {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--ab-teal);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.ab-footer-email:hover {
+  color: #fff;
 }
 
 .ab-footer-col h5 {

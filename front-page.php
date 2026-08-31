@@ -349,6 +349,7 @@
         <div>
           <h3>Ready to Get Started?</h3>
           <p>Create your free account and start shopping professional-grade peptide compounds.</p>
+          <p class="ab-cta-email">Questions? <a href="mailto:info@arcbiologics.com">info@arcbiologics.com</a></p>
         </div>
         <a href="/shop/" class="ab-btn ab-btn-primary">Shop Now</a>
       </div>

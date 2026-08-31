@@ -11,6 +11,7 @@
           }
           ?>
           <p>Premium peptide compounds sourced from trusted U.S. suppliers. Quality, transparency, reliability.</p>
+          <a href="mailto:info@arcbiologics.com" class="ab-footer-email">info@arcbiologics.com</a>
         </div>
         <div class="ab-footer-col">
           <h5>Shop</h5>
