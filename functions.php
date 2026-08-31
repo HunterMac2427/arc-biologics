@@ -1158,30 +1158,35 @@ function ab_hide_billing_and_ship_heading() {
             'shipping_postcode': 'billing_postcode',
             'shipping_country': 'billing_country'
         };
-        function syncBilling() {
+        function syncBilling(fireEvents) {
             for (var s in map) {
                 var sf = document.getElementById(s);
                 var bf = document.getElementById(map[s]);
-                if (sf && bf) {
+                if (sf && bf && bf.value !== sf.value) {
                     bf.value = sf.value;
-                    bf.dispatchEvent(new Event('change', {bubbles: true}));
+                    if (fireEvents) bf.dispatchEvent(new Event('change', {bubbles: true}));
                 }
             }
         }
-        // Sync on any shipping field change
+        // Silent sync on blur (no change events to avoid WC update_checkout)
         for (var s in map) {
             var el = document.getElementById(s);
             if (el) {
-                el.addEventListener('input', syncBilling);
-                el.addEventListener('change', syncBilling);
+                el.addEventListener('change', function() { syncBilling(false); });
             }
         }
-        // Initial sync
-        syncBilling();
-        // Sync before any button click in payment area
+        // Initial silent sync
+        syncBilling(false);
+        // Full sync with events right before place order
+        var form = document.querySelector('form.checkout');
+        if (form) {
+            form.addEventListener('checkout_place_order', function() { syncBilling(true); });
+            form.addEventListener('submit', function() { syncBilling(true); });
+        }
+        // Also sync on payment button click
         var paymentArea = document.getElementById('payment');
         if (paymentArea) {
-            paymentArea.addEventListener('click', syncBilling, true);
+            paymentArea.addEventListener('click', function() { syncBilling(true); }, true);
         }
     });
     </script>
@@ -1579,4 +1584,30 @@ function ab_schema_markup() {
     ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . '</script>' . "\n";
 }
 add_action('wp_head', 'ab_schema_markup', 2);
+
+// ── Tiered Free Shipping: Free Standard $500+, Free Expedited $1000+ ──
+function ab_tiered_free_shipping($rates, $package) {
+    $cart_total = WC()->cart->get_subtotal();
+
+    foreach ($rates as $rate_id => $rate) {
+        if ($rate->method_id !== 'flat_rate') continue;
+
+        $instance_id = $rate->instance_id;
+
+        // Instance 1 = Standard: free at $500+
+        if ($instance_id == 1 && $cart_total >= 500) {
+            $rates[$rate_id]->cost = 0;
+            $rates[$rate_id]->label = 'Standard (Free)';
+        }
+
+        // Instance 3 = Expedited: free at $1000+
+        if ($instance_id == 3 && $cart_total >= 1000) {
+            $rates[$rate_id]->cost = 0;
+            $rates[$rate_id]->label = 'Expedited (Free)';
+        }
+    }
+
+    return $rates;
+}
+add_filter('woocommerce_package_rates', 'ab_tiered_free_shipping', 10, 2);
 

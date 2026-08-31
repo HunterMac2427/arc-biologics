@@ -44,6 +44,91 @@ while (have_posts()) : the_post();
           <?php endif; ?>
 
           <?php if ($product->is_in_stock()) : ?>
+            <?php if ($product->is_type('variable')) :
+              $available_variations = $product->get_available_variations();
+              $attributes = $product->get_variation_attributes();
+            ?>
+            <form class="ab-add-to-cart ab-variable-form" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post">
+              <?php foreach ($attributes as $attr_name => $options) :
+                $label = wc_attribute_label($attr_name);
+              ?>
+              <div class="ab-variant-selector">
+                <label class="ab-variant-label"><?php echo esc_html($label); ?></label>
+                <div class="ab-variant-options" data-attribute="<?php echo esc_attr($attr_name); ?>">
+                  <?php foreach ($options as $option) : ?>
+                    <button type="button" class="ab-variant-btn" data-value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></button>
+                  <?php endforeach; ?>
+                </div>
+                <input type="hidden" name="attribute_<?php echo esc_attr($attr_name); ?>" value="">
+              </div>
+              <?php endforeach; ?>
+              <div class="ab-qty-wrap">
+                <button type="button" class="ab-qty-btn ab-qty-minus" aria-label="Decrease quantity">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+                <input type="number" id="quantity" name="quantity" value="1" min="1" class="ab-qty-input">
+                <button type="button" class="ab-qty-btn ab-qty-plus" aria-label="Increase quantity">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                </button>
+              </div>
+              <input type="hidden" name="product_id" value="<?php echo esc_attr($product->get_id()); ?>">
+              <input type="hidden" name="variation_id" id="ab-variation-id" value="">
+              <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="ab-btn ab-btn-primary ab-btn-lg ab-add-to-cart-btn" disabled>Select an Option</button>
+            </form>
+            <script>
+            (function() {
+              var variations = <?php echo wp_json_encode($available_variations); ?>;
+              var selectors = document.querySelectorAll('.ab-variant-options');
+              var addBtn = document.querySelector('.ab-add-to-cart-btn');
+              var variationIdInput = document.getElementById('ab-variation-id');
+              var priceEl = document.querySelector('.ab-product-price-lg');
+
+              selectors.forEach(function(group) {
+                var buttons = group.querySelectorAll('.ab-variant-btn');
+                var hiddenInput = group.nextElementSibling;
+                buttons.forEach(function(btn) {
+                  btn.addEventListener('click', function() {
+                    buttons.forEach(function(b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    hiddenInput.value = btn.dataset.value;
+                    matchVariation();
+                  });
+                });
+              });
+
+              function matchVariation() {
+                var selected = {};
+                selectors.forEach(function(group) {
+                  var attr = group.dataset.attribute;
+                  var hiddenInput = group.nextElementSibling;
+                  selected['attribute_' + attr] = hiddenInput.value;
+                });
+
+                var match = null;
+                for (var i = 0; i < variations.length; i++) {
+                  var v = variations[i];
+                  var isMatch = true;
+                  for (var key in selected) {
+                    if (!selected[key]) { isMatch = false; break; }
+                    if (v.attributes[key] && v.attributes[key] !== selected[key]) { isMatch = false; break; }
+                  }
+                  if (isMatch && selected[Object.keys(selected)[0]]) { match = v; break; }
+                }
+
+                if (match) {
+                  variationIdInput.value = match.variation_id;
+                  addBtn.disabled = false;
+                  addBtn.textContent = 'Add to Cart';
+                  if (match.price_html) priceEl.innerHTML = match.price_html;
+                } else {
+                  variationIdInput.value = '';
+                  addBtn.disabled = true;
+                  addBtn.textContent = 'Select an Option';
+                }
+              }
+            })();
+            </script>
+            <?php else : ?>
             <form class="ab-add-to-cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post">
               <div class="ab-qty-wrap">
                 <button type="button" class="ab-qty-btn ab-qty-minus" aria-label="Decrease quantity">
@@ -56,6 +141,7 @@ while (have_posts()) : the_post();
               </div>
               <button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" class="ab-btn ab-btn-primary ab-btn-lg">Add to Cart</button>
             </form>
+            <?php endif; ?>
           <?php else : ?>
             <p class="ab-out-of-stock">This product is currently out of stock.</p>
           <?php endif; ?>

@@ -2050,6 +2050,76 @@ h4 { font-size: 18px; font-weight: 500; }
   margin-bottom: 32px;
 }
 
+.ab-variable-form {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ab-variant-selector {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.ab-variant-label {
+  display: block;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ab-text-muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.ab-variant-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.ab-variant-btn {
+  padding: 10px 20px;
+  background: var(--ab-dark-surface);
+  border: 1px solid var(--ab-ghost);
+  border-radius: var(--ab-radius-sm);
+  color: rgba(255,255,255,0.6);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.ab-variant-btn:hover {
+  border-color: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.ab-variant-btn.active {
+  border-color: var(--ab-teal);
+  color: #fff;
+  box-shadow: 0 0 0 1px var(--ab-teal), 0 4px 12px rgba(11,143,104,0.15);
+}
+
+.ab-variable-form .ab-qty-wrap {
+  margin-bottom: 0;
+}
+
+.ab-variable-form .ab-add-to-cart-btn {
+  width: 100%;
+}
+
+.ab-variable-form .ab-add-to-cart-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.ab-variable-form .ab-add-to-cart-btn:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 .ab-qty-wrap {
   display: flex;
   align-items: center;
