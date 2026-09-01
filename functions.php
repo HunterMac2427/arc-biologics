@@ -1483,7 +1483,7 @@ class AB_Gateway_SMSLink extends WC_Payment_Gateway {
                     'title'       => 'Description',
                     'type'        => 'textarea',
                     'description' => 'Displayed when the customer selects this payment method.',
-                    'default'     => 'A secure payment link will be sent to your phone via text message shortly after you place your order.',
+                    'default'     => 'A secure payment link will be sent to your phone via text message during our next business hours.',
                 ],
             ];
         }
@@ -1505,13 +1505,13 @@ class AB_Gateway_SMSLink extends WC_Payment_Gateway {
             $order_num = $order->get_order_number();
 
             echo '<div class="ab-payment-instructions">';
-            echo '<h3>SMS Payment Link</h3>';
+            echo '<h3>What Happens Next</h3>';
             echo '<div class="ab-payment-steps">';
-            echo '<div class="ab-payment-step"><span class="ab-step-num">1</span><span>Your order <strong>#' . esc_html($order_num) . '</strong> has been received</span></div>';
-            echo '<div class="ab-payment-step"><span class="ab-step-num">2</span><span>A <strong>secure payment link</strong> will be sent to your phone via text message shortly</span></div>';
-            echo '<div class="ab-payment-step"><span class="ab-step-num">3</span><span>Tap the link in the text to complete payment</span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">1</span><span>Your order <strong>#' . esc_html($order_num) . '</strong> has been received and is being processed</span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">2</span><span>During our next business hours, we will send a <strong>secure payment link</strong> to the phone number on your account via text message</span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">3</span><span>Tap the link in the text to complete your payment</span></div>';
             echo '</div>';
-            echo '<p class="ab-payment-support">Didn\'t receive a text? Contact us at <a href="mailto:info@arcbiologics.com">info@arcbiologics.com</a></p>';
+            echo '<p class="ab-payment-support">Questions? Contact us at <a href="mailto:info@arcbiologics.com">info@arcbiologics.com</a></p>';
             echo '</div>';
         }
 
@@ -1521,20 +1521,20 @@ class AB_Gateway_SMSLink extends WC_Payment_Gateway {
             $order_num = $order->get_order_number();
 
             if ($plain_text) {
-                echo "\n\nSMS PAYMENT LINK\n";
-                echo "Your order #{$order_num} has been received.\n";
-                echo "A secure payment link will be sent to your phone via text message shortly.\n";
-                echo "Tap the link in the text to complete payment.\n\n";
-                echo "Didn't receive a text? Contact us at info@arcbiologics.com\n\n";
+                echo "\n\nWHAT HAPPENS NEXT\n";
+                echo "Your order #{$order_num} has been received and is being processed.\n";
+                echo "During our next business hours, we will send a secure payment link to the phone number on your account via text message.\n";
+                echo "Tap the link in the text to complete your payment.\n\n";
+                echo "Questions? Contact us at info@arcbiologics.com\n\n";
             } else {
                 echo '<div style="margin-bottom: 24px; padding: 20px; background: #f8f8f8; border-radius: 10px; border-left: 4px solid #0B8F68; font-family: -apple-system, sans-serif;">';
-                echo '<h3 style="margin: 0 0 16px; font-size: 18px; color: #1a1a1a;">SMS Payment Link</h3>';
+                echo '<h3 style="margin: 0 0 16px; font-size: 18px; color: #1a1a1a;">What Happens Next</h3>';
                 echo '<table style="width: 100%; border-collapse: collapse;">';
-                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top; width: 24px;">1.</td><td style="padding: 8px 0;">Your order <strong>#' . esc_html($order_num) . '</strong> has been received</td></tr>';
-                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">2.</td><td style="padding: 8px 0;">A <strong>secure payment link</strong> will be sent to your phone via text message shortly</td></tr>';
-                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">3.</td><td style="padding: 8px 0;">Tap the link in the text to complete payment</td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top; width: 24px;">1.</td><td style="padding: 8px 0;">Your order <strong>#' . esc_html($order_num) . '</strong> has been received and is being processed</td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">2.</td><td style="padding: 8px 0;">During our next business hours, we will send a <strong>secure payment link</strong> to the phone number on your account via text message</td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">3.</td><td style="padding: 8px 0;">Tap the link in the text to complete your payment</td></tr>';
                 echo '</table>';
-                echo '<p style="margin: 16px 0 0; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 13px; color: #666;">Didn\'t receive a text? Contact us at <a href="mailto:info@arcbiologics.com" style="color: #0B8F68;">info@arcbiologics.com</a></p>';
+                echo '<p style="margin: 16px 0 0; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 13px; color: #666;">Questions? Contact us at <a href="mailto:info@arcbiologics.com" style="color: #0B8F68;">info@arcbiologics.com</a></p>';
                 echo '</div>';
             }
         }

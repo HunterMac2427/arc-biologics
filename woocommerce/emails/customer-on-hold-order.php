@@ -24,7 +24,11 @@ if ( ! empty( $order->get_billing_first_name() ) ) {
 }
 ?>
 </p>
+<?php if ( $order->get_payment_method() === 'ab_smslink' ) : ?>
+<p>We've received your order and it's being processed. A secure payment link will be sent to your phone number via text message during our next business hours. Once you receive it, simply tap the link to complete payment.</p>
+<?php else : ?>
 <p>We've received your order and it's currently on hold. Please complete your payment using the instructions below.</p>
+<?php endif; ?>
 <?php echo $email_improvements_enabled ? '</div>' : ''; ?>
 
 <?php
