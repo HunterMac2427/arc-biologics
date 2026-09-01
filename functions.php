@@ -1194,12 +1194,13 @@ function ab_hide_billing_and_ship_heading() {
 }
 add_action('woocommerce_before_checkout_form', 'ab_hide_billing_and_ship_heading');
 
-// ── Custom Payment Gateways: Cash App & Zelle ──
+// ── Custom Payment Gateways: Cash App, Zelle & SMS Link ──
 add_filter('woocommerce_payment_gateways', 'ab_add_custom_gateways');
 
 function ab_add_custom_gateways($gateways) {
     $gateways[] = 'AB_Gateway_CashApp';
     $gateways[] = 'AB_Gateway_Zelle';
+    $gateways[] = 'AB_Gateway_SMSLink';
     return $gateways;
 }
 
@@ -1438,6 +1439,102 @@ class AB_Gateway_Zelle extends WC_Payment_Gateway {
                 echo '</table>';
                 echo '<p style="margin: 16px 0 0; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 13px; color: #666;">Payment must be received within <strong>48 hours</strong> or your order will be automatically cancelled.</p>';
                 echo '<p style="margin: 8px 0 0; font-size: 13px; color: #666;">Questions? Contact us at <a href="mailto:info@arcbiologics.com" style="color: #0B8F68;">info@arcbiologics.com</a></p>';
+                echo '</div>';
+            }
+        }
+    }
+
+// SMS Link Gateway
+class AB_Gateway_SMSLink extends WC_Payment_Gateway {
+        public function __construct() {
+            $this->id                 = 'ab_smslink';
+            $this->method_title       = 'Pay by SMS Link';
+            $this->method_description = 'Sends an SMS payment link via Weave after checkout. No payment collected on-site.';
+            $this->has_fields         = false;
+            $this->icon               = '';
+
+            $this->init_form_fields();
+            $this->init_settings();
+
+            $this->title        = $this->get_option('title');
+            $this->description  = $this->get_option('description');
+
+            add_action('woocommerce_update_options_payment_gateways_' . $this->id, [$this, 'process_admin_options']);
+            add_action('woocommerce_thankyou_' . $this->id, [$this, 'thankyou_page']);
+            add_action('ab_email_payment_instructions', [$this, 'email_instructions'], 10, 3);
+        }
+
+        public function init_form_fields() {
+            $this->form_fields = [
+                'enabled' => [
+                    'title'   => 'Enable/Disable',
+                    'type'    => 'checkbox',
+                    'label'   => 'Enable Pay by SMS Link',
+                    'default' => 'yes',
+                ],
+                'title' => [
+                    'title'       => 'Title',
+                    'type'        => 'text',
+                    'description' => 'Payment method name shown at checkout.',
+                    'default'     => 'Pay by SMS Link',
+                    'desc_tip'    => true,
+                ],
+                'description' => [
+                    'title'       => 'Description',
+                    'type'        => 'textarea',
+                    'description' => 'Displayed when the customer selects this payment method.',
+                    'default'     => 'A secure payment link will be sent to your phone via text message shortly after you place your order.',
+                ],
+            ];
+        }
+
+        public function process_payment($order_id) {
+            $order = wc_get_order($order_id);
+            $order->update_status('on-hold', 'Awaiting SMS payment link.');
+            wc_reduce_stock_levels($order_id);
+            WC()->cart->empty_cart();
+
+            return [
+                'result'   => 'success',
+                'redirect' => $this->get_return_url($order),
+            ];
+        }
+
+        public function thankyou_page($order_id) {
+            $order = wc_get_order($order_id);
+            $order_num = $order->get_order_number();
+
+            echo '<div class="ab-payment-instructions">';
+            echo '<h3>SMS Payment Link</h3>';
+            echo '<div class="ab-payment-steps">';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">1</span><span>Your order <strong>#' . esc_html($order_num) . '</strong> has been received</span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">2</span><span>A <strong>secure payment link</strong> will be sent to your phone via text message shortly</span></div>';
+            echo '<div class="ab-payment-step"><span class="ab-step-num">3</span><span>Tap the link in the text to complete payment</span></div>';
+            echo '</div>';
+            echo '<p class="ab-payment-support">Didn\'t receive a text? Contact us at <a href="mailto:info@arcbiologics.com">info@arcbiologics.com</a></p>';
+            echo '</div>';
+        }
+
+        public function email_instructions($order, $sent_to_admin, $plain_text = false) {
+            if ($sent_to_admin || $order->get_payment_method() !== $this->id || $order->has_status('completed')) return;
+
+            $order_num = $order->get_order_number();
+
+            if ($plain_text) {
+                echo "\n\nSMS PAYMENT LINK\n";
+                echo "Your order #{$order_num} has been received.\n";
+                echo "A secure payment link will be sent to your phone via text message shortly.\n";
+                echo "Tap the link in the text to complete payment.\n\n";
+                echo "Didn't receive a text? Contact us at info@arcbiologics.com\n\n";
+            } else {
+                echo '<div style="margin-bottom: 24px; padding: 20px; background: #f8f8f8; border-radius: 10px; border-left: 4px solid #0B8F68; font-family: -apple-system, sans-serif;">';
+                echo '<h3 style="margin: 0 0 16px; font-size: 18px; color: #1a1a1a;">SMS Payment Link</h3>';
+                echo '<table style="width: 100%; border-collapse: collapse;">';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top; width: 24px;">1.</td><td style="padding: 8px 0;">Your order <strong>#' . esc_html($order_num) . '</strong> has been received</td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">2.</td><td style="padding: 8px 0;">A <strong>secure payment link</strong> will be sent to your phone via text message shortly</td></tr>';
+                echo '<tr><td style="padding: 8px 12px 8px 0; color: #0B8F68; font-weight: 700; vertical-align: top;">3.</td><td style="padding: 8px 0;">Tap the link in the text to complete payment</td></tr>';
+                echo '</table>';
+                echo '<p style="margin: 16px 0 0; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 13px; color: #666;">Didn\'t receive a text? Contact us at <a href="mailto:info@arcbiologics.com" style="color: #0B8F68;">info@arcbiologics.com</a></p>';
                 echo '</div>';
             }
         }

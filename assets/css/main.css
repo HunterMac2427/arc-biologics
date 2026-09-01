@@ -3594,6 +3594,24 @@ body.woocommerce-account h1 {
   border-radius: var(--ab-radius-sm);
 }
 
+/* GreenPay / Plaid / Finicity bank login overlay — must sit above fixed nav (z-index: 100) */
+iframe[id*="plaid"],
+iframe[id*="finicity"],
+iframe[id*="greenpay"],
+div[id*="plaid-link"],
+div[id*="finicity"],
+#plaid-link-iframe-1,
+[class*="plaid"],
+[class*="finicity-connect"] {
+  z-index: 999999 !important;
+}
+
+/* Also catch any full-screen overlay containers these services inject */
+body > iframe[style*="z-index"],
+body > div[style*="position: fixed"][style*="z-index"] {
+  z-index: 999999 !important;
+}
+
 /* ============================================
    WooCommerce Thank-You / Order Received Page
    ============================================ */
