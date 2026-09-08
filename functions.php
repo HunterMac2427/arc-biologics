@@ -1097,9 +1097,24 @@ function ab_restrict_payment_scripts() {
         wp_deregister_script('plaid-link');
         wp_dequeue_script('ribbit-connect');
         wp_deregister_script('ribbit-connect');
+        wp_dequeue_script('greenpay-checkout-hydration-guard-fallback');
+        wp_deregister_script('greenpay-checkout-hydration-guard-fallback');
+        wp_dequeue_script('custom-subscription-cart-js');
+        wp_deregister_script('custom-subscription-cart-js');
     }
 }
 add_action('wp_enqueue_scripts', 'ab_restrict_payment_scripts', 200);
+
+// Remove GreenPay wp_head/wp_footer hooks on non-checkout pages
+function ab_remove_greenpay_hooks() {
+    if ( is_checkout() ) return;
+    if ( class_exists('GreenPay_Checkout_Assets') ) {
+        remove_action('wp_head', ['GreenPay_Checkout_Assets', 'print_checkout_hydration_guard'], 0);
+        remove_action('wp_enqueue_scripts', ['GreenPay_Checkout_Assets', 'enqueue_checkout_hydration_guard'], 1);
+        remove_action('wp_enqueue_scripts', ['GreenPay_Checkout_Assets', 'apply_checkout_assets'], 100);
+    }
+}
+add_action('template_redirect', 'ab_remove_greenpay_hooks');
 
 // ── WooCommerce wrapper overrides ──
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
@@ -1758,6 +1773,20 @@ function ab_tiered_free_shipping($rates, $package) {
     return $rates;
 }
 add_filter('woocommerce_package_rates', 'ab_tiered_free_shipping', 10, 2);
+
+// ── Serve llms.txt at site root ──
+function ab_serve_llms_txt() {
+    if ( $_SERVER['REQUEST_URI'] === '/llms.txt' ) {
+        $file = get_template_directory() . '/llms.txt';
+        if ( file_exists($file) ) {
+            header('Content-Type: text/plain; charset=utf-8');
+            header('Cache-Control: public, max-age=86400');
+            readfile($file);
+            exit;
+        }
+    }
+}
+add_action('init', 'ab_serve_llms_txt', 0);
 
 // ── Serve WebP product thumbnails with PNG fallback ──
 function ab_webp_product_thumbnail($html, $post_id, $post_thumbnail_id, $size, $attr) {

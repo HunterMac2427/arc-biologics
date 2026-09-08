@@ -12,25 +12,45 @@ $cat_terms = get_terms([
     'exclude'    => get_option('default_product_cat', 0),
 ]);
 
-// Query all published products
-$shop_query = new WP_Query([
+// Query products - filter by category on taxonomy pages
+$shop_args = [
     'post_type'      => 'product',
     'post_status'    => 'publish',
     'posts_per_page' => -1,
     'orderby'        => 'menu_order title',
     'order'          => 'ASC',
-]);
+];
+if ( is_product_category() ) {
+    $current_cat = get_queried_object();
+    $shop_args['tax_query'] = [[
+        'taxonomy' => 'product_cat',
+        'field'    => 'term_id',
+        'terms'    => $current_cat->term_id,
+    ]];
+}
+$shop_query = new WP_Query($shop_args);
 ?>
 
   <!-- ======== SHOP HERO ======== -->
   <section class="ab-shop-hero">
     <div class="ab-container">
       <p class="ab-label ab-label-decorated">Our Catalog</p>
-      <h1 class="ab-hero-heading">
-        <span class="ab-heading-light">Research</span>
-        <span class="ab-heading-bold ab-gradient-text">Compounds.</span>
-      </h1>
-      <p class="ab-hero-sub">Browse our full catalog of 20+ peptide compounds. All products sourced from trusted U.S. suppliers.</p>
+      <?php if ( is_product_category() ) : $current_cat = get_queried_object(); ?>
+        <h1 class="ab-hero-heading">
+          <span class="ab-heading-bold ab-gradient-text"><?php echo esc_html($current_cat->name); ?></span>
+        </h1>
+        <?php if ($current_cat->description) : ?>
+          <p class="ab-hero-sub"><?php echo esc_html($current_cat->description); ?></p>
+        <?php else : ?>
+          <p class="ab-hero-sub">Browse our <?php echo esc_html(strtolower($current_cat->name)); ?> peptide compounds. Sourced from trusted U.S. suppliers.</p>
+        <?php endif; ?>
+      <?php else : ?>
+        <h1 class="ab-hero-heading">
+          <span class="ab-heading-light">Research</span>
+          <span class="ab-heading-bold ab-gradient-text">Compounds.</span>
+        </h1>
+        <p class="ab-hero-sub">Browse our full catalog of 20+ peptide compounds. All products sourced from trusted U.S. suppliers.</p>
+      <?php endif; ?>
     </div>
   </section>
 
@@ -68,8 +88,13 @@ $shop_query = new WP_Query([
         ?>
           <a href="<?php the_permalink(); ?>" class="ab-product-card" data-cat="<?php echo esc_attr($cat_slug); ?>">
             <div class="ab-product-img">
-              <?php if ($thumb) : ?>
-                <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>">
+              <?php if ($thumb) :
+                $webp_thumb = preg_replace('/\.(png|jpg|jpeg)$/i', '.webp', $thumb);
+              ?>
+                <picture>
+                  <source srcset="<?php echo esc_url($webp_thumb); ?>" type="image/webp">
+                  <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" loading="lazy" width="768" height="960">
+                </picture>
               <?php endif; ?>
             </div>
             <div class="ab-product-glass">
