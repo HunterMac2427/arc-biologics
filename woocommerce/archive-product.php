@@ -88,13 +88,8 @@ $shop_query = new WP_Query($shop_args);
         ?>
           <a href="<?php the_permalink(); ?>" class="ab-product-card" data-cat="<?php echo esc_attr($cat_slug); ?>">
             <div class="ab-product-img">
-              <?php if ($thumb) :
-                $webp_thumb = preg_replace('/\.(png|jpg|jpeg)$/i', '.webp', $thumb);
-              ?>
-                <picture>
-                  <source srcset="<?php echo esc_url($webp_thumb); ?>" type="image/webp">
-                  <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" loading="lazy" width="768" height="960">
-                </picture>
+              <?php if ($thumb) : ?>
+                <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" loading="lazy">
               <?php endif; ?>
             </div>
             <div class="ab-product-glass">

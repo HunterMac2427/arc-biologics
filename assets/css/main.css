@@ -2353,7 +2353,7 @@ h4 { font-size: 18px; font-weight: 500; }
 
 @media (max-width: 767px) {
   /* Hero */
-  .ab-hero { min-height: auto; padding: 80px 0 40px; }
+  .ab-hero { min-height: auto; padding: 110px 0 40px; }
   .ab-hero-content { text-align: center; }
   h1.ab-hero-heading { letter-spacing: -0.03em; margin-bottom: 20px; }
   h1.ab-hero-heading .ab-heading-light { white-space: normal; }
@@ -2431,7 +2431,7 @@ h4 { font-size: 18px; font-weight: 500; }
   .ab-footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
 
   /* Shop page */
-  .ab-shop-hero { padding: 76px 0 16px; text-align: center; }
+  .ab-shop-hero { padding: 110px 0 16px; text-align: center; }
   .ab-shop-hero .ab-hero-sub { margin-left: auto; margin-right: auto; }
   .ab-shop-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 
@@ -2810,7 +2810,7 @@ body.woocommerce-account h1 {
 
 /* Responsive */
 @media (max-width: 767px) {
-  .ab-account-hero { padding: 80px 0 20px; }
+  .ab-account-hero { padding: 110px 0 20px; }
 
   .woocommerce-MyAccount-navigation {
     overflow-x: auto;
@@ -4150,7 +4150,7 @@ mark.order-status {
 @media (max-width: 767px) {
   .ab-quality-hero {
     min-height: auto;
-    padding: 80px 0 32px;
+    padding: 110px 0 32px;
   }
 
   .ab-quality-stats {
