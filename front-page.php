@@ -31,10 +31,16 @@
           <div class="ab-vial-stage">
             <div class="ab-vial-glow"></div>
             <div class="ab-vial-float">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157 Peptide Vial" class="ab-vial-img" width="400" height="500" fetchpriority="high">
+              <picture>
+                <source srcset="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.webp" type="image/webp">
+                <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157 Peptide Vial" class="ab-vial-img" width="400" height="500" fetchpriority="high">
+              </picture>
             </div>
             <div class="ab-vial-reflection">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="" class="ab-vial-img-reflect">
+              <picture>
+                <source srcset="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.webp" type="image/webp">
+                <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="" class="ab-vial-img-reflect">
+              </picture>
             </div>
           </div>
         </div>
@@ -240,7 +246,10 @@
     <div class="ab-container">
       <div class="ab-about-grid">
         <div class="ab-about-visual ab-reveal">
-          <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo-dark.png" alt="<?php bloginfo('name'); ?>">
+          <picture>
+            <source srcset="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo-dark.webp" type="image/webp">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo-dark.png" alt="<?php bloginfo('name'); ?>">
+          </picture>
         </div>
         <div class="ab-reveal">
           <p class="ab-label">About ARC Biologics</p>

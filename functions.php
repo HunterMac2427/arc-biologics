@@ -92,6 +92,9 @@ function ab_seo_meta() {
     } elseif ( is_page('coa-lookup') ) {
         $title = 'COA Lookup | ARC Biologics';
         $desc  = 'Verify your ARC Biologics peptide with our Certificate of Analysis lookup. Enter your lot number to view third-party lab results.';
+    } elseif ( is_page('faq') ) {
+        $title = 'Frequently Asked Questions | ARC Biologics';
+        $desc  = 'Common questions about ARC Biologics peptide compounds, ordering, shipping, quality testing, payment methods, and account registration.';
     } elseif ( is_product_category() ) {
         $term = get_queried_object();
         $title = $term->name . ' Peptides | ARC Biologics';
@@ -158,6 +161,9 @@ function ab_document_title( $title ) {
     }
     if ( is_page('coa-lookup') ) {
         return 'COA Lookup | ARC Biologics';
+    }
+    if ( is_page('faq') ) {
+        return 'Frequently Asked Questions | ARC Biologics';
     }
     if ( is_page('privacy-policy') || is_page('privacy-policy-2') ) {
         return 'Privacy Policy | ARC Biologics';
@@ -1752,6 +1758,26 @@ function ab_tiered_free_shipping($rates, $package) {
     return $rates;
 }
 add_filter('woocommerce_package_rates', 'ab_tiered_free_shipping', 10, 2);
+
+// ── Serve WebP product thumbnails with PNG fallback ──
+function ab_webp_product_thumbnail($html, $post_id, $post_thumbnail_id, $size, $attr) {
+    if (!$html) return $html;
+
+    preg_match('/src=["\']([^"\']+)["\']/', $html, $matches);
+    if (empty($matches[1])) return $html;
+
+    $src = $matches[1];
+    if (pathinfo($src, PATHINFO_EXTENSION) !== 'png') return $html;
+
+    $webp_src = preg_replace('/\.png$/i', '.webp', $src);
+    $upload_dir = wp_get_upload_dir();
+    $webp_path = str_replace($upload_dir['baseurl'], $upload_dir['basedir'], $webp_src);
+
+    if (!file_exists($webp_path)) return $html;
+
+    return '<picture><source srcset="' . esc_url($webp_src) . '" type="image/webp">' . $html . '</picture>';
+}
+add_filter('post_thumbnail_html', 'ab_webp_product_thumbnail', 10, 5);
 
 // ── Sitewide Research Disclaimer ──
 function ab_research_disclaimer() {
