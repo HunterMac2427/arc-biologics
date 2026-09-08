@@ -247,8 +247,8 @@
       <div class="ab-about-grid">
         <div class="ab-about-visual ab-reveal">
           <picture>
-            <source srcset="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo-dark.webp" type="image/webp">
-            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/logo-dark.png" alt="<?php bloginfo('name'); ?>">
+            <source srcset="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/about-trio.webp" type="image/webp">
+            <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/about-trio.png" alt="ARC Biologics peptide vials - BPC-157/TB500, GHK-Cu, and Epithalon" width="800" height="700">
           </picture>
         </div>
         <div class="ab-reveal">
