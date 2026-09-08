@@ -92,6 +92,10 @@ function ab_seo_meta() {
     } elseif ( is_page('coa-lookup') ) {
         $title = 'COA Lookup | ARC Biologics';
         $desc  = 'Verify your ARC Biologics peptide with our Certificate of Analysis lookup. Enter your lot number to view third-party lab results.';
+    } elseif ( is_product_category() ) {
+        $term = get_queried_object();
+        $title = $term->name . ' Peptides | ARC Biologics';
+        $desc  = $term->description ?: 'Browse ' . $term->name . ' peptide compounds from ARC Biologics. Professional-grade, COA-verified, sourced from trusted U.S. suppliers.';
     } elseif ( is_home() ) {
         $title = 'Research Library | ARC Biologics';
         $desc  = 'In-depth guides on peptide science, mechanisms of action, and the latest compound research from ARC Biologics.';
@@ -175,6 +179,10 @@ function ab_document_title( $title ) {
     }
     if ( is_page('risk-acknowledgment') ) {
         return 'Risk Acknowledgment | ARC Biologics';
+    }
+    if ( is_product_category() ) {
+        $term = get_queried_object();
+        return $term->name . ' Peptides | ARC Biologics';
     }
     if ( is_home() ) {
         return 'Research Library | ARC Biologics';
@@ -336,6 +344,16 @@ function ab_enqueue_assets() {
     );
 }
 add_action('wp_enqueue_scripts', 'ab_enqueue_assets');
+
+// ── Add defer to theme scripts ──
+function ab_script_defer($tag, $handle, $src) {
+    $defer_handles = ['ab-site'];
+    if (in_array($handle, $defer_handles)) {
+        return str_replace(' src=', ' defer src=', $tag);
+    }
+    return $tag;
+}
+add_filter('script_loader_tag', 'ab_script_defer', 10, 3);
 
 // ── Custom Branded Login Page ──
 function ab_login_enqueue() {
@@ -1064,6 +1082,19 @@ function ab_dequeue_wc_block_styles() {
 }
 add_action('wp_enqueue_scripts', 'ab_dequeue_wc_block_styles', 100);
 
+// ── Restrict payment gateway scripts to checkout only ──
+function ab_restrict_payment_scripts() {
+    if ( !is_checkout() ) {
+        wp_dequeue_script('wc-greenpay-payments-script');
+        wp_deregister_script('wc-greenpay-payments-script');
+        wp_dequeue_script('plaid-link');
+        wp_deregister_script('plaid-link');
+        wp_dequeue_script('ribbit-connect');
+        wp_deregister_script('ribbit-connect');
+    }
+}
+add_action('wp_enqueue_scripts', 'ab_restrict_payment_scripts', 200);
+
 // ── WooCommerce wrapper overrides ──
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
 remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
@@ -1543,18 +1574,23 @@ class AB_Gateway_SMSLink extends WC_Payment_Gateway {
 
 // ── SEO: Noindex non-content pages ──
 function ab_noindex_pages() {
-    // Noindex waiver page with redirect params (prevents duplicate indexing)
-    if ( is_page('waiver') && !empty($_GET['redirect_to']) ) {
-        echo '<meta name="robots" content="noindex, nofollow">' . "\n";
-        return;
+    $noindex = false;
+
+    if ( is_page('waiver') || is_page('waiver-complete') ) {
+        $noindex = true;
+    } elseif ( function_exists('is_cart') && is_cart() ) {
+        $noindex = true;
+    } elseif ( function_exists('is_checkout') && is_checkout() ) {
+        $noindex = true;
+    } elseif ( function_exists('is_account_page') && is_account_page() ) {
+        $noindex = true;
+    } elseif ( is_tax('product_shipping_class') || is_category('uncategorized') ) {
+        $noindex = true;
+    } elseif ( isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'wp-login.php' ) {
+        $noindex = true;
     }
-    // Noindex taxonomy archive pages (shipping class, uncategorized)
-    if ( is_tax('product_shipping_class') || is_category('uncategorized') ) {
-        echo '<meta name="robots" content="noindex, nofollow">' . "\n";
-        return;
-    }
-    // Noindex WP login page
-    if ( isset($GLOBALS['pagenow']) && $GLOBALS['pagenow'] === 'wp-login.php' ) {
+
+    if ( $noindex ) {
         echo '<meta name="robots" content="noindex, nofollow">' . "\n";
     }
 }
@@ -1596,6 +1632,11 @@ function ab_schema_markup() {
         'name' => 'ARC Biologics',
         'url' => $site_url,
         'publisher' => ['@id' => $site_url . '#organization'],
+        'potentialAction' => [
+            '@type' => 'SearchAction',
+            'target' => $site_url . '?s={search_term_string}',
+            'query-input' => 'required name=search_term_string',
+        ],
     ];
 
     $schemas = [$org, $website];
@@ -1660,6 +1701,10 @@ function ab_schema_markup() {
         } elseif ( is_singular('product') ) {
             $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => 'Shop', 'item' => home_url('/shop/')];
             $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position + 1, 'name' => get_the_title()];
+        } elseif ( is_product_category() ) {
+            $term = get_queried_object();
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => 'Shop', 'item' => home_url('/shop/')];
+            $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position + 1, 'name' => $term->name];
         } elseif ( is_singular('post') ) {
             $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position, 'name' => 'Research Library', 'item' => home_url('/blog/')];
             $breadcrumbs[] = ['@type' => 'ListItem', 'position' => $position + 1, 'name' => get_the_title()];
@@ -1707,4 +1752,23 @@ function ab_tiered_free_shipping($rates, $package) {
     return $rates;
 }
 add_filter('woocommerce_package_rates', 'ab_tiered_free_shipping', 10, 2);
+
+// ── Sitewide Research Disclaimer ──
+function ab_research_disclaimer() {
+    if ( is_admin() ) return;
+    echo '<div class="ab-disclaimer">';
+    echo '<div class="ab-container">';
+    echo '<p>All products sold by ARC Biologics are intended for laboratory and research use only. They are not intended for human consumption or for use in the diagnosis, treatment, cure, or prevention of any disease. By purchasing from ARC Biologics, you acknowledge that you have read and agree to our <a href="/terms">Terms of Service</a> and <a href="/research-use-policy">Research Use Policy</a>. Consult a qualified healthcare professional before making any health-related decisions.</p>';
+    echo '</div>';
+    echo '</div>';
+    ?>
+    <style>
+    .ab-disclaimer { background: #08080a; border-top: 1px solid rgba(255,255,255,0.04); padding: 20px 0; }
+    .ab-disclaimer p { font-size: 11px; line-height: 1.6; color: rgba(255,255,255,0.25); text-align: center; margin: 0; font-family: 'Inter', sans-serif; }
+    .ab-disclaimer a { color: rgba(255,255,255,0.35); text-decoration: underline; }
+    .ab-disclaimer a:hover { color: #0B8F68; }
+    </style>
+    <?php
+}
+add_action('wp_footer', 'ab_research_disclaimer', 5);
 

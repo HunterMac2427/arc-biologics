@@ -31,7 +31,7 @@
           <div class="ab-vial-stage">
             <div class="ab-vial-glow"></div>
             <div class="ab-vial-float">
-              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157 Peptide Vial" class="ab-vial-img">
+              <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="BPC-157 Peptide Vial" class="ab-vial-img" width="400" height="500" fetchpriority="high">
             </div>
             <div class="ab-vial-reflection">
               <img src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/images/bpc157.png" alt="" class="ab-vial-img-reflect">
