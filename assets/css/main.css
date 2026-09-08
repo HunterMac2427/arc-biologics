@@ -5391,6 +5391,10 @@ ul.woocommerce-error {
   text-align: center;
 }
 
+.ab-faq-hero .ab-label-decorated {
+  justify-content: center;
+}
+
 .ab-faq-hero-content h1 {
   font-family: 'Outfit', sans-serif;
   font-size: clamp(36px, 5vw, 56px);
