@@ -5569,3 +5569,59 @@ ul.woocommerce-error {
     font-size: 14px;
   }
 }
+
+/* ══════════════════════════════════════
+   Blog References / Citations
+   ══════════════════════════════════════ */
+
+.ab-references {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.ab-references h3 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.ab-references ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.ab-references li {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 10px;
+}
+
+.ab-references li a {
+  color: var(--ab-teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ab-references li a:hover {
+  color: #0fb87e;
+}
+
+sup.ab-cite {
+  color: var(--ab-teal);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+sup.ab-cite a {
+  color: var(--ab-teal);
+  text-decoration: none;
+}
+
+sup.ab-cite a:hover {
+  text-decoration: underline;
+}

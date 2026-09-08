@@ -54,7 +54,36 @@ Git-deployed (dedicated Cloudways server)
 - Home (hero, featured products, how it works, trust signals, about, blog preview, CTA)
 - Shop (WooCommerce archive)
 - Product pages (WooCommerce single)
+- FAQ (/faq/, page ID 154, page-faq.php template, FAQPage schema)
 - Blog archive + single posts
-- About
-- COAs
-- Privacy Policy, Terms, Refund Policy, Shipping Policy
+- Quality & Testing (/quality/)
+- COA Lookup (/coa-lookup/)
+- Calculator (/calculator/)
+- Privacy Policy, Terms, Refund Policy, Shipping Policy, Age Policy, Research Use Policy, Risk Acknowledgment
+
+## Blog Citation Workflow (MANDATORY)
+
+Every blog post MUST include PubMed or authoritative citations. This is non-negotiable for a YMYL health-adjacent site.
+
+### Requirements for every blog post:
+1. **No unsupported claims.** Every statement about a peptide's effects, mechanisms, or research findings must have a citation.
+2. **PubMed preferred.** Use PubMed URLs (https://pubmed.ncbi.nlm.nih.gov/PMID/) as the primary citation source.
+3. **Vancouver citation style.** Author(s) et al., Title. *Journal.* Year;Volume(Issue):Pages.
+4. **Inline superscripts.** Use `<sup class="ab-cite"><a href="#ref-N">[N]</a></sup>` after each cited claim.
+5. **References section at bottom.** Use the `ab-references` div with ordered list. Each reference links to PubMed.
+6. **Minimum 3 citations per post.** Comparison posts should have 5+.
+7. **Research-only language.** Never use "therapeutic" in titles or body. Use "research applications" instead.
+8. **Publish as draft** for Hunter's review before going live.
+
+### Reference HTML template:
+```html
+<div class="ab-references">
+<h3>References</h3>
+<ol>
+<li id="ref-1">Author et al. Title. <em>Journal.</em> Year;Vol(Issue):Pages. <a href="https://pubmed.ncbi.nlm.nih.gov/PMID/" target="_blank" rel="noopener">PubMed</a></li>
+</ol>
+</div>
+```
+
+### CSS for references (already in main.css):
+The `.ab-references` and `sup.ab-cite` styles are in main.css. No inline styles needed.
