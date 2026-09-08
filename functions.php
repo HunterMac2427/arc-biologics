@@ -95,6 +95,9 @@ function ab_seo_meta() {
     } elseif ( is_page('faq') ) {
         $title = 'Frequently Asked Questions | ARC Biologics';
         $desc  = 'Common questions about ARC Biologics peptide compounds, ordering, shipping, quality testing, payment methods, and account registration.';
+    } elseif ( is_page('reference-library') ) {
+        $title = 'Peptide Reference Library | ARC Biologics';
+        $desc  = 'Reconstitution and dosing reference guides for 40+ peptide compounds. Download PDF reference sheets with concentration tables, dosing protocols, and storage guidelines.';
     } elseif ( is_product_category() ) {
         $term = get_queried_object();
         $title = $term->name . ' Peptides | ARC Biologics';
@@ -164,6 +167,9 @@ function ab_document_title( $title ) {
     }
     if ( is_page('faq') ) {
         return 'Frequently Asked Questions | ARC Biologics';
+    }
+    if ( is_page('reference-library') ) {
+        return 'Peptide Reference Library | ARC Biologics';
     }
     if ( is_page('privacy-policy') || is_page('privacy-policy-2') ) {
         return 'Privacy Policy | ARC Biologics';
