@@ -1638,18 +1638,14 @@ h4 { font-size: 18px; font-weight: 500; }
 }
 
 .ab-about-visual {
-  aspect-ratio: 1;
-  border-radius: var(--ab-radius);
-  background: linear-gradient(135deg, rgba(11,143,104,0.06), rgba(116,82,160,0.06));
-  border: 1px solid var(--ab-ghost);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .ab-about-visual img {
-  width: 65%;
-  opacity: 0.85;
+  width: 100%;
+  height: auto;
 }
 
 /* --- CTA Section --- */
