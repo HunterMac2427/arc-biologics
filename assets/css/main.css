@@ -5395,8 +5395,11 @@ ul.woocommerce-error {
   justify-content: center;
 }
 
-.ab-faq-hero .ab-hero-sub {
+.ab-faq-hero-content {
   text-align: center;
+}
+
+.ab-faq-hero-content .ab-hero-sub {
   max-width: 500px;
   margin-left: auto;
   margin-right: auto;
