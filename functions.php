@@ -64,7 +64,7 @@ function ab_seo_meta() {
         $desc  = 'Review your peptide order before checkout. Professional-grade compounds from ARC Biologics.';
     } elseif ( is_page('checkout') || is_checkout() ) {
         $title = 'Checkout | ARC Biologics';
-        $desc  = 'Complete your ARC Biologics order. Secure checkout with eCheck, Cash App, and Zelle payment options.';
+        $desc  = 'Complete your ARC Biologics order. Secure checkout with Cash App, Zelle, and SMS payment options.';
     } elseif ( is_account_page() ) {
         $title = 'My Account | ARC Biologics';
         $desc  = 'Manage your ARC Biologics account, view order history, and update your shipping information.';
@@ -1097,30 +1097,11 @@ add_action('wp_enqueue_scripts', 'ab_dequeue_wc_block_styles', 100);
 // ── Restrict payment gateway scripts to checkout only ──
 function ab_restrict_payment_scripts() {
     if ( !is_checkout() ) {
-        wp_dequeue_script('wc-greenpay-payments-script');
-        wp_deregister_script('wc-greenpay-payments-script');
-        wp_dequeue_script('plaid-link');
-        wp_deregister_script('plaid-link');
-        wp_dequeue_script('ribbit-connect');
-        wp_deregister_script('ribbit-connect');
-        wp_dequeue_script('greenpay-checkout-hydration-guard-fallback');
-        wp_deregister_script('greenpay-checkout-hydration-guard-fallback');
         wp_dequeue_script('custom-subscription-cart-js');
         wp_deregister_script('custom-subscription-cart-js');
     }
 }
 add_action('wp_enqueue_scripts', 'ab_restrict_payment_scripts', 200);
-
-// Remove GreenPay wp_head/wp_footer hooks on non-checkout pages
-function ab_remove_greenpay_hooks() {
-    if ( is_checkout() ) return;
-    if ( class_exists('GreenPay_Checkout_Assets') ) {
-        remove_action('wp_head', ['GreenPay_Checkout_Assets', 'print_checkout_hydration_guard'], 0);
-        remove_action('wp_enqueue_scripts', ['GreenPay_Checkout_Assets', 'enqueue_checkout_hydration_guard'], 1);
-        remove_action('wp_enqueue_scripts', ['GreenPay_Checkout_Assets', 'apply_checkout_assets'], 100);
-    }
-}
-add_action('template_redirect', 'ab_remove_greenpay_hooks');
 
 // ── WooCommerce wrapper overrides ──
 remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
@@ -1197,7 +1178,7 @@ function ab_ship_to_different_default($default) {
 }
 add_filter('woocommerce_ship_to_different_address_checked', 'ab_ship_to_different_default');
 
-// Hide billing section visually (keep in DOM for GreenPay) + auto-copy shipping values
+// Hide billing section visually + auto-copy shipping values
 function ab_hide_billing_and_ship_heading() {
     ?>
     <style>

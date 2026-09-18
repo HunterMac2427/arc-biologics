@@ -3436,123 +3436,18 @@ body.woocommerce-account h1 {
   color: var(--ab-teal);
 }
 
-/* ============================================
-   GreenPay eCheck — Dark Theme Overrides
-   ============================================ */
-
-/* GreenPay React mount — force dark theme on all rendered elements */
-#wc_greenpay_mount {
-  color: #fff;
-}
-
-#wc_greenpay_mount *,
-.wc-greenpay-fallback * {
-  color: inherit;
-}
-
-/* GreenPay input fields (routing & account number) */
-#wc_greenpay_mount input[type="text"],
-#wc_greenpay_mount input[type="number"],
-#wc_greenpay_mount input[type="tel"],
-#wc_greenpay_mount input,
-.wc-greenpay-fallback input[type="text"] {
-  background: rgba(255,255,255,0.04) !important;
-  border: 1px solid var(--ab-ghost) !important;
-  border-radius: var(--ab-radius-sm) !important;
-  color: #fff !important;
-  font-family: 'Inter', sans-serif !important;
-  font-size: 14px !important;
-  padding: 14px 16px !important;
-  outline: none !important;
-  transition: border-color 0.3s var(--ab-ease), box-shadow 0.3s var(--ab-ease) !important;
-  height: auto !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-#wc_greenpay_mount input:focus,
-.wc-greenpay-fallback input[type="text"]:focus {
-  border-color: rgba(11,143,104,0.5) !important;
-  box-shadow: 0 0 0 3px rgba(11,143,104,0.1) !important;
-}
-
-/* GreenPay labels */
-#wc_greenpay_mount label,
-.wc-greenpay-fallback label {
-  font-family: 'Inter', sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-  color: var(--ab-text-muted) !important;
-  margin-bottom: 6px !important;
-  display: block !important;
-}
-
-/* GreenPay field containers/wrappers */
-#wc_greenpay_mount > div,
-#wc_greenpay_mount [class*="container"],
-#wc_greenpay_mount [class*="wrapper"],
-#wc_greenpay_mount [class*="field"] {
-  background: transparent !important;
-}
-
-/* GreenPay description/help text */
-#wc_greenpay_mount p,
-#wc_greenpay_mount span,
-#wc_greenpay_mount small {
-  color: var(--ab-text-muted) !important;
-}
-
-/* GreenPay error messages */
-#wc_greenpay_mount [class*="error"],
-#wc_greenpay_mount .error,
-.wc-greenpay-fallback .error {
-  color: #ef4444 !important;
-  font-size: 13px !important;
-}
-
-/* GreenPay buttons (if any inside the form) */
-#wc_greenpay_mount button {
-  font-family: 'Outfit', sans-serif !important;
-  font-weight: 600 !important;
-  background: linear-gradient(135deg, var(--ab-teal), var(--ab-teal-dark)) !important;
-  color: #fff !important;
-  border: none !important;
-  border-radius: var(--ab-radius-sm) !important;
-  padding: 12px 24px !important;
-  cursor: pointer !important;
-  transition: box-shadow 0.2s, transform 0.2s !important;
-}
-
-#wc_greenpay_mount button:hover {
-  box-shadow: 0 10px 25px rgba(11,143,104,0.25) !important;
-  transform: translateY(-1px) !important;
-}
-
-/* GreenPay cards/panels inside the form */
-#wc_greenpay_mount [class*="card"],
-#wc_greenpay_mount [class*="panel"],
-#wc_greenpay_mount [class*="box"] {
-  background: transparent !important;
-  border-color: var(--ab-ghost) !important;
-}
-
 /* Active payment method — teal border when selected */
 .woocommerce-checkout #payment ul.payment_methods li:has(input[type="radio"]:checked) {
   border-color: rgba(11,143,104,0.4);
   background: rgba(11,143,104,0.04);
 }
 
-/* Payment gateway input fields (GreenPay eCheck, etc.) */
+/* Payment gateway input fields */
 .woocommerce-checkout #payment .payment_box input[type="text"],
 .woocommerce-checkout #payment .payment_box input[type="password"],
 .woocommerce-checkout #payment .payment_box input[type="number"],
 .woocommerce-checkout #payment .payment_box input[type="tel"],
-.woocommerce-checkout #payment .payment_box input,
-#wc_greenpay_routing_number,
-#wc_greenpay_account_number,
-.wc-greenpay-fallback input[type="text"],
-#wc_greenpay_mount input,
-.payment_method_greenmoney input {
+.woocommerce-checkout #payment .payment_box input {
   color: #fff !important;
   background: rgba(255,255,255,0.04) !important;
   border: 1px solid var(--ab-ghost) !important;
@@ -3563,49 +3458,14 @@ body.woocommerce-account h1 {
   -webkit-text-fill-color: #fff !important;
 }
 
-.woocommerce-checkout #payment .payment_box input:focus,
-#wc_greenpay_routing_number:focus,
-#wc_greenpay_account_number:focus {
+.woocommerce-checkout #payment .payment_box input:focus {
   border-color: rgba(11,143,104,0.5) !important;
   box-shadow: 0 0 0 3px rgba(11,143,104,0.1) !important;
   outline: none !important;
 }
 
-.woocommerce-checkout #payment .payment_box label,
-.wc-greenpay-fallback label,
-.payment_method_greenmoney label {
+.woocommerce-checkout #payment .payment_box label {
   color: rgba(255,255,255,0.5) !important;
-}
-
-/* GreenPay widget styling */
-#wc_greenpay_mount {
-  min-height: 80px;
-  background: var(--ab-dark-surface);
-  border-radius: var(--ab-radius-sm);
-  overflow: hidden;
-}
-
-#wc_greenpay_mount iframe {
-  color-scheme: dark;
-  border-radius: var(--ab-radius-sm);
-}
-
-/* GreenPay / Plaid / Finicity bank login overlay — must sit above fixed nav (z-index: 100) */
-iframe[id*="plaid"],
-iframe[id*="finicity"],
-iframe[id*="greenpay"],
-div[id*="plaid-link"],
-div[id*="finicity"],
-#plaid-link-iframe-1,
-[class*="plaid"],
-[class*="finicity-connect"] {
-  z-index: 999999 !important;
-}
-
-/* Also catch any full-screen overlay containers these services inject */
-body > iframe[style*="z-index"],
-body > div[style*="position: fixed"][style*="z-index"] {
-  z-index: 999999 !important;
 }
 
 /* ============================================

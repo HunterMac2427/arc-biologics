@@ -42,7 +42,7 @@ $faq_sections = [
             ],
             [
                 'q' => 'What payment methods do you accept?',
-                'a' => 'We accept four payment methods: <strong>eCheck / Bank Transfer</strong> (via our secure banking integration), <strong>Cash App</strong>, <strong>Zelle</strong>, and <strong>Pay by SMS Link</strong> (a secure payment link sent to your phone via text message). Detailed instructions are provided at checkout and in your confirmation email.',
+                'a' => 'We accept three payment methods: <strong>Cash App</strong>, <strong>Zelle</strong>, and <strong>Pay by SMS Link</strong> (a secure payment link sent to your phone via text message). Detailed instructions are provided at checkout and in your confirmation email.',
             ],
             [
                 'q' => 'Can I place an order without creating an account?',
