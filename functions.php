@@ -1094,6 +1094,15 @@ function ab_dequeue_wc_block_styles() {
 }
 add_action('wp_enqueue_scripts', 'ab_dequeue_wc_block_styles', 100);
 
+// ── Trustpilot AFS: BCC completed order emails to trigger review invitations ──
+function ab_trustpilot_bcc( $headers, $email_id, $order ) {
+    if ( $email_id === 'customer_completed_order' ) {
+        $headers .= "Bcc: arcbiologics.com+a9b2735a6e@invite.trustpilot.com\r\n";
+    }
+    return $headers;
+}
+add_filter('woocommerce_email_headers', 'ab_trustpilot_bcc', 10, 3);
+
 // ── Restrict payment gateway scripts to checkout only ──
 function ab_restrict_payment_scripts() {
     if ( !is_checkout() ) {
