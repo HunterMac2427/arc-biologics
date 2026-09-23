@@ -98,7 +98,14 @@ $shop_query = new WP_Query($shop_args);
             <div class="ab-product-glass">
               <div class="ab-product-name"><?php the_title(); ?></div>
               <div class="ab-product-desc"><?php echo esc_html($product->get_short_description()); ?></div>
-              <div class="ab-product-price"><?php echo $product->get_price_html(); ?></div>
+              <div class="ab-product-price">
+                <?php echo $product->get_price_html(); ?>
+                <?php if ($product->is_type('variable')) :
+                  $count = count($product->get_children());
+                ?>
+                  <span class="ab-product-variants"><?php echo $count; ?> Options</span>
+                <?php endif; ?>
+              </div>
             </div>
           </a>
         <?php endwhile; wp_reset_postdata(); endif; ?>

@@ -1063,6 +1063,23 @@ h4 { font-size: 18px; font-weight: 500; }
   font-size: 22px;
   font-weight: 700;
   color: var(--ab-teal);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ab-product-variants {
+  font-size: 11px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  color: var(--ab-teal);
+  background: rgba(11,143,104,0.1);
+  border: 1px solid rgba(11,143,104,0.2);
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 /* --- How It Works --- */
