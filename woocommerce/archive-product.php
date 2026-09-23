@@ -88,6 +88,9 @@ $shop_query = new WP_Query($shop_args);
         ?>
           <a href="<?php the_permalink(); ?>" class="ab-product-card" data-cat="<?php echo esc_attr($cat_slug); ?>">
             <div class="ab-product-img">
+              <?php if ($product->is_on_sale()) : ?>
+                <span class="ab-product-badge">On Sale</span>
+              <?php endif; ?>
               <?php if ($thumb) : ?>
                 <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" loading="lazy">
               <?php endif; ?>
